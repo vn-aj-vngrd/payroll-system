@@ -22,8 +22,41 @@ void initDictionary(Dictionary D)
     {
         D.UserD[i] = NULL;
         D.JobInformationD[i] = NULL;
+        D.AttendanceD[i] = NULL;
+        D.IssueSalaryD[i] = NULL;
+        D.BonusD[i] = NULL;
     }
 }
+
+typedef struct node
+{
+    Schema_User data;
+    struct node *next;
+} ListUser, *PSU;
+
+typedef struct node
+{
+    Schema_JobInformation data;
+    struct node *next;
+} ListJobInformation, *PSJI;
+
+typedef struct node
+{
+    Schema_Attendance data;
+    struct node *next;
+} ListAttendance, *PSA;
+
+typedef struct node
+{
+    Schema_IssueSalary data;
+    struct node *next;
+} ListIssueSalary, *PSIS;
+
+typedef struct node
+{
+    Schema_Bonus data;
+    struct node *next;
+} ListBonus, *PSB;
 
 Elempos hashFunc(ID id)
 {
@@ -69,10 +102,89 @@ int getNewID(char fileName[], int D)
     }
 }
 
-// User CRUD
-// Returns node
-void getUser(ID id)
+/*
+ *  Employee Information Controller
+ **/
+
+void insertEmployeeInformation(Dictionary D, Schema_User data)
 {
+    PSU *trav;
+    int hashVal = hashFunc(data.userID);
+
+    for (trav = &(D.UserD[hashVal]); *trav != NULL; trav = &(*trav)->next)
+    {
+    }
+
+    if (trav == NULL)
+    {
+        *trav = calloc(1, sizeof(Schema_User));
+        if (*trav != NULL)
+        {
+            (*trav)->data = data;
+            (*trav)->next = NULL;
+        }
+    }
+}
+
+void updateEmployeeInformation(Dictionary D, Schema_User data)
+{
+    PSU *trav;
+    int hashVal = hashFunc(data.userID);
+
+    for (trav = &(D.UserD[hashVal]); *trav != NULL && (*trav)->data.userID != data.userID; trav = &(*trav)->next)
+    {
+    }
+
+    if (trav == NULL)
+    {
+        printf("Employee ID not found");
+    }
+    else
+    {
+        (*trav)->data = data;
+    }
+}
+
+void deleteEmployeeInformation(Dictionary D, ID id)
+{
+    PSU *trav, temp;
+    int hashVal = hashFunc(id);
+
+    for (trav = &(D.UserD[hashVal]); *trav != NULL && (*trav)->data.userID != id; trav = &(*trav)->next)
+    {
+    }
+
+    if (trav != NULL)
+    {
+        temp = *trav;
+        *trav = (*trav)->next;
+        free(temp);
+    }
+    else
+    {
+        printf("Employee ID not found");
+    }
+}
+
+void deleteEmployeeInformation(Dictionary D, ID id)
+{
+    PSU *trav, temp;
+    int hashVal = hashFunc(id);
+
+    for (trav = &(D.UserD[hashVal]); *trav != NULL && (*trav)->data.userID != id; trav = &(*trav)->next)
+    {
+    }
+
+    if (trav != NULL)
+    {
+        temp = *trav;
+        *trav = (*trav)->next;
+        free(temp);
+    }
+    else
+    {
+        printf("Employee ID not found");
+    }
 }
 
 #endif

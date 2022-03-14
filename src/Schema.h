@@ -15,20 +15,20 @@
 //     etc.
 
 // MALE, FEMALE
-typedef enum 
+typedef enum
 {
     MALE,
     FEMALE
 } Gender;
 
 // EMPLOYEE, EMPLOYER
-typedef enum 
+typedef enum
 {
     EMPLOYEE,
     EMPLOYER
 } UserType;
 
-typedef struct node
+typedef struct 
 {
     int userID;
     char firstName[SM_MAX];
@@ -41,10 +41,9 @@ typedef struct node
     char emailAddress[MD_MAX];
     char address[MD_MAX];
     UserType userType;
-    struct node *next;
-} Schema_User, *PSU;
+} Schema_User;
 
-typedef struct node1
+typedef struct 
 {
     int employmentID;
     int employeeID;
@@ -56,10 +55,9 @@ typedef struct node1
     char jobEmail[SM_MAX];
     double basicSalary;
     double pagibigDeposit;
-    struct node1 *next;
-} Schema_JobInformation, *PSJI;
+} Schema_JobInformation;
 
-typedef struct node2
+typedef struct 
 {
     int attendanceID;
     int employeeID;
@@ -68,25 +66,22 @@ typedef struct node2
     int excused;
     int overtime;
     char period[SM_MAX];
-    struct node2 *next;
-} Schema_Attendance, *PSA;
+} Schema_Attendance;
 
-typedef struct node3
+typedef struct 
 {
     int issueID;
     int employeeID;
     int bonusID;
     int balance;
     char period[SM_MAX];
-    struct node3 *next;
-} Schema_IssueSalary, *PSIS;
+} Schema_IssueSalary;
 
 typedef struct node4
 {
     int bonusID;
     char bonusName[SM_MAX];
     int amount;
-    struct node4 *next;
-} Schema_Bonus, *PSB;
+} Schema_Bonus;
 
 #endif

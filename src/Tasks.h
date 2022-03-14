@@ -1,49 +1,27 @@
 #ifndef TASKS_H
 #define TASKS_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <conio.h>  
-
 #include "Schema.h"
 #include "Database.h"
+#include "Interface.h"
 
 /*
- * Write employee's user details and job information records to file.
+ * Insert employee's user details and job information records to dictionary.
  * @param emp (Schema_User) The employee's user details record.
  * @param jobInfo (Schema_JobInformation) The employee's job information record.
  * @returns TRUE if file write was successful; FALSE otherwise.
  **/
-bool writeEmployeeToFile(Schema_User emp, Schema_JobInformation jobInfo)
+bool insertToDictionary(Schema_User emp, Schema_JobInformation jobInfo)
 {
     bool isSuccess = false;
 
-    FILE *file1 = fopen("EmployeeAttendance.bin", "wb");
-    if (file1)
-    {
-        // Create Employee Information
-        fwrite(&emp, sizeof(Schema_User), 1, file1);
-        fclose(file1);
-        bool isSuccess = true;
-    }
-    else
-    {
-        bool isSuccess = false;
-    }
+    // Insert employee's user details record to dictionary.
+    int pos1 = hashFunc(emp.userID);
+    //insertfunction
 
-    FILE *file2 = fopen("EmployeeAttendance.bin", "wb");
-    if (file2)
-    {
-        // Create Job Information
-        fwrite(&jobInfo, sizeof(Schema_JobInformation), 1, file2);
-        fclose(file2);
-        bool isSuccess = true;
-    }
-    else
-    {
-        bool isSuccess = false;
-    }
+    // Insert employee's job information to dictionary.
+    int pos2 = hashFunc(jobInfo.employmentID);
+    //insertfunction
 
     return isSuccess;
 }
@@ -293,9 +271,6 @@ double createSalary(int empID)
     float deductions;
     float additions;
     double income;
-
-    // input necessary info
-    scanf("%");
 
     // retrieve data from structure
     basicSalary = ji.basicSalary;
