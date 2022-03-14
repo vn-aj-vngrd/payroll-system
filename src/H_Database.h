@@ -3,8 +3,8 @@
 
 #define SIZE 100
 
-#include "Libraries.h"
-#include "Schema.h"
+#include "H_Libraries.h"
+#include "H_Schema.h"
 
 typedef int ID;
 typedef int Elempos;

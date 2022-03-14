@@ -1,8 +1,8 @@
 #ifndef TASKS_H
 #define TASKS_H
 
-#include "Schema.h"
-#include "Database.h"
+#include "H_Schema.h"
+#include "H_Database.h"
 
 /*
  * Insert employee's user details and job information records to dictionary.
