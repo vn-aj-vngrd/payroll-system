@@ -39,7 +39,7 @@ void showMenu()
 
         // View/Update Employee Attendance
         case 2:
-            // clrscr();
+            system("cls");
             while (In2)
             {
                 printf("[1] View Employee Attendance",
