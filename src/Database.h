@@ -3,8 +3,42 @@
 
 #define SIZE 100
 
+#include "Libraries.h"
+#include "Schema.h"
+
 typedef int ID;
 typedef int Elempos;
+
+// Linked Lists
+typedef struct node1
+{
+    Schema_User data;
+    struct node1 *next;
+} ListUser, *PSU;
+
+typedef struct node2
+{
+    Schema_JobInformation data;
+    struct node2 *next;
+} ListJobInformation, *PSJI;
+
+typedef struct node3
+{
+    Schema_Attendance data;
+    struct node3 *next;
+} ListAttendance, *PSA;
+
+typedef struct node4
+{
+    Schema_IssueSalary data;
+    struct node4 *next;
+} ListIssueSalary, *PSIS;
+
+typedef struct node5
+{
+    Schema_Bonus data;
+    struct node5 *next;
+} ListBonus, *PSB;
 
 // Dictionary
 typedef struct
@@ -28,37 +62,6 @@ void initDictionary(Dictionary D)
         D.BonusD[i] = NULL;
     }
 }
-
-// Linked Lists
-typedef struct node
-{
-    Schema_User data;
-    struct node *next;
-} ListUser, *PSU;
-
-typedef struct node
-{
-    Schema_JobInformation data;
-    struct node *next;
-} ListJobInformation, *PSJI;
-
-typedef struct node
-{
-    Schema_Attendance data;
-    struct node *next;
-} ListAttendance, *PSA;
-
-typedef struct node
-{
-    Schema_IssueSalary data;
-    struct node *next;
-} ListIssueSalary, *PSIS;
-
-typedef struct node
-{
-    Schema_Bonus data;
-    struct node *next;
-} ListBonus, *PSB;
 
 Elempos hashFunc(ID id)
 {
@@ -119,7 +122,7 @@ void insertEmployeeInformation(Dictionary D, Schema_User data)
 
     if (trav == NULL)
     {
-        *trav = calloc(1, sizeof(Schema_User));
+        trav = (PSU *)malloc(sizeof(Schema_User));
         if (*trav != NULL)
         {
             (*trav)->data = data;
@@ -176,7 +179,7 @@ Schema_User *searchEmployeeInformation(Dictionary D, Schema_User data)
     PSU trav, temp;
     int hashVal = hashFunc(data.userID);
 
-    for (trav = &(D.UserD[hashVal]); trav != NULL && trav->data.userID != data.userID; trav = trav->next)
+    for (trav = D.UserD[hashVal]; trav != NULL && trav->data.userID != data.userID; trav = trav->next)
     {
     }
 

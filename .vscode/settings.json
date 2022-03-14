@@ -6,6 +6,7 @@
         "database.h": "c",
         "tasks.h": "c",
         "stdlib.h": "c",
-        "conio.h": "c"
+        "conio.h": "c",
+        "libraries.h": "c"
     }
 }

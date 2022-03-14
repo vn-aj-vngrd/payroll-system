@@ -114,7 +114,7 @@ bool createEmployee()
     scanf("%lf", &jobInfo.pagibigDeposit);
     fflush(stdin);
 
-    bool isSuccess = writeEmployeeToFile(emp, jobInfo);
+    bool isSuccess = insertToDictionary(emp, jobInfo);
 
     return isSuccess;
 }
@@ -147,9 +147,9 @@ bool writeAttendanceToFile(Schema_Attendance attendance)
  * @param pagibigDeposit The Pagibig deposit of the employee.
  * @returns The monthly tax of the employee to be deducted from their salary.
  **/
-double calculateTax(float taxableIncome, float *pagibigDeposit)
+double calculateTax(double taxableIncome, double *pagibigDeposit)
 {
-    float tax = 0;
+    double tax = 0;
 
     // SSS (4%)
     tax += taxableIncome - (taxableIncome * 0.04);
@@ -158,7 +158,7 @@ double calculateTax(float taxableIncome, float *pagibigDeposit)
     if (*pagibigDeposit < 24300)
     {
         // Calculate the Pagibig tax for current month
-        float pagibigTax = taxableIncome < 1500 ? taxableIncome - (taxableIncome * 0.01) : taxableIncome - (taxableIncome * 0.02);
+        double pagibigTax = taxableIncome < 1500 ? taxableIncome - (taxableIncome * 0.01) : taxableIncome - (taxableIncome * 0.02);
 
         // Add Pagibig tax such that Pagibig deposit doesn't exceed 24300
         if (*pagibigDeposit + pagibigTax > 24300)
@@ -180,8 +180,8 @@ double calculateTax(float taxableIncome, float *pagibigDeposit)
     tax += taxableIncome - 225;
 
     // Calculate annual tax based on monthly income
-    float annualTax = 0;
-    float annualSalary = (taxableIncome - tax) * 12;
+    double annualTax = 0;
+    double annualSalary = (taxableIncome - tax) * 12;
     if (annualSalary > 250000 && annualSalary <= 400000)
     {
         // 20%
@@ -262,15 +262,16 @@ double createSalary(int empID)
 
     int leaveNum;
     int absentNum;
-    int overtime; //# of overtime hours
+    int overtime; // # of overtime hours
 
-    float hourlyRate;
-    float dailyRate;
-    float basicSalary;
-    float pagibigDeposit;
-    float deductions;
-    float additions;
+    double hourlyRate;
+    double dailyRate;
+    double basicSalary;
+    double pagibigDeposit;
+    double deductions;
+    double additions;
     double income;
+    double tax;
 
     // retrieve data from structure
     basicSalary = ji.basicSalary;
@@ -298,11 +299,13 @@ double createSalary(int empID)
     }
 
     income = ((basicSalary + additions) - deductions);
-    income -= calculateTax(income, &pagibigDeposit);
+    tax = calculateTax(income, &pagibigDeposit);
+    income -= tax;
 
-    printf("Income: P%.2f", income);
+    printf("\nIncome: P%.2f", income);
+    printf("\nTax: P%.2f", tax);
 
-    // update pagibigDeposit
+    // update Pagibig deposit
     if (fptr != NULL)
     {
         fseek(fptr, 0, SEEK_SET);

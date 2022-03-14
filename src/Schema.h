@@ -77,7 +77,7 @@ typedef struct
     char period[SM_MAX];
 } Schema_IssueSalary;
 
-typedef struct node4
+typedef struct
 {
     int bonusID;
     char bonusName[SM_MAX];
