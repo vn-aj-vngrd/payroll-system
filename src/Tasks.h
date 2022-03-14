@@ -4,14 +4,53 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <conio.h>  
 
 #include "Schema.h"
 #include "Database.h"
 
-bool run = true;
+/*
+ * Write employee's user details and job information records to file.
+ * @param emp (Schema_User) The employee's user details record.
+ * @param jobInfo (Schema_JobInformation) The employee's job information record.
+ * @returns TRUE if file write was successful; FALSE otherwise.
+ **/
+bool writeEmployeeToFile(Schema_User emp, Schema_JobInformation jobInfo)
+{
+    bool isSuccess = false;
+
+    FILE *file1 = fopen("EmployeeAttendance.bin", "wb");
+    if (file1)
+    {
+        // Create Employee Information
+        fwrite(&emp, sizeof(Schema_User), 1, file1);
+        fclose(file1);
+        bool isSuccess = true;
+    }
+    else
+    {
+        bool isSuccess = false;
+    }
+
+    FILE *file2 = fopen("EmployeeAttendance.bin", "wb");
+    if (file2)
+    {
+        // Create Job Information
+        fwrite(&jobInfo, sizeof(Schema_JobInformation), 1, file2);
+        fclose(file2);
+        bool isSuccess = true;
+    }
+    else
+    {
+        bool isSuccess = false;
+    }
+
+    return isSuccess;
+}
 
 /*
  * Accepts employee information from employer.
+ * @returns TRUE if createEmployee was successful; FALSE otherwise.
  **/
 bool createEmployee()
 {
@@ -22,7 +61,8 @@ bool createEmployee()
     printf("Create Employee");
     printf("\nCreate Employee Information");
 
-    emp.userID = getNewID("EmployeeInformation.bin", 'U');
+    char file1[50] = "EmployeeInformation.bin";
+    emp.userID = getNewID(file1, 'U');
     emp.userType = EMPLOYER;
 
     printf("\n\tFirst Name: ");
@@ -61,7 +101,8 @@ bool createEmployee()
     scanf("%s", &emp.address);
     fflush(stdin);
 
-    jobInfo.employmentID = getNewID("JobInformation", 'J');
+    char file2[50] = "JobInformation.bin";
+    jobInfo.employmentID = getNewID(file2, 1);
 
     printf("\n\tJob Position: ");
     scanf("%s", &jobInfo.jobPosition);
@@ -101,51 +142,13 @@ bool createEmployee()
 }
 
 /*
- * Write employee's user details and job information records to file.
- * @param emp (Schema_User) The employee's user details record.
- * @param jobInfo (Schema_JobInformation) The employee's job information record.
- * @returns TRUE if file write was successful; FALSE otherwise.
- **/
-bool writeEmployeeToFile(Schema_User emp, Schema_JobInformation jobInfo)
-{
-    bool isSuccess = false;
-
-    FILE *file = fopen("EmployeeAttendance.bin", "wb");
-    if (file)
-    {
-        // Create Employee Information
-        fwrite(&emp, sizeof(Employee), 1, file);
-        fclose(file);
-        bool isSuccess = true;
-    }
-    else
-    {
-        bool isSuccess = false;
-    }
-
-    *file = fopen("EmployeeAttendance.bin", "wb");
-    if (file)
-    {
-        // Create Job Information
-        fwrite(&jobInfo, sizeof(JobInformation), 1, file);
-        bool isSuccess = true;
-    }
-    else
-    {
-        bool isSuccess = false;
-    }
-
-    return isSuccess;
-}
-
-/*
  * Write an employee's monthly attendance record to file.
  * @param attendance (Schema_Attendance) The employee's attendace record.
  * @returns TRUE if file write was successful; FALSE otherwise.
  **/
 bool writeAttendanceToFile(Schema_Attendance attendance)
 {
-    FILE *file = fopen("EmployeeAttendance.bin", "w");
+    FILE *file = fopen("EmployeeAttendance.bin", "wb");
     if (file)
     {
         fwrite(&attendance, sizeof(Schema_Attendance), 1, file);
@@ -161,117 +164,12 @@ bool writeAttendanceToFile(Schema_Attendance attendance)
 }
 
 /*
- * Creates an employee's monthly salary record.
- * @param empID The ID of the employee.
- * @returns The monthly salary of the employee.
- **/
-float createSalary(int empID)
-{
-    Schema_Attendance sa;
-    Schema_JobInformation ji;
-    int fSize;
-
-    FILE *fptr = fopen("EmployeeAttendance.bin", "rb");
-    if (fptr != NULL)
-    {
-        fseek(fptr, 0, SEEK_END);
-        fSize = ftell(fptr);
-        rewind(fptr);
-
-        while (empID != sa.employeeID && ftell(fptr) < fSize)
-        {
-            fread(&sa, sizeof(Schema_Attendance), 1, fptr);
-        }
-        fclose(fptr);
-    }
-    else
-    {
-        printf("Error! Failed to open file!");
-    }
-
-    FILE *fptr = fopen("JobInformation.bin", "rb+");
-    if (fptr != NULL)
-    {
-        fseek(fptr, 0, SEEK_END);
-        fSize = ftell(fptr);
-        rewind(fptr);
-
-        while (empID != ji.employeeID && ftell(fptr) < fSize)
-        {
-            fread(&ji, sizeof(Schema_JobInformation), 1, fptr);
-        }
-    }
-    else
-    {
-        printf("Error! Failed to open file!");
-    }
-
-    int leaveNum;
-    int absentNum;
-    int overtime; //# of overtime hours
-
-    float hourlyRate;
-    float dailyRate;
-    float basicSalary;
-    float pagibigDeposit;
-    float deductions;
-    float additions;
-    float income;
-
-    // input necessary info
-    scanf("%");
-
-    // retrieve data from structure
-    basicSalary = ji.basicSalary;
-    dailyRate = basicSalary / 30;
-    hourlyRate = dailyRate / 8;
-
-    leaveNum = sa.excused;
-    absentNum = sa.absent;
-    overtime = sa.overtime;
-
-    pagibigDeposit = ji.pagibigDeposit;
-
-    // check if no. of leaves == no. of absents
-    if (leaveNum == absentNum)
-    {
-        // check if employee has overtime
-        if (overtime > 0)
-        {
-            additions = ((hourlyRate * 1.25) * overtime);
-        }
-    }
-    else
-    {
-        deductions = (dailyRate * absentNum);
-    }
-
-    income = ((basicSalary + additions) - deductions);
-    income -= calculateTax(income, &pagibigDeposit);
-
-    printf("Income: P%.2f", income);
-
-    // update pagibigDeposit
-    if (fptr != NULL)
-    {
-        fseek(fptr, 0, SEEK_SET);
-        while (empID != ji.employeeID && ftell(fptr) < fSize)
-        {
-            fwrite(&pagibigDeposit, sizeof(ji.pagibigDeposit), 1, fptr);
-            fclose(fptr);
-        }
-    }
-
-    return income;
-}
-
-/*
  * Calculates the monthly tax of an employee given the employee's taxable income and pagibig deposit.
  * @param taxableIncome The taxable income of the employee.
  * @param pagibigDeposit The Pagibig deposit of the employee.
  * @returns The monthly tax of the employee to be deducted from their salary.
  **/
-float calculateTax(float taxableIncome, float *pagibigDeposit)
+double calculateTax(float taxableIncome, float *pagibigDeposit)
 {
     float tax = 0;
 
@@ -279,7 +177,7 @@ float calculateTax(float taxableIncome, float *pagibigDeposit)
     tax += taxableIncome - (taxableIncome * 0.04);
 
     // Pag-ibig (1% or 2%, max P24,300 per year)
-    if (pagibigDeposit < 24300)
+    if (*pagibigDeposit < 24300)
     {
         // Calculate the Pagibig tax for current month
         float pagibigTax = taxableIncome < 1500 ? taxableIncome - (taxableIncome * 0.01) : taxableIncome - (taxableIncome * 0.02);
@@ -288,12 +186,12 @@ float calculateTax(float taxableIncome, float *pagibigDeposit)
         if (*pagibigDeposit + pagibigTax > 24300)
         {
             tax += 24300 - *pagibigDeposit;
-            *pagibigDeopsit += 24300 - *pagibigDeposit;
+            *pagibigDeposit += 24300 - *pagibigDeposit;
         }
         else
         {
             tax += pagibigTax;
-            *pagibigDeopsit += pagibigTax;
+            *pagibigDeposit += pagibigTax;
         }
     }
 
@@ -336,6 +234,111 @@ float calculateTax(float taxableIncome, float *pagibigDeposit)
     tax += annualTax / 12;
 
     return tax;
+}
+
+/*
+ * Creates an employee's monthly salary record.
+ * @param empID The ID of the employee.
+ * @returns The monthly salary of the employee.
+ **/
+double createSalary(int empID)
+{
+    Schema_Attendance sa;
+    Schema_JobInformation ji;
+    int fSize;
+
+    FILE *fptr = fopen("EmployeeAttendance.bin", "rb");
+    if (fptr != NULL)
+    {
+        fseek(fptr, 0, SEEK_END);
+        fSize = ftell(fptr);
+        rewind(fptr);
+
+        while (empID != sa.employeeID && ftell(fptr) < fSize)
+        {
+            fread(&sa, sizeof(Schema_Attendance), 1, fptr);
+        }
+        fclose(fptr);
+    }
+    else
+    {
+        printf("Error! Failed to open file!");
+    }
+
+    fptr = fopen("JobInformation.bin", "rb+");
+    if (fptr != NULL)
+    {
+        fseek(fptr, 0, SEEK_END);
+        fSize = ftell(fptr);
+        rewind(fptr);
+
+        while (empID != ji.employeeID && ftell(fptr) < fSize)
+        {
+            fread(&ji, sizeof(Schema_JobInformation), 1, fptr);
+        }
+    }
+    else
+    {
+        printf("Error! Failed to open file!");
+    }
+
+    int leaveNum;
+    int absentNum;
+    int overtime; //# of overtime hours
+
+    float hourlyRate;
+    float dailyRate;
+    float basicSalary;
+    float pagibigDeposit;
+    float deductions;
+    float additions;
+    double income;
+
+    // input necessary info
+    scanf("%");
+
+    // retrieve data from structure
+    basicSalary = ji.basicSalary;
+    dailyRate = basicSalary / 30;
+    hourlyRate = dailyRate / 8;
+
+    leaveNum = sa.excused;
+    absentNum = sa.absent;
+    overtime = sa.overtime;
+
+    pagibigDeposit = ji.pagibigDeposit;
+
+    // check if no. of leaves == no. of absents
+    if (leaveNum == absentNum)
+    {
+        // check if employee has overtime
+        if (overtime > 0)
+        {
+            additions = ((hourlyRate * 1.25) * overtime);
+        }
+    }
+    else
+    {
+        deductions = (dailyRate * absentNum);
+    }
+
+    income = ((basicSalary + additions) - deductions);
+    income -= calculateTax(income, &pagibigDeposit);
+
+    printf("Income: P%.2f", income);
+
+    // update pagibigDeposit
+    if (fptr != NULL)
+    {
+        fseek(fptr, 0, SEEK_SET);
+        while (empID != ji.employeeID && ftell(fptr) < fSize)
+        {
+            fwrite(&pagibigDeposit, sizeof(double), 1, fptr);
+            fclose(fptr);
+        }
+    }
+
+    return income;
 }
 
 #endif

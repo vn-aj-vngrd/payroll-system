@@ -3,6 +3,9 @@
         "stdio.h": "c",
         "schema.h": "c",
         "stdbool.h": "c",
-        "database.h": "c"
+        "database.h": "c",
+        "tasks.h": "c",
+        "stdlib.h": "c",
+        "conio.h": "c"
     }
 }

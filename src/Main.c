@@ -1,10 +1,11 @@
-#include <Tasks.h>
+#include "Tasks.h"
 
 int main()
 {
-    while (run)
+    while (true)
     {
-        printf("Hello World");
+        printf("Press any key to continue...\n");
+        getch();
     }
 
     return 0;

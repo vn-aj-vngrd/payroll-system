@@ -14,19 +14,15 @@
 //     --> *PSJI = Pointer Schema Job Information
 //     etc.
 
-/*
- * MALE, FEMALE
- **/
-typedef enum
+// MALE, FEMALE
+typedef enum 
 {
     MALE,
     FEMALE
 } Gender;
 
-/*
- * EMPLOYEE, EMPLOYER
- **/
-typedef enum
+// EMPLOYEE, EMPLOYER
+typedef enum 
 {
     EMPLOYEE,
     EMPLOYER
@@ -48,7 +44,7 @@ typedef struct node
     struct node *next;
 } Schema_User, *PSU;
 
-typedef struct node
+typedef struct node1
 {
     int employmentID;
     int employeeID;
@@ -58,12 +54,12 @@ typedef struct node
     char startDate[DATE];
     char department[SM_MAX];
     char jobEmail[SM_MAX];
-    float basicSalary;
-    float pagibigDeposit;
-    struct node *next;
+    double basicSalary;
+    double pagibigDeposit;
+    struct node1 *next;
 } Schema_JobInformation, *PSJI;
 
-typedef struct node
+typedef struct node2
 {
     int attendanceID;
     int employeeID;
@@ -72,25 +68,25 @@ typedef struct node
     int excused;
     int overtime;
     char period[SM_MAX];
-    struct node *next;
+    struct node2 *next;
 } Schema_Attendance, *PSA;
 
-typedef struct node
+typedef struct node3
 {
     int issueID;
     int employeeID;
     int bonusID;
     int balance;
     char period[SM_MAX];
-    struct node *next;
+    struct node3 *next;
 } Schema_IssueSalary, *PSIS;
 
-typedef struct node
+typedef struct node4
 {
     int bonusID;
     char bonusName[SM_MAX];
     int amount;
-    struct node *next;
+    struct node4 *next;
 } Schema_Bonus, *PSB;
 
 #endif
