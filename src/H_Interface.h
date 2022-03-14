@@ -13,7 +13,8 @@ void showMenu()
 
     while (In)
     {
-        printf("--Payroll System--\n\n");
+        system("cls");
+        printf("Payroll System\n\n");
         printf("[1] Create Employee\n");
         printf("[2] View/Update Employee Attendance\n");
         printf("[3] View Employee Salary & Tax\n");
