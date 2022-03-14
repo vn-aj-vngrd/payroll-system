@@ -1,9 +1,11 @@
-#include <stdio.h>
-#include <Schema.h>
 #include <Tasks.h>
 
-void main()
+int main()
 {
+    while (run)
+    {
+        printf("Hello World");
+    }
 
-
+    return 0;
 }
