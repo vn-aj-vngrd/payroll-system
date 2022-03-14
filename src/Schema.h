@@ -14,17 +14,23 @@
 //     --> *PSJI = Pointer Schema Job Information
 //     etc.
 
-enum Gender
+/*
+ * MALE, FEMALE
+ **/
+typedef enum
 {
     MALE,
     FEMALE
-};
+} Gender;
 
-enum UserType
+/*
+ * EMPLOYEE, EMPLOYER
+ **/
+typedef enum
 {
     EMPLOYEE,
     EMPLOYER
-};
+} UserType;
 
 typedef struct node
 {

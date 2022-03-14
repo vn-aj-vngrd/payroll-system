@@ -2,6 +2,7 @@
     "files.associations": {
         "stdio.h": "c",
         "schema.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "database.h": "c"
     }
 }

@@ -6,15 +6,24 @@
 #include <stdbool.h>
 
 #include "Schema.h"
+#include "Database.h"
 
 bool run = true;
 
-// Accepts Employee Information from Employer.
+/*
+ * Accepts employee information from employer.
+ **/
 bool createEmployee()
 {
     Schema_User emp;
+    Schema_JobInformation jobInfo;
 
-    printf("Create Employee Information");
+    // Create employee basic information
+    printf("Create Employee");
+    printf("\nCreate Employee Information");
+
+    emp.userID = getNewID("EmployeeInformation.bin", 'U');
+    emp.userType = EMPLOYER;
 
     printf("\n\tFirst Name: ");
     scanf("%s", &emp.firstName);
@@ -24,42 +33,116 @@ bool createEmployee()
     scanf("%s", &emp.lastName);
     fflush(stdin);
 
-    printf("\n\tGender: ");
+    printf("\n\tGender (MALE/FEMALE): ");
     scanf("%d", &emp.gender);
     fflush(stdin);
 
-    printf("\n\tDate of Birth(mm/dd/yy): ");
-    scanf("%s", &emp.gender);
+    printf("\n\tDate of Birth (mm/dd/yy): ");
+    scanf("%s", &emp.dateOfBirth);
     fflush(stdin);
 
     printf("\n\tFilipino Citizen: ");
     scanf("%s", &emp.filipinoCitizen);
     fflush(stdin);
+
+    printf("\n\tHome Phone: ");
+    scanf("%s", &emp.homePhone);
+    fflush(stdin);
+
+    printf("\n\tMobile Phone: ");
+    scanf("%s", &emp.mobilePhone);
+    fflush(stdin);
+
+    printf("\nEmail Address: ");
+    scanf("%s", &emp.emailAddress);
+    fflush(stdin);
+
+    printf("\n\tAddress: ");
+    scanf("%s", &emp.address);
+    fflush(stdin);
+
+    jobInfo.employmentID = getNewID("JobInformation", 'J');
+
+    printf("\n\tJob Position: ");
+    scanf("%s", &jobInfo.jobPosition);
+    fflush(stdin);
+
+    printf("\n\tJob Location: ");
+    scanf("%s", &jobInfo.jobLocation);
+    fflush(stdin);
+
+    printf("\n\tJob Phone: ");
+    scanf("%s", &jobInfo.jobPhone);
+    fflush(stdin);
+
+    printf("\n\tStart Date: ");
+    scanf("%s", &jobInfo.startDate);
+    fflush(stdin);
+
+    printf("\n\tDepartment: ");
+    scanf("%s", &jobInfo.department);
+    fflush(stdin);
+
+    printf("\n\tJob Email: ");
+    scanf("%s", &jobInfo.jobEmail);
+    fflush(stdin);
+
+    printf("\n\tBasic Salary: ");
+    scanf("%lf", &jobInfo.basicSalary);
+    fflush(stdin);
+
+    printf("\n\tPagibig Deposit: ");
+    scanf("%lf", &jobInfo.pagibigDeposit);
+    fflush(stdin);
+
+    bool isSuccess = writeEmployeeToFile(emp, jobInfo);
+
+    return isSuccess;
 }
 
-// Write Employee's Monthly Attendance Record to file.
+/*
+ * Write employee's user details and job information records to file.
+ * @param emp (Schema_User) The employee's user details record.
+ * @param jobInfo (Schema_JobInformation) The employee's job information record.
+ * @returns TRUE if file write was successful; FALSE otherwise.
+ **/
 bool writeEmployeeToFile(Schema_User emp, Schema_JobInformation jobInfo)
 {
-    FILE *file = fopen("EmployeeAttendance.bin", "w");
+    bool isSuccess = false;
+
+    FILE *file = fopen("EmployeeAttendance.bin", "wb");
     if (file)
     {
-        // Create Employee
+        // Create Employee Information
         fwrite(&emp, sizeof(Employee), 1, file);
-
-        // Create Job Information
-        fwrite(&jobInfo, sizeof(JobInformation), 1, file);
-
         fclose(file);
-
-        return true;
+        bool isSuccess = true;
     }
     else
     {
-        return false;
+        bool isSuccess = false;
     }
+
+    *file = fopen("EmployeeAttendance.bin", "wb");
+    if (file)
+    {
+        // Create Job Information
+        fwrite(&jobInfo, sizeof(JobInformation), 1, file);
+        bool isSuccess = true;
+    }
+    else
+    {
+        bool isSuccess = false;
+    }
+
+    return isSuccess;
 }
 
-// Write Employee's Monthly Attendance Record to file.
+/*
+ * Write an employee's monthly attendance record to file.
+ * @param attendance (Schema_Attendance) The employee's attendace record.
+ * @returns TRUE if file write was successful; FALSE otherwise.
+ **/
 bool writeAttendanceToFile(Schema_Attendance attendance)
 {
     FILE *file = fopen("EmployeeAttendance.bin", "w");
@@ -86,19 +169,41 @@ float createSalary(int empID)
 {
     Schema_Attendance sa;
     Schema_JobInformation ji;
+    int fSize;
 
-    FILE *fptr = fopen("EmployeeAttendance.txt", "r");
-    fseek(fptr, 0, SEEK_SET);
-    while (empID != sa.employeeID)
+    FILE *fptr = fopen("EmployeeAttendance.bin", "rb");
+    if (fptr != NULL)
     {
-        fread(&sa, sizeof(Schema_Attendance), 1, fptr);
+        fseek(fptr, 0, SEEK_END);
+        fSize = ftell(fptr);
+        rewind(fptr);
+
+        while (empID != sa.employeeID && ftell(fptr) < fSize)
+        {
+            fread(&sa, sizeof(Schema_Attendance), 1, fptr);
+        }
+        fclose(fptr);
+    }
+    else
+    {
+        printf("Error! Failed to open file!");
     }
 
-    FILE *fptr = fopen("EmployeeInformation.txt", "r");
-    fseek(fptr, 0, SEEK_SET);
-    while (empID != ji.employeeID)
+    FILE *fptr = fopen("JobInformation.bin", "rb+");
+    if (fptr != NULL)
     {
-        fread(&ji, sizeof(Schema_JobInformation), 1, fptr);
+        fseek(fptr, 0, SEEK_END);
+        fSize = ftell(fptr);
+        rewind(fptr);
+
+        while (empID != ji.employeeID && ftell(fptr) < fSize)
+        {
+            fread(&ji, sizeof(Schema_JobInformation), 1, fptr);
+        }
+    }
+    else
+    {
+        printf("Error! Failed to open file!");
     }
 
     int leaveNum;
@@ -117,8 +222,8 @@ float createSalary(int empID)
     scanf("%");
 
     // retrieve data from structure
-    basicSalary = ji.basicSalary
-                      dailyRate = basicSalary / 30;
+    basicSalary = ji.basicSalary;
+    dailyRate = basicSalary / 30;
     hourlyRate = dailyRate / 8;
 
     leaveNum = sa.excused;
@@ -144,9 +249,19 @@ float createSalary(int empID)
     income = ((basicSalary + additions) - deductions);
     income -= calculateTax(income, &pagibigDeposit);
 
-    printf("Income: %.2f", income);
-    // TODO: Write to file -> update pagibigDeposit
-    // TODO: Write to file -> basicSalary = income
+    printf("Income: P%.2f", income);
+
+    // update pagibigDeposit
+    if (fptr != NULL)
+    {
+        fseek(fptr, 0, SEEK_SET);
+        while (empID != ji.employeeID && ftell(fptr) < fSize)
+        {
+            fwrite(&pagibigDeposit, sizeof(ji.pagibigDeposit), 1, fptr);
+            fclose(fptr);
+        }
+    }
+
     return income;
 }
 
