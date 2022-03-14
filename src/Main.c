@@ -4,10 +4,6 @@
 
 int main()
 {
-    while (true)
-    {
-        // showMenu();
-    }
-
+    showMenu();
     return 0;
 }

@@ -13,20 +13,32 @@ void showMenu()
 
     while (In)
     {
-        printf("[1] Create Employee",
-               "[2] View/Update Employee Attendance",
-               "[3] View Employee Salary & Tax",
-               "[4] View/Update Employee Profile",
-               "[5] View/Update Employee Job Information",
-               "[0] Exit",
-               "Choice: ");
+        printf("--Payroll System--\n\n");
+        printf("[1] Create Employee\n");
+        printf("[2] View/Update Employee Attendance\n");
+        printf("[3] View Employee Salary & Tax\n");
+        printf("[4] View/Update Employee Profile\n");
+        printf("[5] View/Update Employee Job Information\n");
+        printf("[0] Exit\n\n");
+        printf("Select: ");
         scanf("%d", &input1);
+        fflush(stdin);
+
         switch (input1)
         {
-        case 1: // Create Employee
-            // createEmployee();
+        case 0:
+            printf("test");
+            In = false;
             break;
-        case 2: // View/Update Employee Attendance
+
+        // Create Employee
+        case 1:
+            // createEmployee();
+            printf("test");
+            break;
+
+        // View/Update Employee Attendance
+        case 2:
             // clrscr();
             while (In2)
             {
@@ -39,16 +51,21 @@ void showMenu()
                 scanf("%d", &input2);
                 switch (input2)
                 {
+                case 0:
+                    printf("test");
+                    In2 = false;
+                    break;
                 case 1:
+                    printf("test");
                     break;
                 case 2:
+                    printf("test");
                     break;
                 case 3:
+                    printf("test");
                     break;
                 case 4:
-                    break;
-                case 0:
-                    In2 = false;
+                    printf("test");
                     break;
                 default:
                     printf("Error! Input not recognized!");
@@ -56,20 +73,25 @@ void showMenu()
                 }
             }
             break;
-        case 3: // View Employee Salary & Tax
+        // View Employee Salary & Tax
+        case 3:
             printf("Enter Employee ID: ");
             scanf("%d", &empID);
-            double salary = createSalary(empID); // XXX: this is for creating salary; make new function for getSalary or combine with option 5.
+            // double salary = createSalary(empID); // XXX: this is for creating salary; make new function for getSalary or combine with option 5.
             break;
-        case 4: // View/Update Employee Profile
+
+        // View/Update Employee Profile
+        case 4:
+            printf("test");
             break;
-        case 5: // View/Update Employee Job Information
+
+        // View/Update Employee Job Information
+        case 5:
+            printf("test");
             break;
-        case 0:
-            In = false;
-            break;
+
         default:
-            printf("Error! Input not recognized!");
+            printf("Please enter a valid option.");
             break;
         }
     }
