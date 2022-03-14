@@ -1,10 +1,9 @@
 #include <stdio.h>
+#include <Schema.h>
+#include <Tasks.h>
 
-int main()
+void main()
 {
-    int num;
-    printf("Hello World");
-    scanf("%d", &num);
-    
-    return 0;
+
+
 }

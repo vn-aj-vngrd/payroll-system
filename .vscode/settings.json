@@ -1,2 +1,6 @@
 {
+    "files.associations": {
+        "stdio.h": "c",
+        "schema.h": "c"
+    }
 }
