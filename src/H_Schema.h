@@ -7,13 +7,6 @@
 #define MOBILE_PHONE 11 // ## ### ### ####
 #define HOME_PHONE 7    // ### ####
 
-// DIY FORMAT GUIDE OF SCHEMA
-//     example.
-//     --> *PSEE = Pointer Schema Employee
-//     --> *PSER = Pointer Schema Employer
-//     --> *PSJI = Pointer Schema Job Information
-//     etc.
-
 // MALE, FEMALE
 typedef enum
 {

@@ -4,6 +4,8 @@
 
 int main()
 {
-    showMenu();
+    Dictionary D;
+
+    // showMenu();
     return 0;
 }

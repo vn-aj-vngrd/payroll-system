@@ -1,0 +1,6 @@
+horeb 
+    / push dictionary
+    / pull dictionary
+    / change parameter IDs of functions to employeeID
+
+    create function to initialize other struct, on user create

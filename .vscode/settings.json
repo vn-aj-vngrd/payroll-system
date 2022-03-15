@@ -9,6 +9,11 @@
         "conio.h": "c",
         "libraries.h": "c",
         "interface.h": "c",
-        "h_libraries.h": "c"
+        "h_libraries.h": "c",
+        "h_schema.h": "c",
+        "h_model.h": "c",
+        "c_dictionarycontroller.h": "c",
+        "c_bonuscontroller.h": "c",
+        "c_usercontroller.h": "c"
     }
 }
