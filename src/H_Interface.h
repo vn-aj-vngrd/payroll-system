@@ -3,7 +3,7 @@
 
 #include "H_Dictionary.h"
 #include "H_Schema.h"
-#include "C_DictionaryController.h"
+#include "C_Controller.h"
 
 void showMenu(Dictionary *D)
 {

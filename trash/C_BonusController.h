@@ -1,8 +1,6 @@
 #ifndef BONUSCONTROLLER_H
 #define BONUSCONTROLLER_H
 
-#include "H_Libraries.h"
-
 Schema_Bonus createBonus(Dictionary D)
 {
     Schema_Bonus bonus;

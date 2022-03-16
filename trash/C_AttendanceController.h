@@ -1,13 +1,6 @@
 #ifndef ATTENDANCECONTROLLER_H
 #define ATTENDANCECONTROLLER_H
 
-#include "C_DictionaryController.h"
-#include "H_Schema.h"
-#include "H_Dictionary.h"
-#include <stdio.h>
-#include <stdlib.h>
-
-
 Schema_Attendance *searchAttendance(Dictionary D, ID employeeID)
 {
     PSA trav, temp;
