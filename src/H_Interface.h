@@ -53,12 +53,10 @@ void showMenu(Dictionary *D)
         case 1:
         {
             Schema_User employeeInfo = createUserInformation(*D);
-            bool b1 = insertUser(D, employeeInfo);
-
             Schema_JobInformation jobInfo = createJobInformation(*D, employeeInfo.userID);
-            bool b2 = insertJobInformation(D, jobInfo);
+ 
 
-            if (b1 && b2)
+            if (insertUser(D, employeeInfo) &&  insertJobInformation(D, jobInfo))
             {
                 printf("\nEmployee information was successfully created.");
             }

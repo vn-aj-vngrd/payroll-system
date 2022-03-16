@@ -1265,7 +1265,7 @@ double calculateTax(double taxableIncome, double *pagibigDeposit)
     return tax;
 }
 
-/*------------------------------- End of Issue Salary Controller --------------------------------*/
+/*-------------------------------- End of Issue Salary Controller ---------------------------------*/
 
 /*------------------------------ Start of Job Information Controller ------------------------------*/
 
@@ -1273,41 +1273,41 @@ Schema_JobInformation createJobInformation(Dictionary D, ID employeeID)
 {
     Schema_JobInformation jobInfo;
 
-    printf("Create Employee Job Information");
+    printf("Create Employee Job Information\n");
 
     char dType[15] = "JobInformation";
     jobInfo.employmentID = getNewID(dType, D);
     jobInfo.employeeID = employeeID;
 
-    printf("\n\tJob Position: ");
+    printf("\tJob Position: ");
     scanf("%s", &jobInfo.jobPosition);
     fflush(stdin);
 
-    printf("\n\tJob Location: ");
+    printf("\tJob Location: ");
     scanf("%s", &jobInfo.jobLocation);
     fflush(stdin);
 
-    printf("\n\tJob Phone: ");
+    printf("\tJob Phone (11 digits): ");
     scanf("%s", &jobInfo.jobPhone);
     fflush(stdin);
 
-    printf("\n\tStart Date: ");
+    printf("\tStart Date (mm/dd/yy): ");
     scanf("%s", &jobInfo.startDate);
     fflush(stdin);
 
-    printf("\n\tDepartment: ");
+    printf("\tDepartment: ");
     scanf("%s", &jobInfo.department);
     fflush(stdin);
 
-    printf("\n\tJob Email: ");
+    printf("\tJob Email: ");
     scanf("%s", &jobInfo.jobEmail);
     fflush(stdin);
 
-    printf("\n\tBasic Salary: ");
+    printf("\tBasic Salary: ");
     scanf("%lf", &jobInfo.basicSalary);
     fflush(stdin);
 
-    printf("\n\tPagibig Deposit: ");
+    printf("\tPagibig Deposit: ");
     scanf("%lf", &jobInfo.pagibigDeposit);
     fflush(stdin);
 
@@ -1319,13 +1319,13 @@ bool insertJobInformation(Dictionary *D, Schema_JobInformation data)
     PSJI *trav;
     int hashVal = hash(data.employmentID);
 
-    for (trav = &(D->JobInformationD[hashVal]); *trav != NULL; trav = &(*trav)->next)
+    for (trav = &D->JobInformationD[hashVal]; *trav != NULL; trav = &(*trav)->next)
     {
     }
 
-    if (trav == NULL)
+    if (*trav == NULL)
     {
-        trav = (PSJI *)malloc(sizeof(Schema_JobInformation));
+        *trav = (PSJI)malloc(sizeof(Schema_JobInformation));
         if (*trav != NULL)
         {
             (*trav)->data = data;
@@ -1524,53 +1524,53 @@ bool displayJobInformation(ID employeeID, Dictionary *D)
     }
 }
 
-/* End of Job Information Controller */
+/*------------------------------- End of Job Information Controller -------------------------------*/
 
-/*---------------------------------- Start of User Controller */
+/*---------------------------------- Start of User Controller -------------------------------------*/
 
 Schema_User createUserInformation(Dictionary D)
 {
     Schema_User emp;
 
-    printf("Create Employee Information");
+    printf("Create Employee Information\n");
 
     char dType[10] = "User";
     emp.userID = getNewID(dType, D);
     emp.userType = EMPLOYER;
 
-    printf("\n\tFirst Name: ");
+    printf("\tFirst Name: ");
     scanf("%s", &emp.firstName);
     fflush(stdin);
 
-    printf("\n\tLast Name: ");
+    printf("\tLast Name: ");
     scanf("%s", &emp.lastName);
     fflush(stdin);
 
-    printf("\n\tGender (MALE/FEMALE): ");
+    printf("\tGender (MALE/FEMALE): ");
     scanf("%d", &emp.gender);
     fflush(stdin);
 
-    printf("\n\tDate of Birth (mm/dd/yy): ");
+    printf("\tDate of Birth (mm/dd/yy): ");
     scanf("%s", &emp.dateOfBirth);
     fflush(stdin);
 
-    printf("\n\tFilipino Citizen: ");
+    printf("\tFilipino Citizen (true/false): ");
     scanf("%s", &emp.filipinoCitizen);
     fflush(stdin);
 
-    printf("\n\tHome Phone: ");
+    printf("\tHome Phone (7 digits): ");
     scanf("%s", &emp.homePhone);
     fflush(stdin);
 
-    printf("\n\tMobile Phone: ");
+    printf("\tMobile Phone (11 digits): ");
     scanf("%s", &emp.mobilePhone);
     fflush(stdin);
 
-    printf("\nEmail Address: ");
+    printf("\tEmail Address: ");
     scanf("%s", &emp.emailAddress);
     fflush(stdin);
 
-    printf("\n\tAddress: ");
+    printf("\tAddress: ");
     scanf("%s", &emp.address);
     fflush(stdin);
 
@@ -1582,13 +1582,13 @@ bool insertUser(Dictionary *D, Schema_User data)
     PSU *trav;
     int hashVal = hash(data.userID);
 
-    for (trav = &(D->UserD[hashVal]); strcmp(data.emailAddress, (*trav)->data.emailAddress) != 0 && *trav != NULL; trav = &(*trav)->next)
+    for (trav = &D->UserD[hashVal]; *trav != NULL && strcmp(data.emailAddress, (*trav)->data.emailAddress) != 0; trav = &(*trav)->next)
     {
     }
 
-    if (trav == NULL)
+    if (*trav == NULL)
     {
-        trav = (PSU *)malloc(sizeof(Schema_User));
+        *trav = (PSU)malloc(sizeof(Schema_User));
         if (*trav != NULL)
         {
             (*trav)->data = data;
@@ -1672,7 +1672,14 @@ bool debugUser(Dictionary D)
         printf("%4d | ", i);
         for (trav = D.UserD[i]; trav != NULL; trav = trav->next)
         {
-            printf("%d -> ", trav->data.userID);
+            if (trav == NULL)
+            {
+                printf("NULL");
+            }
+            else
+            {
+                printf("%d -> ", trav->data.userID);
+            }
         }
         printf("\n", i);
     }
@@ -1801,8 +1808,8 @@ bool displayUserInformation(ID userID, Dictionary *D)
     }
 }
 
-/* End of User Controller */
+/*----------------------------------- End of User Controller --------------------------------------*/
 
-/*---------------------------------- End of Functions ----------------------------------*/
+/*------------------------------------- End of Functions ------------------------------------------*/
 
 #endif
