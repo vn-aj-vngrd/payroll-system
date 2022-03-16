@@ -1,12 +1,13 @@
-#ifndef GENERALCONTROLLER_H
-#define GENERALCONTROLLER_H
+#ifndef DICTIONARYCONTROLLER_H
+#define DICTIONARYCONTROLLER_H
 
+#include "H_Schema.h"
+#include "H_Dictionary.h"
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
 #include "C_AttendanceController.h"
-#include "C_BonusController.h"
-#include "C_DictionaryController.h"
-#include "C_JobInformationController.h"
-#include "C_IssueSalaryController.h"
-#include "C_UserController.h"
 
 void initDictionary(Dictionary *D)
 {

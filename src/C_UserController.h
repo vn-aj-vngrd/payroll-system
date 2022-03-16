@@ -1,6 +1,8 @@
 #ifndef USERCONTROLLER_H
 #define USERCONTROLLER_H
 
+#include "H_Libraries.h"
+
 Schema_User createUserInformation(Dictionary D)
 {
     Schema_User emp;
@@ -159,7 +161,6 @@ bool debugUser(Dictionary D)
     {
         return false;
     }
-    
 }
 
 bool displayAllUser(Dictionary D)
@@ -231,18 +232,18 @@ bool displayAllUser(Dictionary D)
     if (trav == NULL && i == DICT_SIZE - 1)
     {
         printf("%-4s | %-8s | %-11s | %-10s | %-7s | %-14s | %-17s | %-10s | %-13s | %-14s | %-8s | %-10s \n",
-           "____",
-           "________",
-           "___________",
-           "__________",
-           "_______",
-           "______________",
-           "_________________",
-           "__________",
-           "_____________",
-           "______________",
-           "________",
-           "__________");
+               "____",
+               "________",
+               "___________",
+               "__________",
+               "_______",
+               "______________",
+               "_________________",
+               "__________",
+               "_____________",
+               "______________",
+               "________",
+               "__________");
         printf("End of Dictionary\n");
         return true;
     }

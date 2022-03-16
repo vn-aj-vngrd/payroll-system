@@ -20,6 +20,7 @@
         "c_attendancecontroller.h": "c",
         "c_jobinformationcontroller.h": "c",
         "h_interface.h": "c",
-        "h_dictionary.h": "c"
+        "h_dictionary.h": "c",
+        "string.h": "c"
     }
 }

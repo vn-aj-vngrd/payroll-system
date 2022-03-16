@@ -1,6 +1,8 @@
 #ifndef JOBCONTROLLER_H
 #define JOBCONTROLLER_H
 
+#include "H_Libraries.h"
+
 Schema_JobInformation createJobInformation(Dictionary D, ID employeeID)
 {
     Schema_JobInformation jobInfo;

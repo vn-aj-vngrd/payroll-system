@@ -1,6 +1,8 @@
 #ifndef ISSUESALARYCONTROLLER_H
 #define ISSUESALARYCONTROLLER_H
 
+#include "H_Libraries.h"
+
 Schema_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[])
 {
     Schema_IssueSalary is;
