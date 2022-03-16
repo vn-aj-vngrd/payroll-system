@@ -93,6 +93,7 @@ Schema_Attendance *searchAttendance(Dictionary D, ID employeeID)
     }
 }
 
+// Debug only
 void displayAllAttendance(Dictionary D)
 {
     PSA trav;
@@ -100,6 +101,29 @@ void displayAllAttendance(Dictionary D)
 
     printf("DICTIONARY ATTENDANCE\n");
     printf("%4s | %4s\n", "row", "ID");
+    for (i = 0; i < DICT_SIZE; i++)
+    {
+        printf("%4d | ", i);
+        for (trav = D.AttendanceD[i]; trav != NULL; trav = trav->next)
+        {
+            printf("%d -> ", trav->data.attendanceID);
+        }
+        printf("\n", i);
+    }
+
+    if (trav == NULL && i == DICT_SIZE - 1)
+    {
+        printf("End of Dictionary\n");
+    }
+}
+
+void tableAllAttendance(Dictionary D)
+{
+    PSA trav;
+    int i;
+
+    printf("ATTENDANCE\n");
+    printf("%4s | %4s\n", "row", "ID", );
     for (i = 0; i < DICT_SIZE; i++)
     {
         printf("%4d | ", i);

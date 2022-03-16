@@ -90,7 +90,7 @@ Schema_IssueSalary* searchIssueSalary(Dictionary D, ID userID)
     }
 }
 
-double issueSalary(int empID)
+bool issueSalary(int empID)
 {
     Schema_Attendance sa;
     Schema_JobInformation ji;
@@ -111,7 +111,8 @@ double issueSalary(int empID)
     }
     else
     {
-        printf("Error! Failed to open file!");
+        printf("Error! Failed to open file EmployeeAttendance.bin");
+        return false;
     }
 
     fptr = fopen("JobInformation.bin", "rb+");
@@ -128,7 +129,8 @@ double issueSalary(int empID)
     }
     else
     {
-        printf("Error! Failed to open file!");
+        printf("Error! Failed to open file JobInformation.bin");
+        return false;
     }
 
     int leaveNum;
@@ -189,7 +191,7 @@ double issueSalary(int empID)
     // }
     fclose(fptr);
 
-    return income;
+    return true;
 }
 
 double calculateTax(double taxableIncome, double *pagibigDeposit)
@@ -259,6 +261,5 @@ double calculateTax(double taxableIncome, double *pagibigDeposit)
 
     return tax;
 }
-
 
 #endif

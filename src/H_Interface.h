@@ -38,24 +38,33 @@ void showMenu(Dictionary *D)
             In = false;
             break;
 
-        // Create Employee
+        // Create Employee -- Completed
         case 1:
             Schema_User employeeInfo = createUserInformation(*D);
-            bool b1 = insertUser(&D, employeeInfo); 
+            bool b1 = insertUser(&D, employeeInfo);
 
             Schema_JobInformation jobInfo = createJobInformation(*D, employeeInfo.userID);
             bool b2 = insertJobInformation(&D, jobInfo);
 
-            printf("\n*press any key to continue...*");
+            if (b1 && b2)
+            {
+                printf("\nEmployee created successfully!\n");
+            }
+            else
+            {
+                printf("\nEmployee creation failed!\n");
+            }
+
+            printf("\n*Press any key to continue...*");
             getch();
             break;
-        
-        // Calculate Employee Salary & Tax
+
+        // Calculate Employee Salary & Tax -- Completed
         case 2:
             printf("Enter Employee ID: ");
             scanf("%d", &empID);
             issueSalary(empID);
-            printf("\n*press any key to continue...*");
+            printf("\n*Press any key to continue...*");
             getch();
             break;
 
@@ -65,9 +74,10 @@ void showMenu(Dictionary *D)
             while (In2)
             {
                 printf("[1] View Employee Attendance\n");
-                printf("[2] Set Employee Leave\n");
-                printf("[3] Set Employee Absence\n");
-                printf("[4] Set Employee Overtime Hours\n");
+                printf("[2] View All Employee Attendance\n");
+                printf("[3] Set Employee Leave\n");
+                printf("[4] Set Employee Absence\n");
+                printf("[5] Set Employee Overtime Hours\n");
                 printf("[0] Back\n\n");
                 printf("Input: ");
                 scanf("%d", &temp);
@@ -81,7 +91,7 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     displayEmployeeAttendence(empID, D);
 
-                    printf("\n*press any key to continue...*");
+                    printf("\n*Press any key to continue...*");
                     getch();
                     break;
                 case 2:
@@ -89,7 +99,7 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     setLeave(empID, D);
 
-                    printf("\n*press any key to continue...*");
+                    printf("\n*Press any key to continue...*");
                     getch();
                     break;
                 case 3:
@@ -97,7 +107,7 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     setAbsence(empID, D);
 
-                    printf("\n*press any key to continue...*");
+                    printf("\n*Press any key to continue...*");
                     getch();
                     break;
                 case 4:
@@ -105,13 +115,13 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     setOvertime(empID, D);
 
-                    printf("\n*press any key to continue...*");
+                    printf("\n*Press any key to continue...*");
                     getch();
                     break;
                 default:
                     printf("Error! Input not recognized!");
 
-                    printf("\n*press any key to continue...*");
+                    printf("\n*Press any key to continue...*");
                     getch();
                     break;
                 }
@@ -142,7 +152,7 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     displayEmployeeInformation(empID, D);
 
-                    printf("\n*press any key to continue...*");
+                    printf("\n*Press any key to continue...*");
                     getch();
                     break;
                 case 2:
@@ -150,7 +160,7 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     updateEmployeeInformation(empID, D);
 
-                    printf("\n*press any key to continue...*");
+                    printf("\n*Press any key to continue...*");
                     getch();
                     break;
                 case 3:
@@ -158,7 +168,7 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     deleteEmployeeInformation(empID, D);
 
-                    printf("\n*press any key to continue...*");
+                    printf("\n*Press any key to continue...*");
                     getch();
                     break;
                 default:
@@ -194,7 +204,7 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     displayEmployeeJobInfo(&D, empID);
 
-                    printf("\n*press any key to continue...*");
+                    printf("\n*Press any key to continue...*");
                     getch();
                     break;
                 case 2:
@@ -254,29 +264,34 @@ void showMenu(Dictionary *D)
                             scanf("%lf", &jobInfo->pagibigDeposit);
                             break;
                         case 9:
+                            Schema_JobInformation data;
+
+                            // bool updateJobInformation(Dictionary *D, Schema_JobInformation data, Schema_JobInformation *pointer)
                             printf("\n\nEnter new job position: ");
-                            scanf("%s", &jobInfo->jobPosition);
+                            scanf("%s", &data.jobPosition);
 
                             printf("\nEnter new job location: ");
-                            scanf("%s", &jobInfo->jobLocation);
+                            scanf("%s", &data.jobLocation);
 
                             printf("\nEnter new job phone: ");
-                            scanf("%s", &jobInfo->jobPhone);
+                            scanf("%s", &data.jobPhone);
 
                             printf("\nEnter new start date: ");
-                            scanf("%s", &jobInfo->startDate);
+                            scanf("%s", &data.startDate);
 
                             printf("\nEnter new department: ");
-                            scanf("%s", &jobInfo->department);
+                            scanf("%s", &data.department);
 
                             printf("\nEnter new email: ");
-                            scanf("%s", &jobInfo->jobEmail);
+                            scanf("%s", &data.jobEmail);
 
                             printf("\nEnter new basic salary: ");
-                            scanf("%lf", &jobInfo->basicSalary);
+                            scanf("%lf", &data.basicSalary);
 
                             printf("\nEnter new pagibig deposit: ");
-                            scanf("%lf", &jobInfo->pagibigDeposit);
+                            scanf("%lf", &data.pagibigDeposit);
+
+                            updateJobInformation(&D, data, jobInfo);
                             break;
                         case 0:
                             In5 = false;
@@ -297,7 +312,7 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     deleteJobInformation(&D, empID);
 
-                    printf("\n*press any key to continue...*");
+                    printf("\n*Press any key to continue...*");
                     getch();
                     break;
                 default:
