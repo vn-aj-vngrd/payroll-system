@@ -13,7 +13,6 @@ void showMenu(Dictionary *D)
     int empID;
     bool In = true, In2 = true, In3 = true, In4 = true, In5 = true, In6 = true;
     Schema_JobInformation *jiPtr;
-    
 
     while (In)
     {
@@ -55,9 +54,8 @@ void showMenu(Dictionary *D)
         {
             Schema_User employeeInfo = createUserInformation(*D);
             Schema_JobInformation jobInfo = createJobInformation(*D, employeeInfo.userID);
- 
 
-            if (insertUser(D, employeeInfo) &&  insertJobInformation(D, jobInfo))
+            if (insertUser(D, employeeInfo) && insertJobInformation(D, jobInfo))
             {
                 printf("\nEmployee information was successfully created.");
             }

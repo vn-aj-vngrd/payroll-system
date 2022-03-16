@@ -28,7 +28,6 @@ int main()
         "admin@gmail.com",
         "adminaddress",
         EMPLOYEE};
-    D.count[4] += 1;
     Schema_JobInformation defaultJobInformation = {
         1,
         1,
@@ -41,7 +40,6 @@ int main()
         1000,
         0
     };
-    D.count[3] += 1;
     insertUser(&D, defaultUser);
     insertJobInformation(&D, defaultJobInformation);
     

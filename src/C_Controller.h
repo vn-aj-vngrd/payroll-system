@@ -150,11 +150,9 @@ bool pullDictionaries(Dictionary *D)
         }
 
         fclose(fp);
-        printf("good");
     }
     else
     {
-        printf("bad");
         return false;
     }
 
@@ -169,30 +167,9 @@ bool pullDictionaries(Dictionary *D)
             insertBonus(D, bonus);
         }
         fclose(fp);
-        printf("good");
     }
     else
     {
-        printf("bad");
-        return false;
-    }
-
-    // Job Information
-    fp = fopen("Employee_JobInformation.bin", "rb");
-    Schema_JobInformation jobinfo;
-
-    if (fp)
-    {
-        while (fread(&jobinfo, sizeof(Schema_JobInformation), 1, fp))
-        {
-            insertJobInformation(D, jobinfo);
-        }
-        fclose(fp);
-        printf("good");
-    }
-    else
-    {
-        printf("bad");
         return false;
     }
 
@@ -207,11 +184,26 @@ bool pullDictionaries(Dictionary *D)
             insertIssueSalary(D, salary);
         }
         fclose(fp);
-        printf("good");
     }
     else
     {
-        printf("bad");
+        return false;
+    }
+
+    // Job Information
+    fp = fopen("Employee_JobInformation.bin", "rb");
+    Schema_JobInformation jobinfo;
+
+    if (fp)
+    {
+        while (fread(&jobinfo, sizeof(Schema_JobInformation), 1, fp))
+        {
+            insertJobInformation(D, jobinfo);
+        }
+        fclose(fp);
+    }
+    else
+    {
         return false;
     }
 
@@ -226,11 +218,9 @@ bool pullDictionaries(Dictionary *D)
             insertUser(D, employee);
         }
         fclose(fp);
-        printf("good");
     }
     else
     {
-        printf("bad");
         return false;
     }
 
@@ -247,156 +237,175 @@ bool pushDictionaries(Dictionary D)
     int i, count;
     FILE *fp;
 
-    // // Attendance Information
-    // *fp = fopen("Employee_Attendance.bin", "wb");
-    // if (fp)
-    // {
-    //     for (i = 0; i < DICT_SIZE; i++)
-    //     {
-    //         for (ATrav = D.AttendanceD[i]; ATrav != NULL; ATrav = ATrav->next)
-    //         {
-    //             fwrite(&ATrav->data, sizeof(Schema_Attendance), 1, fp);
-    //         }
-    //     }
-
-    //     fseek(fp, 0L, SEEK_END);
-    //     count = ftell(fp) / sizeof(Schema_Attendance);
-    //     if (count != D.count[0])
-    //     {
-    //         printf("bad1");
-    //         return false;
-    //     }
-
-    //     fclose(fp);
-    //     printf("good");
-    // }
-    // else
-    // {
-    //     printf("bad");
-    //     return false;
-    // }
-
-    // // Bonus Information
-    // fp = fopen("Employee_Bonus.bin", "wb");
-    // if (fp)
-    // {
-    //     for (i = 0; i < DICT_SIZE; i++)
-    //     {
-    //         for (BTrav = D.BonusD[i]; BTrav != NULL; BTrav = BTrav->next)
-    //         {
-    //             fwrite(&BTrav->data, sizeof(Schema_Bonus), 1, fp);
-    //         }
-    //     }
-
-    //     fseek(fp, 0L, SEEK_END);
-    //     count = ftell(fp) / sizeof(Schema_Bonus);
-    //     if (count != D.count[1])
-    //     {
-    //         printf("bad");
-    //         return false;
-    //     }
-
-    //     fclose(fp);
-    //     printf("good");
-    // }
-    // else
-    // {
-    //     printf("bad");
-    //     return false;
-    // }
-
-    // // Job Information
-    // fp = fopen("Employee_JobInformation.bin", "wb");
-    // if (fp)
-    // {
-    //     for (i = 0; i < DICT_SIZE; i++)
-    //     {
-    //         for (JITrav = D.JobInformationD[i]; JITrav != NULL; JITrav = JITrav->next)
-    //         {
-    //             fwrite(&JITrav->data, sizeof(Schema_JobInformation), 1, fp);
-    //         }
-    //     }
-
-    //     fseek(fp, 0L, SEEK_END);
-    //     count = ftell(fp) / sizeof(Schema_JobInformation);
-    //     if (count != D.count[2])
-    //     {
-    //         printf("bad");
-    //         return false;
-    //     }
-
-    //     fclose(fp);
-    //     printf("good");
-    // }
-    // else
-    // {
-    //     printf("bad");
-    //     return false;
-    // }
-
-    // // Salary Information
-    // fp = fopen("Employee_IssueSalary.bin", "wb");
-    // if (fp)
-    // {
-    //     for (i = 0; i < DICT_SIZE; i++)
-    //     {
-    //         for (STrav = D.IssueSalaryD[i]; STrav != NULL; STrav = STrav->next)
-    //         {
-    //             fwrite(&STrav->data, sizeof(Schema_IssueSalary), 1, fp);
-    //         }
-    //     }
-
-    //     fseek(fp, 0L, SEEK_END);
-    //     count = ftell(fp) / sizeof(Schema_IssueSalary);
-    //     if (count != D.count[3])
-    //     {
-    //         printf("bad");
-    //         return false;
-    //     }
-
-    //     fclose(fp);
-    //     printf("good");
-    // }
-    // else
-    // {
-    //     printf("bad");
-    //     return false;
-    // }
-
-    // User Information
-    FILE *rawr = fopen("roar", "wb");
-    if (rawr)
+    // Attendance Information
+    fp = fopen("Employee_Attendance.bin", "wb");
+    if (fp)
     {
-        char str[] = "bayot";
-        fwrite(str, sizeof(str), 1, rawr);
+        for (i = 0; i < DICT_SIZE; i++)
+        {
+            for (ATrav = D.AttendanceD[i]; ATrav != NULL; ATrav = ATrav->next)
+            {
+                fwrite(&ATrav->data, sizeof(Schema_Attendance), 1, fp);
+            }
+        }
 
-        // for (i = 0; i < DICT_SIZE; i++)
-        // {
-        //     for (UTrav = D.UserD[i]; UTrav != NULL; UTrav = UTrav->next)
-        //     {
-        //         // printf("\n%s\n", UTrFav->data.firstName);
-        //         // printf("%d", sizeof(Schema_User));
-        //         fwrite(&UTrav->data, sizeof(Schema_User), 1, fp);
-        //     }
-        // }
+        fseek(fp, 0L, SEEK_END);
+        if (ftell(fp) == -1)
+        {
+            count = 0;
+        }
+        else
+        {
+            count = ftell(fp) / sizeof(Schema_Attendance);
+        }
 
-        printf("yey");
+        if (count != D.count[0])
+        {
+            return false;
+        }
 
-        // fseek(fp, 0L, SEEK_END);
-        // count = ftell(fp) / sizeof(Schema_User);
-        // if (count != D.count[4])
-        // {
-        //     printf("bad1");
-        //     return false;
-        // }
-
-        // fclose(fp);
-        printf("fclose");
-        printf("%d", D.count[4]);
+        fclose(fp);
     }
     else
     {
-        printf("bad");
+        return false;
+    }
+
+    // Bonus Information
+    fp = fopen("Employee_Bonus.bin", "wb");
+    if (fp)
+    {
+        for (i = 0; i < DICT_SIZE; i++)
+        {
+            for (BTrav = D.BonusD[i]; BTrav != NULL; BTrav = BTrav->next)
+            {
+                fwrite(&BTrav->data, sizeof(Schema_Bonus), 1, fp);
+            }
+        }
+
+        fseek(fp, 0L, SEEK_END);
+        if (ftell(fp) == -1)
+        {
+            count = 0;
+        }
+        else
+        {
+            count = ftell(fp) / sizeof(Schema_Bonus);
+        }
+
+        if (count != D.count[1])
+        {
+
+            return false;
+        }
+
+        fclose(fp);
+    }
+    else
+    {
+        return false;
+    }
+
+    // Issue Salary
+    fp = fopen("Employee_IssueSalary.bin", "wb");
+    if (fp)
+    {
+        for (i = 0; i < DICT_SIZE; i++)
+        {
+            for (STrav = D.IssueSalaryD[i]; STrav != NULL; STrav = STrav->next)
+            {
+                fwrite(&STrav->data, sizeof(Schema_IssueSalary), 1, fp);
+            }
+        }
+
+        fseek(fp, 0L, SEEK_END);
+        if (ftell(fp) == -1)
+        {
+            count = 0;
+        }
+        else
+        {
+            count = ftell(fp) / sizeof(Schema_IssueSalary);
+        }
+
+        if (count != D.count[2])
+        {
+            return false;
+        }
+
+        fclose(fp);
+    }
+    else
+    {
+        return false;
+    }
+
+    // Job Information
+    fp = fopen("Employee_JobInformation.bin", "wb");
+    if (fp)
+    {
+        for (i = 0; i < DICT_SIZE; i++)
+        {
+            for (JITrav = D.JobInformationD[i]; JITrav != NULL; JITrav = JITrav->next)
+            {
+                fwrite(&JITrav->data, sizeof(Schema_JobInformation), 1, fp);
+            }
+        }
+
+        fseek(fp, 0L, SEEK_END);
+        if (ftell(fp) == -1)
+        {
+            count = 0;
+        }
+        else
+        {
+            count = ftell(fp) / sizeof(Schema_JobInformation);
+        }
+
+        if (count != D.count[3])
+        {
+            return false;
+        }
+
+        fclose(fp);
+    }
+    else
+    {
+        return false;
+    }
+
+    // User Information
+    fp = fopen("Employee_Information.bin", "wb");
+    if (fp)
+    {
+        for (i = 0; i < DICT_SIZE; i++)
+        {
+            for (UTrav = D.UserD[i]; UTrav != NULL; UTrav = UTrav->next)
+            {
+                fwrite(&UTrav->data, sizeof(Schema_User), 1, fp);
+            }
+        }
+
+        fseek(fp, 0L, SEEK_END);
+        if (ftell(fp) == -1)
+        {
+            count = 0;
+        }
+        else
+        {
+            count = ftell(fp) / sizeof(Schema_User);
+        }
+
+        if (count != D.count[4])
+        {
+            return false;
+        }
+
+        fclose(fp);
+        printf("fclose");
+    }
+    else
+    {
         return false;
     }
 
@@ -483,7 +492,6 @@ bool insertAttendance(Dictionary *D, Schema_Attendance data)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -492,7 +500,6 @@ bool updateAttendance(Dictionary *D, Schema_Attendance data, Schema_Attendance *
 {
     if (data.attendanceID != pointer->attendanceID)
     {
-        printf("bad");
         return false;
     }
     else
@@ -514,7 +521,6 @@ bool deleteAttendance(Dictionary *D, int ID)
     if (trav == NULL)
     {
 
-        printf("bad");
         printf("Attendance ID not found\n");
         return false;
     }
@@ -545,7 +551,6 @@ bool displayAttendance(Dictionary *D, int employeeID)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -563,7 +568,6 @@ bool setPresent(int employeeID, Dictionary *D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -581,7 +585,6 @@ bool setLeave(int employeeID, Dictionary *D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -600,7 +603,6 @@ bool setAbsent(int employeeID, Dictionary *D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -619,7 +621,6 @@ bool setOvertime(int employeeID, Dictionary *D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -766,7 +767,6 @@ bool insertBonus(Dictionary *D, Schema_Bonus data)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -775,7 +775,6 @@ bool updateBonus(Dictionary *D, Schema_Bonus data, Schema_Bonus *pointer)
 {
     if (data.bonusID != pointer->bonusID)
     {
-        printf("bad");
         return false;
     }
     else
@@ -796,7 +795,6 @@ bool deleteBonus(Dictionary *D, ID bonusID)
 
     if (trav == NULL)
     {
-        printf("bad");
         return false;
     }
     else
@@ -855,7 +853,6 @@ bool debugBonus(Dictionary D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -916,7 +913,6 @@ bool displayAllBonus(Dictionary D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -935,7 +931,6 @@ bool displayBonus(int bonusID, Dictionary *D, char period[])
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -979,7 +974,6 @@ bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -988,7 +982,6 @@ bool updateIssueSalary(Dictionary *D, Schema_IssueSalary data, Schema_IssueSalar
 {
     if (data.issueID != pointer->issueID)
     {
-        printf("bad");
         return false;
     }
     else
@@ -1009,7 +1002,6 @@ bool deleteIssueSalary(Dictionary *D, ID issueID)
 
     if (trav == NULL)
     {
-        printf("bad");
         return false;
     }
     else
@@ -1117,7 +1109,6 @@ bool displayAllSalary(Dictionary D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -1135,7 +1126,6 @@ bool displayIssueSalary(ID issueID, Dictionary *D, char period[])
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -1169,7 +1159,6 @@ bool issueSalary(int empID, Dictionary *D)
     else
     {
 
-        printf("bad");
         printf("Employee Attendance could not be found.\n");
         return false;
     }
@@ -1183,7 +1172,6 @@ bool issueSalary(int empID, Dictionary *D)
     else
     {
 
-        printf("bad");
         printf("Employee Job Information could not be found.\n");
         return false;
     }
@@ -1242,13 +1230,12 @@ bool issueSalary(int empID, Dictionary *D)
         }
         else if (temp == 2)
         {
-            printf("bad");
+
             return false;
         }
         else
         {
 
-            printf("bad");
             printf("Input not recognized!");
             return false;
         }
@@ -1256,7 +1243,6 @@ bool issueSalary(int empID, Dictionary *D)
     else
     {
 
-        printf("bad");
         printf("Issue Salary for period %s already exists!", period);
         return false;
     }
@@ -1400,7 +1386,6 @@ bool insertJobInformation(Dictionary *D, Schema_JobInformation data)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -1409,7 +1394,6 @@ bool updateJobInformation(Dictionary *D, Schema_JobInformation data, Schema_JobI
 {
     if (data.employmentID != pointer->employmentID)
     {
-        printf("bad");
         return false;
     }
     else
@@ -1430,7 +1414,6 @@ bool deleteJobInformation(Dictionary *D, ID employmentID)
 
     if (trav == NULL)
     {
-        printf("bad");
         return false;
     }
     else
@@ -1488,7 +1471,6 @@ bool debugJobInformation(Dictionary D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -1565,7 +1547,6 @@ bool displayAllJobInformation(Dictionary D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -1589,7 +1570,6 @@ bool displayJobInformation(ID employeeID, Dictionary *D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -1669,7 +1649,6 @@ bool insertUser(Dictionary *D, Schema_User data)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -1678,7 +1657,6 @@ bool updateUser(Dictionary *D, Schema_User data, Schema_User *pointer)
 {
     if (data.userID != pointer->userID)
     {
-        printf("bad");
         return false;
     }
     else
@@ -1699,7 +1677,6 @@ bool deleteUser(Dictionary *D, ID userID)
 
     if (trav == NULL)
     {
-        printf("bad");
         return false;
     }
     else
@@ -1855,7 +1832,6 @@ bool displayAllUser(Dictionary D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
@@ -1879,7 +1855,6 @@ bool displayUserInformation(ID userID, Dictionary *D)
     }
     else
     {
-        printf("bad");
         return false;
     }
 }
