@@ -8,7 +8,7 @@
 #include "C_BonusController.h"
 #include "C_DictionaryController.h"
 #include "C_JobInformationController.h"
-#include "C_SalaryController.h"
+#include "C_IssueSalaryController.h"
 #include "C_UserController.h"
 
 void initDictionary(Dictionary *D)
@@ -126,7 +126,7 @@ void pullDictionaries(Dictionary *D)
     }
 
     // Salary Information
-    fp = fopen("Employee_Salary.bin", "rb");
+    fp = fopen("Employee_IssueSalary.bin", "rb");
     Schema_IssueSalary salary;
 
     if (fp)
@@ -253,7 +253,7 @@ bool pushDictionaries(Dictionary D)
     }
 
     // Salary Information
-    fp = fopen("Employee_Salary.bin", "wb");
+    fp = fopen("Employee_IssueSalary.bin", "wb");
     if (fp)
     {
         for (i = 0; i < DICT_SIZE; i++)

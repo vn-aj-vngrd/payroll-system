@@ -100,7 +100,7 @@ void displayAllAttendance(Dictionary D)
     int i;
 
     printf("DICTIONARY ATTENDANCE\n");
-    printf("%4s | %4s\n", "row", "ID");
+    printf("%4s | %4s\n", "row", "ID", );
     for (i = 0; i < DICT_SIZE; i++)
     {
         printf("%4d | ", i);
@@ -123,15 +123,14 @@ void tableAllAttendance(Dictionary D)
     int i;
 
     printf("ATTENDANCE\n");
-    printf("%4s | %4s\n", "row", "ID", );
+    
+    printf("%4s | %14s | %12s | %8s | %7s | %8s | %9s | %7s\n", "#", "ATTENDANCE ID", "EMPLOYEE ID", "PRESENT", "ABSENT", "EXCUSED", "OVERTIME", "PERIOD");
     for (i = 0; i < DICT_SIZE; i++)
     {
-        printf("%4d | ", i);
         for (trav = D.AttendanceD[i]; trav != NULL; trav = trav->next)
         {
-            printf("%d -> ", trav->data.attendanceID);
+            printf("%4s | %14s | %12s | %8s | %7s | %8s | %9s | %7s\n", "#", "ATTENDANCE ID", "EMPLOYEE ID", "PRESENT", "ABSENT", "EXCUSED", "OVERTIME", "PERIOD");
         }
-        printf("\n", i);
     }
 
     if (trav == NULL && i == DICT_SIZE - 1)

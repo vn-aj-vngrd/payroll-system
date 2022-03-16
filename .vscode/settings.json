@@ -15,6 +15,10 @@
         "c_dictionarycontroller.h": "c",
         "c_bonuscontroller.h": "c",
         "c_usercontroller.h": "c",
-        "c_salarycontroller.h": "c"
+        "c_salarycontroller.h": "c",
+        "c_issuesalarycontroller.h": "c",
+        "c_attendancecontroller.h": "c",
+        "c_jobinformationcontroller.h": "c",
+        "h_interface.h": "c"
     }
 }

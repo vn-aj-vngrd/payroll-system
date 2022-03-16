@@ -21,7 +21,7 @@ typedef enum
     EMPLOYER
 } UserType;
 
-typedef struct 
+typedef struct
 {
     int userID;
     char firstName[SM_MAX];
@@ -36,7 +36,7 @@ typedef struct
     UserType userType;
 } Schema_User;
 
-typedef struct 
+typedef struct
 {
     int employmentID;
     int employeeID;
@@ -50,7 +50,7 @@ typedef struct
     double pagibigDeposit;
 } Schema_JobInformation;
 
-typedef struct 
+typedef struct
 {
     int attendanceID;
     int employeeID;
@@ -61,12 +61,12 @@ typedef struct
     char period[SM_MAX];
 } Schema_Attendance;
 
-typedef struct 
+typedef struct
 {
     int issueID;
     int employeeID;
     int bonusID;
-    int balance;
+    double balance;
     char period[SM_MAX];
 } Schema_IssueSalary;
 
