@@ -38,12 +38,11 @@ int main()
         "admindepartment",
         "admin@gmail.com",
         1000,
-        0
-    };
+        0};
     insertUser(&D, defaultUser);
     insertJobInformation(&D, defaultJobInformation);
-    
+
     showMenu(&D);
-    
+
     return 0;
 }
