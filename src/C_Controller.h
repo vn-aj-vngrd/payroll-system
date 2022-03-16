@@ -9,7 +9,76 @@
 #include "H_Schema.h"
 #include "H_Dictionary.h"
 
-/* Start of Dictionary Controller */
+/*---------------------------------- Dictionary Function Headers ----------------------------------*/
+
+void initDictionary(Dictionary *D);
+ElemPos hash(ID id);
+int getNewID(char DictionaryType[], Dictionary D);
+bool pullDictionaries(Dictionary *D);
+bool pushDictionaries(Dictionary D);
+
+/*---------------------------------- Attendance Function Headers ----------------------------------*/
+
+Schema_Attendance *searchAttendance(Dictionary D, ID employeeID);
+Schema_Attendance createAttendance(Dictionary D);
+bool insertAttendance(Dictionary *D, Schema_Attendance data);
+bool updateAttendance(Dictionary *D, Schema_Attendance data, Schema_Attendance *pointer);
+bool deleteAttendance(Dictionary *D, int ID);
+bool displayAttendance(Dictionary *D, int employeeID);
+bool setPresent(int employeeID, Dictionary *D);
+bool setLeave(int employeeID, Dictionary *D);
+bool setAbsent(int employeeID, Dictionary *D);
+bool setOvertime(int employeeID, Dictionary *D);
+void displayAllAttendance(Dictionary D);
+void debugAttendance(Dictionary D);
+
+/*----------------------------------- Bonus Function Headers -------------------------------------*/
+
+Schema_Bonus createBonus(Dictionary D);
+bool insertBonus(Dictionary *D, Schema_Bonus data);
+bool updateBonus(Dictionary *D, Schema_Bonus data, Schema_Bonus *pointer);
+bool deleteBonus(Dictionary *D, ID bonusID);
+Schema_Bonus *searchBonus(Dictionary D, ID bonusID, char period[]);
+bool debugBonus(Dictionary D);
+bool displayAllBonus(Dictionary D);
+bool displayBonus(int bonusID, Dictionary *D);
+
+/*---------------------------------- Issue Salary Function Headers -----------------------------*/
+
+Schema_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[]);
+bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data);
+bool updateIssueSalary(Dictionary *D, Schema_IssueSalary data, Schema_IssueSalary *pointer);
+bool deleteIssueSalary(Dictionary *D, ID issueID);
+Schema_IssueSalary *searchIssueSalary(Dictionary D, ID userID, char period[]);
+void debugSalary(Dictionary D);
+bool displayAllSalary(Dictionary D);
+bool displayIssueSalary(ID issueID, Dictionary *D);
+bool issueSalary(int empID, Dictionary *D);
+double calculateTax(double taxableIncome, double *pagibigDeposit);
+
+/*---------------------------------- Job Information Function Headers -------------------------------------*/
+
+Schema_JobInformation createJobInformation(Dictionary D, ID employeeID);
+bool insertJobInformation(Dictionary *D, Schema_JobInformation data);
+bool updateJobInformation(Dictionary *D, Schema_JobInformation data, Schema_JobInformation *pointer);
+bool deleteJobInformation(Dictionary *D, ID employmentID);
+Schema_JobInformation *searchJobInformation(Dictionary D, ID employmentID);
+bool debugJobInformation(Dictionary D);
+bool displayAllJobInformation(Dictionary D);
+bool displayJobInformation(ID employeeID, Dictionary *D);
+
+/*---------------------------------- User Function Headers ------------------------------------*/
+
+Schema_User createUserInformation(Dictionary D);
+bool insertUser(Dictionary *D, Schema_User data);
+bool updateUser(Dictionary *D, Schema_User data, Schema_User *pointer);
+bool deleteUser(Dictionary *D, ID userID);
+Schema_User *searchUser(Dictionary D, ID userID);
+bool debugUser(Dictionary D);
+bool displayAllUser(Dictionary D);
+bool displayUserInformation(ID userID, Dictionary *D);
+
+/*-------------------------------- Start of Functions Definitions ----------------------------------*/
 
 void initDictionary(Dictionary *D)
 {
@@ -823,7 +892,6 @@ bool displayBonus(int bonusID, Dictionary *D)
 
 /* End of Bonus Controller */
 
-
 /* Start of Issue Salary Controller */
 
 Schema_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[])
@@ -1456,7 +1524,7 @@ bool displayJobInformation(ID employeeID, Dictionary *D)
 
 /* End of Job Information Controller */
 
-/* Start of User Controller */
+/*---------------------------------- Start of User Controller */
 
 Schema_User createUserInformation(Dictionary D)
 {
@@ -1732,5 +1800,7 @@ bool displayUserInformation(ID userID, Dictionary *D)
 }
 
 /* End of User Controller */
+
+/*---------------------------------- End of Functions ----------------------------------*/
 
 #endif
