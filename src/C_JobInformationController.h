@@ -1,18 +1,13 @@
 #ifndef JOBCONTROLLER_H
 #define JOBCONTROLLER_H
 
-#include "H_Libraries.h"
-#include "H_Schema.h"
-#include "H_Model.h"
-#include "C_DictionaryController.h"
-
 Schema_JobInformation createJobInformation(Dictionary D, ID employeeID)
 {
     Schema_JobInformation jobInfo;
 
     printf("Create Employee Job Information");
 
-    char dType[10] = "JobInformation";
+    char dType[15] = "JobInformation";
     jobInfo.employmentID = getNewID(dType, D);
     jobInfo.employeeID = employeeID;
 

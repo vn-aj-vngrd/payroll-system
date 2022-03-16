@@ -1,9 +1,6 @@
 #ifndef GENERALCONTROLLER_H
 #define GENERALCONTROLLER_H
 
-#include "H_Libraries.h"
-#include "H_Schema.h"
-#include "H_Model.h"
 #include "C_AttendanceController.h"
 #include "C_BonusController.h"
 #include "C_DictionaryController.h"
@@ -181,7 +178,7 @@ bool pushDictionaries(Dictionary D)
     {
         for (i = 0; i < DICT_SIZE; i++)
         {
-            for (ATrav = &(D.AttendanceD[i]); ATrav != NULL; ATrav = ATrav->next)
+            for (ATrav = D.AttendanceD[i]; ATrav != NULL; ATrav = ATrav->next)
             {
                 fwrite(&ATrav->data, sizeof(Schema_Attendance), 1, fp);
             }
@@ -206,7 +203,7 @@ bool pushDictionaries(Dictionary D)
     {
         for (i = 0; i < DICT_SIZE; i++)
         {
-            for (BTrav = &(D.BonusD[i]); BTrav != NULL; BTrav = BTrav->next)
+            for (BTrav = D.BonusD[i]; BTrav != NULL; BTrav = BTrav->next)
             {
                 fwrite(&BTrav->data, sizeof(Schema_Bonus), 1, fp);
             }
@@ -232,7 +229,7 @@ bool pushDictionaries(Dictionary D)
     {
         for (i = 0; i < DICT_SIZE; i++)
         {
-            for (JITrav = &(D.JobInformationD[i]); JITrav != NULL; JITrav = JITrav->next)
+            for (JITrav = D.JobInformationD[i]; JITrav != NULL; JITrav = JITrav->next)
             {
                 fwrite(&JITrav->data, sizeof(Schema_JobInformation), 1, fp);
             }
@@ -258,7 +255,7 @@ bool pushDictionaries(Dictionary D)
     {
         for (i = 0; i < DICT_SIZE; i++)
         {
-            for (STrav = &(D.IssueSalaryD[i]); STrav != NULL; STrav = STrav->next)
+            for (STrav = D.IssueSalaryD[i]; STrav != NULL; STrav = STrav->next)
             {
                 fwrite(&STrav->data, sizeof(Schema_IssueSalary), 1, fp);
             }
@@ -284,7 +281,7 @@ bool pushDictionaries(Dictionary D)
     {
         for (i = 0; i < DICT_SIZE; i++)
         {
-            for (UTrav = &(D.UserD[i]); UTrav != NULL; UTrav = UTrav->next)
+            for (UTrav = D.UserD[i]; UTrav != NULL; UTrav = UTrav->next)
             {
                 fwrite(&UTrav->data, sizeof(Schema_User), 1, fp);
             }

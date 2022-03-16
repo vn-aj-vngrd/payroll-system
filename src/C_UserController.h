@@ -1,11 +1,6 @@
 #ifndef USERCONTROLLER_H
 #define USERCONTROLLER_H
 
-#include "H_Libraries.h"
-#include "H_Schema.h"
-#include "H_Model.h"
-#include "C_DictionaryController.h"
-
 Schema_User createUserInformation(Dictionary D)
 {
     Schema_User emp;

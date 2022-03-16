@@ -1,10 +1,26 @@
 #ifndef ATTENDANCECONTROLLER_H
 #define ATTENDANCECONTROLLER_H
 
-#include "H_Libraries.h"
-#include "H_Schema.h"
-#include "H_Model.h"
-#include "C_DictionaryController.h"
+Schema_Attendance *searchAttendance(Dictionary D, ID employeeID)
+{
+    PSA trav, temp;
+    int hashVal = hash(employeeID);
+
+    for (trav = D.AttendanceD[hashVal]; trav != NULL && trav->data.employeeID != employeeID; trav = trav->next)
+    {
+    }
+
+    if (trav != NULL)
+    {
+        // Schema_Attendance *data = (Schema_Attendance *)malloc(sizeof(Schema_Attendance));
+        // *data = trav->data;
+        return &trav->data;
+    }
+    else
+    {
+        return NULL;
+    }
+}
 
 Schema_Attendance createAttendance(Dictionary D)
 {
@@ -13,7 +29,7 @@ Schema_Attendance createAttendance(Dictionary D)
 
     printf("Create Employee Attendance");
 
-    char dType[10] = "Attendance";
+    char dType[15] = "Attendance";
     sa.attendanceID = getNewID(dType, D);
 
     printf("Enter Employee ID: ");
@@ -23,7 +39,7 @@ Schema_Attendance createAttendance(Dictionary D)
     if (temp)
     {
         printf("\nEmployee already exists");
-        return;
+        return sa;
     }
     else
     {
@@ -103,30 +119,9 @@ bool deleteAttendance(Dictionary *D, int ID)
     }
 }
 
-Schema_Attendance *searchAttendance(Dictionary D, ID employeeID)
-{
-    PSA trav, temp;
-    int hashVal = hash(employeeID);
-
-    for (trav = D.AttendanceD[hashVal]; trav != NULL && trav->data.employeeID != employeeID; trav = trav->next)
-    {
-    }
-
-    if (trav != NULL)
-    {
-        // Schema_Attendance *data = (Schema_Attendance *)malloc(sizeof(Schema_Attendance));
-        // *data = trav->data;
-        return &trav->data;
-    }
-    else
-    {
-        return NULL;
-    }
-}
-
 bool displayAttendance(Dictionary *D, int employeeID)
 {
-    Schema_Attendance *emp = searchUser(*D, employeeID);
+    Schema_Attendance *emp = searchAttendance(*D, employeeID);
     if (emp)
     {
         printf("|  Attendance ID:       \t%d  |", emp->attendanceID);

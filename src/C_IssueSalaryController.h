@@ -1,16 +1,10 @@
 #ifndef ISSUESALARYCONTROLLER_H
 #define ISSUESALARYCONTROLLER_H
 
-#include "H_Libraries.h"
-#include "H_Schema.h"
-#include "H_Model.h"
-#include "C_DictionaryController.h"
-#include "C_JobInformationController.h"
-
 Schema_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[])
 {
     Schema_IssueSalary is;
-    
+
     is.issueID = getNewID("IssueSalary", D);
     is.employeeID = employeeID;
     is.balance = balance;
@@ -290,13 +284,16 @@ bool issueSalary(int empID, Dictionary *D)
             Schema_JobInformation *ji = searchJobInformation(*D, empID);
             ji->pagibigDeposit = pagibigDeposit;
             return true;
-        
+            break;
+
         case 2:
             return false;
-        
+            break;
+
         default:
             printf("Input not recognized!");
             return false;
+            break;
         }
     }
     else

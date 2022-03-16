@@ -5,6 +5,16 @@ int main()
 {
     Dictionary D;
     initDictionary(&D);
-    showMenu();
+    bool b = pullDictionaries(&D);
+    if (b)
+    {
+        printf("Dictionaries pulled successfully\n");
+    }
+    else
+    {
+        printf("Dictionaries failed to pull\n");
+    }
+
+    showMenu(&D);
     return 0;
 }
