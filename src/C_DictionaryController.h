@@ -68,7 +68,7 @@ int getNewID(char DictionaryType[], Dictionary D)
 }
 
 /**
- * Pull the dictionary to file
+ * Pull the dictionary from file
  * @param D The dictionary
  */
 void pullDictionaries(Dictionary *D)

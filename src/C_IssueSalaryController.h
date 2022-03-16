@@ -68,12 +68,12 @@ bool deleteIssueSalary(Dictionary *D, ID issueID)
     }
 }
 
-Schema_IssueSalary* searchIssueSalary(Dictionary D, ID userID)
+Schema_IssueSalary *searchIssueSalary(Dictionary D, ID userID, char period[])
 {
     PSIS trav, temp;
     int hashVal = hash(userID);
 
-    for (trav = D.IssueSalaryD[hashVal]; trav != NULL && trav->data.issueID != userID; trav = trav->next)
+    for (trav = D.IssueSalaryD[hashVal]; trav != NULL && trav->data.issueID != userID && strcmp(trav->data.period, period) != 0; trav = trav->next)
     {
     }
 
@@ -85,111 +85,239 @@ Schema_IssueSalary* searchIssueSalary(Dictionary D, ID userID)
     }
     else
     {
-        printf("IssueSalary ID not found\n");
         return NULL;
     }
 }
 
-bool issueSalary(int empID)
+// bool issueSalary(int empID)
+// {
+//     Schema_Attendance sa;
+//     Schema_JobInformation ji;
+//     int fSize;
+
+//     // Read Attendance
+//     FILE *fptr = fopen("Employee_Attendance.bin", "rb");
+//     if (fptr != NULL)
+//     {
+//         fseek(fptr, 0, SEEK_END);
+//         fSize = ftell(fptr);
+//         rewind(fptr);
+
+//         while (empID != sa.employeeID && ftell(fptr) < fSize)
+//         {
+//             fread(&sa, sizeof(Schema_Attendance), 1, fptr);
+//         }
+//         fclose(fptr);
+//     }
+//     else
+//     {
+//         printf("Error! Failed to open file Employee_Attendance.bin");
+//         return false;
+//     }
+
+//     // Read Job Information
+//     fptr = fopen("Employee_JobInformation.bin", "rb+");
+//     if (fptr != NULL)
+//     {
+//         fseek(fptr, 0, SEEK_END);
+//         fSize = ftell(fptr);
+//         rewind(fptr);
+
+//         while (empID != ji.employeeID && ftell(fptr) < fSize)
+//         {
+//             fread(&ji, sizeof(Schema_JobInformation), 1, fptr);
+//         }
+//         fclose(fptr);
+//     }
+//     else
+//     {
+//         printf("Error! Failed to open file Employee_JobInformation.bin");
+//         return false;
+//     }
+
+//     // Read Issue Salary
+//     fptr = fopen("Employee_JobInformation.bin", "rb+");
+//     if (fptr != NULL)
+//     {
+//         fseek(fptr, 0, SEEK_END);
+//         fSize = ftell(fptr);
+//         rewind(fptr);
+
+//         while (empID != ji.employeeID && ftell(fptr) < fSize)
+//         {
+//             fread(&ji, sizeof(Schema_JobInformation), 1, fptr);
+//         }
+//         fclose(fptr);
+//     }
+//     else
+//     {
+//         printf("Error! Failed to open file Employee_JobInformation.bin");
+//         return false;
+//     }
+
+//     int leaveNum;
+//     int absentNum;
+//     int overtime; // # of overtime hours
+
+//     double hourlyRate;
+//     double dailyRate;
+//     double basicSalary;
+//     double pagibigDeposit;
+//     double deductions;
+//     double additions;
+//     double income;
+//     double tax;
+
+//     // retrieve data from structure
+//     basicSalary = ji.basicSalary;
+//     dailyRate = basicSalary / 30;
+//     hourlyRate = dailyRate / 8;
+
+//     leaveNum = sa.leave;
+//     absentNum = sa.absent;
+//     overtime = sa.overtime;
+
+//     pagibigDeposit = ji.pagibigDeposit;
+
+//     // check if no. of leaves == no. of absents
+//     if (leaveNum == absentNum)
+//     {
+//         // check if employee has overtime
+//         if (overtime > 0)
+//         {
+//             additions = ((hourlyRate * 1.25) * overtime);
+//         }
+//     }
+//     else
+//     {
+//         deductions = (dailyRate * absentNum);
+//     }
+
+//     income = ((basicSalary + additions) - deductions);
+//     tax = calculateTax(income, &pagibigDeposit);
+//     income -= tax;
+
+//     // printf("\nIncome: P%.2f", income);
+//     // printf("\nTax: P%.2f", tax);
+//     int x;
+//     printf("This will add P%.2f to the eployee's issue salary record. Continue?\n\n", income, tax);
+//     printf("[1] Yes\n");
+//     printf("[2] No\n");
+//     scanf("%d", &x);
+
+//     switch (x)
+//     {
+//     case 1:
+//         // Update Pagibig Deposit
+//         fptr = fopen("Employee_JobInformation.bin", "rb+");
+//         if (fptr != NULL)
+//         {
+//             fseek(fptr, 0, SEEK_SET);
+//             while (empID != ji.employeeID && ftell(fptr) < fSize)
+//             {
+//                 fwrite(&pagibigDeposit, sizeof(double), 1, fptr);
+//             }
+//             fclose(fptr);
+//         }
+//         else
+//         {
+//             printf("Error! Failed to open file Employee_JobInformation.bin");
+//             return false;
+//         }
+
+//         return true;
+//         break;
+
+//     case 2:
+//         return false;
+//         break;
+
+//     default:
+//         printf("Input not recognized. Canceled operation.");
+//         return false;
+//         break;
+//     }
+// }
+
+bool issueSalary(int empID, Dictionary *D)
 {
-    Schema_Attendance sa;
-    Schema_JobInformation ji;
-    int fSize;
+    // TODO: Read Attendance
+    // TODO: Read Job Information
+    // TODO: Update Job Information
+    // TODO: Read Issue Salary
+    // TODO: Create Issue Salary
 
-    FILE *fptr = fopen("EmployeeAttendance.bin", "rb");
-    if (fptr != NULL)
-    {
-        fseek(fptr, 0, SEEK_END);
-        fSize = ftell(fptr);
-        rewind(fptr);
-
-        while (empID != sa.employeeID && ftell(fptr) < fSize)
-        {
-            fread(&sa, sizeof(Schema_Attendance), 1, fptr);
-        }
-        fclose(fptr);
-    }
-    else
-    {
-        printf("Error! Failed to open file EmployeeAttendance.bin");
-        return false;
-    }
-
-    fptr = fopen("JobInformation.bin", "rb+");
-    if (fptr != NULL)
-    {
-        fseek(fptr, 0, SEEK_END);
-        fSize = ftell(fptr);
-        rewind(fptr);
-
-        while (empID != ji.employeeID && ftell(fptr) < fSize)
-        {
-            fread(&ji, sizeof(Schema_JobInformation), 1, fptr);
-        }
-    }
-    else
-    {
-        printf("Error! Failed to open file JobInformation.bin");
-        return false;
-    }
-
-    int leaveNum;
-    int absentNum;
-    int overtime; // # of overtime hours
-
-    double hourlyRate;
-    double dailyRate;
+    char period[MONTH];
+    int leave;
+    int absent;
+    int overtime;
+    double additions = 0;
+    double deductions = 0;
     double basicSalary;
+    double dailyRate;
+    double hourlyRate;
     double pagibigDeposit;
-    double deductions;
-    double additions;
-    double income;
-    double tax;
 
-    // retrieve data from structure
-    basicSalary = ji.basicSalary;
+    printf("Enter month");
+    scanf("%s", &period);    
+
+    Schema_Attendance *sa = searchAttendance(*D, empID);
+    if (sa)
+    {
+        leave = sa->leave;
+        absent = sa->absent;
+        overtime = sa->overtime;
+    }
+    else
+    {
+        printf("Employee Attendance could not be found.");
+        return false;
+    }
+
+    Schema_JobInformation *ji = searchJobInformation(*D, empID);
+    if (ji)
+    {
+        basicSalary = ji->basicSalary;
+        pagibigDeposit = ji->pagibigDeposit;
+    }
+    else
+    {
+        printf("Employee Job Information could not be found.");
+        return false;
+    }
+
+    Schema_Bonus *b = searchBonus(*D, empID, period);
+    if (b) {
+        additions += b->amount;
+    }
+
     dailyRate = basicSalary / 30;
     hourlyRate = dailyRate / 8;
-
-    leaveNum = sa.excused;
-    absentNum = sa.absent;
-    overtime = sa.overtime;
-
-    pagibigDeposit = ji.pagibigDeposit;
-
-    // check if no. of leaves == no. of absents
-    if (leaveNum == absentNum)
+    
+    // check if employee has absences
+    if (leave != absent)
     {
-        // check if employee has overtime
-        if (overtime > 0)
-        {
-            additions = ((hourlyRate * 1.25) * overtime);
-        }
+        deductions += (dailyRate * absent);
+    }
+    
+    // check if employee has overtime
+    if (overtime > 0)
+    {
+        additions += ((hourlyRate * 1.25) * overtime);
+    }
+
+    Schema_IssueSalary *is = searchIssueSalary(*D, empID, period);
+    if (!is)
+    {
+        // Calculate taxable income
+        // Calculate tax
+        // Salary = taxable income - tax
     }
     else
     {
-        deductions = (dailyRate * absentNum);
+        printf("Issue Salary for %s already exists!", period);
+        return false;
     }
-
-    income = ((basicSalary + additions) - deductions);
-    tax = calculateTax(income, &pagibigDeposit);
-    income -= tax;
-
-    printf("\nIncome: P%.2f", income);
-    printf("\nTax: P%.2f", tax);
-
-    // Update Pagibig deposit
-    // NOTE: Removed because the function only calculates salary, not update tax
-    // if (fptr != NULL)
-    // {
-    //     fseek(fptr, 0, SEEK_SET);
-    //     while (empID != ji.employeeID && ftell(fptr) < fSize)
-    //     {
-    //         fwrite(&pagibigDeposit, sizeof(double), 1, fptr);
-    //     }
-    //     fclose(fptr);
-    // }
-    fclose(fptr);
 
     return true;
 }
@@ -208,17 +336,16 @@ double calculateTax(double taxableIncome, double *pagibigDeposit)
         double pagibigTax = taxableIncome < 1500 ? taxableIncome - (taxableIncome * 0.01) : taxableIncome - (taxableIncome * 0.02);
 
         // Add Pagibig tax such that Pagibig deposit doesn't exceed 24300
-        // NOTE: Removed because the function only calculates tax, not update tax
-        // if (*pagibigDeposit + pagibigTax > 24300)
-        // {
-        //     tax += 24300 - *pagibigDeposit;
-        //     *pagibigDeposit += 24300 - *pagibigDeposit;
-        // }
-        // else
-        // {
-        //     tax += pagibigTax;
-        //     *pagibigDeposit += pagibigTax;
-        // }
+        if (*pagibigDeposit + pagibigTax > 24300)
+        {
+            tax += 24300 - *pagibigDeposit;
+            *pagibigDeposit += 24300 - *pagibigDeposit;
+        }
+        else
+        {
+            tax += pagibigTax;
+            *pagibigDeposit += pagibigTax;
+        }
     }
 
     // PHIC (1.75%)
@@ -260,6 +387,84 @@ double calculateTax(double taxableIncome, double *pagibigDeposit)
     tax += annualTax / 12;
 
     return tax;
+}
+
+void debugSalary(Dictionary D)
+{
+    PSIS trav;
+    int i;
+
+    printf("DICTIONARY SALARY\n");
+    printf("%4s | %4s\n", "row", "ID");
+    for (i = 0; i < DICT_SIZE; i++)
+    {
+        printf("%4d | ", i);
+        for (trav = D.IssueSalaryD[i]; trav != NULL; trav = trav->next)
+        {
+            printf("%d -> ", trav->data.issueID);
+        }
+        printf("\n", i);
+    }
+
+    if (trav == NULL && i == DICT_SIZE - 1)
+    {
+        printf("End of Dictionary\n");
+    }
+}
+
+void displayAllSalary(Dictionary D)
+{
+    PSIS trav;
+    int i;
+
+    printf("%-4s | %-9s | %-12s | %-9s | %-8s | %7s \n",
+           "____",
+           "_________",
+           "____________",
+           "_________",
+           "________",
+           "_______");
+    printf("SALARY\n");
+    printf("%-4s | %-9s | %-12s | %-9s | %-8s | %7s \n",
+           "____",
+           "_________",
+           "____________",
+           "_________",
+           "________",
+           "_______");
+    printf("%-4s | %-9s | %-12s | %-9s | %-8s | %7s \n",
+           "#",
+           "ISSUE ID",
+           "EMPLOYEE ID",
+           "BONUS ID",
+           "BALANCE",
+           "PERIOD");
+
+    for (i = 0; i < DICT_SIZE; i++)
+    {
+        for (trav = D.IssueSalaryD[i]; trav != NULL; trav = trav->next)
+        {
+            printf("%-4s | %-9s | %-12s | %-9s | %-8s | %7s \n",
+                   i,
+                   trav->data.issueID,
+                   trav->data.employeeID,
+                   trav->data.bonusID,
+                   trav->data.balance,
+                   trav->data.period);
+        }
+    }
+
+    if (trav == NULL && i == DICT_SIZE - 1)
+    {
+        printf("%-4s | %-9s | %-12s | %-9s | %-8s | %7s \n",
+           "____",
+           "_________",
+           "____________",
+           "_________",
+           "________",
+           "_______");
+        printf("End of Dictionary\n");
+    }
 }
 
 #endif

@@ -24,11 +24,10 @@ bool insertAttendance(Dictionary *D, Schema_Attendance data)
             (*trav)->next = NULL;
         }
         D->count[3]++;
-        printf("Attendance Inserted Successfully\n");
+        return true;
     }
     else
     {
-        printf("Attendance ID already exists\n");
         return false;
     }
 }
@@ -88,19 +87,152 @@ Schema_Attendance *searchAttendance(Dictionary D, ID employeeID)
     }
     else
     {
-        printf("Attendance ID not found\n");
         return NULL;
     }
 }
 
-// Debug only
+bool setPresent(int employeeID, Dictionary *D)
+{
+    int presentNum;
+    Schema_Attendance *sa = searchAttendance(*D, employeeID);
+    if (sa)
+    {
+        printf("Enter No. of Present Days: ");
+        scanf("%d", &presentNum);
+        sa->present += presentNum;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool setLeave(int employeeID, Dictionary *D)
+{
+    int leaveNum;
+    Schema_Attendance *sa = searchAttendance(*D, employeeID);
+    if (sa)
+    {
+        printf("Enter No. of Leave Days: ");
+        scanf("%d", &leaveNum);
+        sa->leave += leaveNum;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool setAbsent(int employeeID, Dictionary *D)
+{
+    int absentNum;
+    Schema_Attendance *sa = searchAttendance(*D, employeeID);
+    if (sa)
+    {
+        printf("Enter No. of Absent Days: ");
+        scanf("%d", &absentNum);
+        sa->absent += absentNum;
+        
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool setOvertime(int employeeID, Dictionary *D)
+{
+    int otHours;
+    Schema_Attendance *sa = searchAttendance(*D, employeeID);
+    if (sa)
+    {
+        printf("Enter No. of Overtime Hours: ");
+        scanf("%d", &otHours);
+        sa->overtime += otHours;
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 void displayAllAttendance(Dictionary D)
 {
     PSA trav;
     int i;
 
+    printf("%4s_|_%14s_|_%12s_|_%8s_|_%7s_|_%8s_|_%9s_|_%7s\n",
+           "____",
+           "______________",
+           "____________",
+           "________",
+           "_______",
+           "________",
+           "_________",
+           "_______");
+    printf("ATTENDANCE\n");
+    printf("%4s_|_%14s_|_%12s_|_%8s_|_%7s_|_%8s_|_%9s_|_%7s\n",
+           "____",
+           "______________",
+           "____________",
+           "________",
+           "_______",
+           "________",
+           "_________",
+           "_______");
+    printf("%-4s | %-14s | %-12s | %-8s | %-7s | %-8s | %-9s | %-7s\n",
+           "#",
+           "ATTENDANCE ID",
+           "EMPLOYEE ID",
+           "PRESENT",
+           "ABSENT",
+           "LEAVE",
+           "OVERTIME",
+           "PERIOD");
+
+    for (i = 0; i < DICT_SIZE; i++)
+    {
+        for (trav = D.AttendanceD[i]; trav != NULL; trav = trav->next)
+        {
+            printf("%4d | %14d | %12d | %8d | %7d | %8d | %9d | %-7s\n",
+                   i,
+                   trav->data.attendanceID,
+                   trav->data.employeeID,
+                   trav->data.present,
+                   trav->data.absent,
+                   trav->data.leave,
+                   trav->data.overtime,
+                   trav->data.period);
+        }
+    }
+
+    if (trav == NULL && i == DICT_SIZE - 1)
+    {
+        printf("%4s_|_%14s_|_%12s_|_%8s_|_%7s_|_%8s_|_%9s_|_%7s\n",
+           "____",
+           "______________",
+           "____________",
+           "________",
+           "_______",
+           "________",
+           "_________",
+           "_______");
+        printf("End of Dictionary\n");
+    }
+}
+
+void debugAttendance(Dictionary D)
+{
+    PSA trav;
+    int i;
+
     printf("DICTIONARY ATTENDANCE\n");
-    printf("%4s | %4s\n", "row", "ID", );
+    printf("%4s | %4s\n", "row", "ID");
     for (i = 0; i < DICT_SIZE; i++)
     {
         printf("%4d | ", i);
@@ -116,99 +248,5 @@ void displayAllAttendance(Dictionary D)
         printf("End of Dictionary\n");
     }
 }
-
-void tableAllAttendance(Dictionary D)
-{
-    PSA trav;
-    int i;
-
-    printf("ATTENDANCE\n");
-    
-    printf("%4s | %14s | %12s | %8s | %7s | %8s | %9s | %7s\n", "#", "ATTENDANCE ID", "EMPLOYEE ID", "PRESENT", "ABSENT", "EXCUSED", "OVERTIME", "PERIOD");
-    for (i = 0; i < DICT_SIZE; i++)
-    {
-        for (trav = D.AttendanceD[i]; trav != NULL; trav = trav->next)
-        {
-            printf("%4s | %14s | %12s | %8s | %7s | %8s | %9s | %7s\n", "#", "ATTENDANCE ID", "EMPLOYEE ID", "PRESENT", "ABSENT", "EXCUSED", "OVERTIME", "PERIOD");
-        }
-    }
-
-    if (trav == NULL && i == DICT_SIZE - 1)
-    {
-        printf("End of Dictionary\n");
-    }
-}
-
-// void setLeave(int employeeID, Dictionary *D)
-// {
-//     Schema_Attendance *sa = searchAttendance(*D, employeeID);
-//     if (sa)
-//     {
-//         sa->excused += 1;
-
-//         bool b = updateAttendance(D, *sa);
-//         if (b)
-//         {
-//             printf("Leave has been recorded.");
-//         }
-//         else
-//         {
-//             printf("Database Error!");
-//         }
-//     }
-//     else
-//     {
-//         printf("\n\tEmployee not found.");
-//     }
-// }
-
-// void setAbsence(int employeeID, Dictionary *D)
-// {
-//     Schema_Attendance *sa = searchAttendance(*D, employeeID);
-//     if (sa)
-//     {
-//         sa->absent += 1;
-
-//         bool b = updateAttendance(D, *sa);
-//         if (b)
-//         {
-//             printf("Absence has been recorded.");
-//         }
-//         else
-//         {
-//             printf("Database Error!");
-//         }
-//     }
-//     else
-//     {
-//         printf("\n\tEmployee not found.");
-//     }
-// }
-
-// void setOvertime(int employeeID, Dictionary *D)
-// {
-//     int otHours;
-//     Schema_Attendance *sa = searchAttendance(*D, employeeID);
-//     if (sa)
-//     {
-//         printf("Enter No. of Overtime Hours: ");
-//         scanf("%d", &otHours);
-//         sa->overtime += otHours;
-
-//         bool b = updateAttendance(D, *sa);
-//         if (b)
-//         {
-//             printf("Overtime hours has been recorded.");
-//         }
-//         else
-//         {
-//             printf("Database Error!");
-//         }
-//     }
-//     else
-//     {
-//         printf("\n\tEmployee not found.");
-//     }
-// }
 
 #endif

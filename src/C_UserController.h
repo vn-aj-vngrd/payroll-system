@@ -138,20 +138,134 @@ Schema_User *searchUser(Dictionary D, ID userID)
     }
 }
 
+void debugUser(Dictionary D)
+{
+    PSU trav;
+    int i;
+
+    printf("DICTIONARY USER\n");
+    printf("%4s | %4s\n", "row", "ID");
+    for (i = 0; i < DICT_SIZE; i++)
+    {
+        printf("%4d | ", i);
+        for (trav = D.UserD[i]; trav != NULL; trav = trav->next)
+        {
+            printf("%d -> ", trav->data.userID);
+        }
+        printf("\n", i);
+    }
+
+    if (trav == NULL && i == DICT_SIZE - 1)
+    {
+        printf("End of Dictionary\n");
+    }
+}
+
+void displayAllUser(Dictionary D)
+{
+    PSU trav;
+    int i;
+
+    printf("%-4s | %-8s | %-11s | %-10s | %-7s | %-14s | %-17s | %-10s | %-13s | %-14s | %-8s | %-10s \n",
+           "____",
+           "________",
+           "___________",
+           "__________",
+           "_______",
+           "______________",
+           "_________________",
+           "__________",
+           "_____________",
+           "______________",
+           "________",
+           "__________");
+    printf("USER\n");
+    printf("%-4s | %-8s | %-11s | %-10s | %-7s | %-14s | %-17s | %-10s | %-13s | %-14s | %-8s | %-10s \n",
+           "____",
+           "________",
+           "___________",
+           "__________",
+           "_______",
+           "______________",
+           "_________________",
+           "__________",
+           "_____________",
+           "______________",
+           "________",
+           "__________");
+    printf("%-4s | %-8s | %-11s | %-10s | %-7s | %-14s | %-17s | %-10s | %-13s | %-14s | %-8s | %-10s \n",
+           "#",
+           "USER ID",
+           "FIRST NAME",
+           "LAST NAME",
+           "GENDER",
+           "DATE OF BIRTH",
+           "FILIPINO CITIZEN",
+           "HOME PAGE",
+           "MOBILE PHONE",
+           "EMAIL ADDRESS",
+           "ADDRESS",
+           "USER TYPE");
+
+    for (i = 0; i < DICT_SIZE; i++)
+    {
+        for (trav = D.UserD[i]; trav != NULL; trav = trav->next)
+        {
+            printf("%-4s | %-9s | %-12s | %-9s | %-8s | %7s \n",
+                   i,
+                   trav->data.userID,
+                   trav->data.firstName,
+                   trav->data.lastName,
+                   trav->data.gender,
+                   trav->data.dateOfBirth,
+                   trav->data.filipinoCitizen,
+                   trav->data.homePhone,
+                   trav->data.mobilePhone,
+                   trav->data.emailAddress,
+                   trav->data.address,
+                   trav->data.userType);
+        }
+    }
+
+    if (trav == NULL && i == DICT_SIZE - 1)
+    {
+        printf("%-4s | %-8s | %-11s | %-10s | %-7s | %-14s | %-17s | %-10s | %-13s | %-14s | %-8s | %-10s \n",
+           "____",
+           "________",
+           "___________",
+           "__________",
+           "_______",
+           "______________",
+           "_________________",
+           "__________",
+           "_____________",
+           "______________",
+           "________",
+           "__________");
+        printf("End of Dictionary\n");
+    }
+}
+
 void displayUserInformation(int employeeID, Dictionary *D)
 {
     Schema_User *emp = searchUser(*D, employeeID);
-
-    printf("|  Employee ID:      \t%d  |", emp->userID);
-    printf("|  First Name:       \t%d  |", emp->firstName);
-    printf("|  Last Name:        \t%s  |", emp->lastName);
-    printf("|  Gender:           \t%s  |", emp->gender);
-    printf("|  Date of Birth     \t%s  |", emp->dateOfBirth);
-    printf("|  Filipino:         \t%s  |", emp->filipinoCitizen);
-    printf("|  Home Phone:       \t%s  |", emp->homePhone);
-    printf("|  Mobile Phone:     \t%d  |", emp->mobilePhone);
-    printf("|  Email:            \t%d  |", emp->emailAddress);
-    printf("|  Address           \t%s  |", emp->address);
+    if (emp)
+    {
+        printf("|  Employee ID:      \t%d  |", emp->userID);
+        printf("|  First Name:       \t%d  |", emp->firstName);
+        printf("|  Last Name:        \t%s  |", emp->lastName);
+        printf("|  Gender:           \t%s  |", emp->gender);
+        printf("|  Date of Birth     \t%s  |", emp->dateOfBirth);
+        printf("|  Filipino:         \t%s  |", emp->filipinoCitizen);
+        printf("|  Home Phone:       \t%s  |", emp->homePhone);
+        printf("|  Mobile Phone:     \t%d  |", emp->mobilePhone);
+        printf("|  Email:            \t%d  |", emp->emailAddress);
+        printf("|  Address           \t%s  |", emp->address);
+    }
+    else
+    {
+        printf("Employee ID %d is not found.\n", employeeID);
+    }
 }
 
 #endif

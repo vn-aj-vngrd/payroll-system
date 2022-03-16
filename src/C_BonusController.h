@@ -6,12 +6,12 @@
 #include "H_Model.h"
 #include "C_DictionaryController.h"
 
-void insertBonus(Dictionary *D, Schema_Bonus data)
+bool insertBonus(Dictionary *D, Schema_Bonus data)
 {
     PSB *trav;
     int hashVal = hash(data.bonusID);
 
-    for (trav = &(D->BonusD[hashVal]); strcmp(data.bonusName, (*trav)->data.bonusName)!=0 && *trav != NULL; trav = &(*trav)->next)
+    for (trav = &(D->BonusD[hashVal]); strcmp(data.bonusName, (*trav)->data.bonusName) != 0 && *trav != NULL; trav = &(*trav)->next)
     {
     }
 
@@ -24,7 +24,11 @@ void insertBonus(Dictionary *D, Schema_Bonus data)
             (*trav)->next = NULL;
         }
         D->count[3]++;
-        printf("Bonus Inserted Successfully\n");
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 
@@ -41,7 +45,7 @@ bool updateBonus(Dictionary *D, Schema_Bonus data, Schema_Bonus *pointer)
     }
 }
 
-void deleteBonus(Dictionary *D, ID bonusID)
+bool deleteBonus(Dictionary *D, ID bonusID)
 {
     PSB *trav, temp;
     int hashVal = hash(bonusID);
@@ -52,7 +56,7 @@ void deleteBonus(Dictionary *D, ID bonusID)
 
     if (trav == NULL)
     {
-        printf("Bonus ID not found\n");
+        return false;
     }
     else
     {
@@ -60,16 +64,16 @@ void deleteBonus(Dictionary *D, ID bonusID)
         *trav = (*trav)->next;
         free(temp);
         D->count[3]++;
-        printf("Bonus Deleted Successfully\n");
+        return true;
     }
 }
 
-Schema_Bonus* searchBonus(Dictionary D, ID bonusID)
+Schema_Bonus *searchBonus(Dictionary D, ID bonusID, char period[])
 {
     PSB trav, temp;
     int hashVal = hash(bonusID);
 
-    for (trav = D.BonusD[hashVal]; trav != NULL && trav->data.bonusID != bonusID; trav = trav->next)
+    for (trav = D.BonusD[hashVal]; trav != NULL && trav->data.bonusID != bonusID && strcmp(trav->data.period, period) != 0; trav = trav->next)
     {
     }
 
@@ -83,6 +87,84 @@ Schema_Bonus* searchBonus(Dictionary D, ID bonusID)
     {
         printf("Bonus ID not found\n");
         return NULL;
+    }
+}
+
+void debugBonus(Dictionary D)
+{
+    PSB trav;
+    int i;
+
+    printf("DICTIONARY BONUS\n");
+    printf("%4s | %4s\n", "row", "ID");
+    for (i = 0; i < DICT_SIZE; i++)
+    {
+        printf("%4d | ", i);
+        for (trav = D.BonusD[i]; trav != NULL; trav = trav->next)
+        {
+            printf("%d -> ", trav->data.bonusID);
+        }
+        printf("\n", i);
+    }
+
+    if (trav == NULL && i == DICT_SIZE - 1)
+    {
+        printf("End of Dictionary\n");
+    }
+}
+
+void displayAllBonus(Dictionary D)
+{
+    PSB trav;
+    int i;
+
+    printf("%-4s | %-9s | %-12s | %-11s | %-7s | %-7s\n",
+           "____",
+           "_________",
+           "____________",
+           "___________",
+           "_______",
+           "_______");
+    printf("BONUS\n");
+    printf("%-4s | %-9s | %-12s | %-11s | %-7s | %-7s\n",
+           "____",
+           "_________",
+           "____________",
+           "___________",
+           "_______",
+           "_______");
+    printf("%-4s | %-9s | %-12s | %-11s | %-7s | %-7s\n",
+           "#",
+           "BONUS ID",
+           "EMPLOYEE ID",
+           "BONUS NAME",
+           "AMOUNT",
+           "PERIOD");
+
+    for (i = 0; i < DICT_SIZE; i++)
+    {
+        for (trav = D.BonusD[i]; trav != NULL; trav = trav->next)
+        {
+            printf("%4d | %14d | %12d | %8d | %7d | %8d | %9d | %-7s\n",
+                   i,
+                   trav->data.bonusID,
+                   trav->data.employeeID,
+                   trav->data.bonusName,
+                   trav->data.amount,
+                   trav->data.period);
+        }
+    }
+
+    if (trav == NULL && i == DICT_SIZE - 1)
+    {
+        printf("%-4s | %-9s | %-12s | %-11s | %-7s | %-7s\n",
+               "____",
+               "_________",
+               "____________",
+               "___________",
+               "_______",
+               "_______");
+        printf("End of Dictionary\n");
     }
 }
 

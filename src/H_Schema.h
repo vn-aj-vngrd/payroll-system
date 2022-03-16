@@ -4,6 +4,7 @@
 #define MD_MAX 200      // medium MAX
 #define SM_MAX 50       // small MAX
 #define DATE 8          // mm/dd/yy
+#define MONTH 9         // M
 #define MOBILE_PHONE 11 // ## ### ### ####
 #define HOME_PHONE 7    // ### ####
 
@@ -56,9 +57,9 @@ typedef struct
     int employeeID;
     int present;
     int absent;
-    int excused;
+    int leave;
     int overtime;
-    char period[SM_MAX];
+    char period[MONTH]; 
 } Schema_Attendance;
 
 typedef struct
@@ -73,8 +74,10 @@ typedef struct
 typedef struct
 {
     int bonusID;
+    int employeeID;
     char bonusName[SM_MAX];
-    int amount;
+    double amount;
+    char period[MONTH];
 } Schema_Bonus;
 
 #endif
