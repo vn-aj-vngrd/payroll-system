@@ -134,8 +134,7 @@ Schema_JobInformation *searchJobInformation(Dictionary D, ID employmentID)
     }
 }
 
-// Debug only
-void debugJobInformation(Dictionary D)
+bool debugJobInformation(Dictionary D)
 {
     PSJI trav;
     int i;
@@ -155,11 +154,15 @@ void debugJobInformation(Dictionary D)
     if (trav == NULL && i == DICT_SIZE - 1)
     {
         printf("End of Dictionary\n");
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 
-// Display all in tabular format
-void displayAllJobInformation(Dictionary D)
+bool displayAllJobInformation(Dictionary D)
 {
     PSJI trav;
     int i;
@@ -227,10 +230,15 @@ void displayAllJobInformation(Dictionary D)
                "______________",
                "_________________");
         printf("End of Dictionary\n");
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 
-void displayEmployeeJobInfo(int employeeID, Dictionary *D)
+bool displayJobInformation(ID employeeID, Dictionary *D)
 {
     Schema_JobInformation *ji = searchJobInformation(*D, employeeID);
     if (ji)
@@ -245,10 +253,11 @@ void displayEmployeeJobInfo(int employeeID, Dictionary *D)
         printf("|  Department:       \t%s   |", ji->department);
         printf("|  Basic Salary:     \t%lf  |", ji->basicSalary);
         printf("|  Pag-ibig Deposit: \t%lf  |", ji->jobPosition);
+        return true;
     }
     else
     {
-        printf("Employee ID %d is not found.\n", employeeID);
+        return false;
     }
 }
 

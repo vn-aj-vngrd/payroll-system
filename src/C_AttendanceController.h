@@ -6,6 +6,39 @@
 #include "H_Model.h"
 #include "C_DictionaryController.h"
 
+Schema_Attendance createAttendance(Dictionary D)
+{
+    Schema_Attendance sa;
+    int empID;
+
+    printf("Create Employee Attendance");
+
+    char dType[10] = "Attendance";
+    sa.attendanceID = getNewID(dType, D);
+
+    printf("Enter Employee ID: ");
+    scanf("%d", &empID);
+
+    Schema_Attendance *temp = searchAttendance(D, empID);
+    if (temp)
+    {
+        printf("\nEmployee already exists");
+        return;
+    }
+    else
+    {
+        sa.employeeID = empID;
+        sa.present = 0;
+        sa.absent = 0;
+        sa.leave = 0;
+        sa.overtime = 0;
+        printf("Enter current month [MM/YY]: ");
+        scanf("%s", sa.period);
+
+        return sa;
+    }
+}
+
 bool insertAttendance(Dictionary *D, Schema_Attendance data)
 {
     PSA *trav;
@@ -91,6 +124,26 @@ Schema_Attendance *searchAttendance(Dictionary D, ID employeeID)
     }
 }
 
+bool displayAttendance(Dictionary *D, int employeeID)
+{
+    Schema_Attendance *emp = searchUser(*D, employeeID);
+    if (emp)
+    {
+        printf("|  Attendance ID:       \t%d  |", emp->attendanceID);
+        printf("|  Employee ID:         \t%d  |", emp->employeeID);
+        printf("|  Present:             \t%s  |", emp->present);
+        printf("|  Absent               \t%s  |", emp->absent);
+        printf("|  Leave:               \t%s  |", emp->leave);
+        printf("|  Overtime:            \t%s  |", emp->overtime);
+        printf("|  Period:              \t%d  |", emp->period);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 bool setPresent(int employeeID, Dictionary *D)
 {
     int presentNum;
@@ -134,7 +187,7 @@ bool setAbsent(int employeeID, Dictionary *D)
         printf("Enter No. of Absent Days: ");
         scanf("%d", &absentNum);
         sa->absent += absentNum;
-        
+
         return true;
     }
     else
@@ -214,14 +267,14 @@ void displayAllAttendance(Dictionary D)
     if (trav == NULL && i == DICT_SIZE - 1)
     {
         printf("%4s_|_%14s_|_%12s_|_%8s_|_%7s_|_%8s_|_%9s_|_%7s\n",
-           "____",
-           "______________",
-           "____________",
-           "________",
-           "_______",
-           "________",
-           "_________",
-           "_______");
+               "____",
+               "______________",
+               "____________",
+               "________",
+               "_______",
+               "________",
+               "_________",
+               "_______");
         printf("End of Dictionary\n");
     }
 }

@@ -138,7 +138,7 @@ Schema_User *searchUser(Dictionary D, ID userID)
     }
 }
 
-void debugUser(Dictionary D)
+bool debugUser(Dictionary D)
 {
     PSU trav;
     int i;
@@ -158,10 +158,16 @@ void debugUser(Dictionary D)
     if (trav == NULL && i == DICT_SIZE - 1)
     {
         printf("End of Dictionary\n");
+        return true;
     }
+    else
+    {
+        return false;
+    }
+    
 }
 
-void displayAllUser(Dictionary D)
+bool displayAllUser(Dictionary D)
 {
     PSU trav;
     int i;
@@ -243,12 +249,17 @@ void displayAllUser(Dictionary D)
            "________",
            "__________");
         printf("End of Dictionary\n");
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 
-void displayUserInformation(int employeeID, Dictionary *D)
+bool displayUserInformation(ID userID, Dictionary *D)
 {
-    Schema_User *emp = searchUser(*D, employeeID);
+    Schema_User *emp = searchUser(*D, userID);
     if (emp)
     {
         printf("|  Employee ID:      \t%d  |", emp->userID);
@@ -261,10 +272,11 @@ void displayUserInformation(int employeeID, Dictionary *D)
         printf("|  Mobile Phone:     \t%d  |", emp->mobilePhone);
         printf("|  Email:            \t%d  |", emp->emailAddress);
         printf("|  Address           \t%s  |", emp->address);
+        return true;
     }
     else
     {
-        printf("Employee ID %d is not found.\n", employeeID);
+        return false;
     }
 }
 

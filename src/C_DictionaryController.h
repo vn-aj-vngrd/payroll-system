@@ -71,7 +71,7 @@ int getNewID(char DictionaryType[], Dictionary D)
  * Pull the dictionary from file
  * @param D The dictionary
  */
-void pullDictionaries(Dictionary *D)
+bool pullDictionaries(Dictionary *D)
 {
     // Attendance Information
     FILE *fp = fopen("Employee_Attendance.bin", "rb");

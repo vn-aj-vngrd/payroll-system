@@ -4,7 +4,7 @@
 #define MD_MAX 200      // medium MAX
 #define SM_MAX 50       // small MAX
 #define DATE 8          // mm/dd/yy
-#define MONTH 9         // M
+#define MONTH 5         // mm/yy
 #define MOBILE_PHONE 11 // ## ### ### ####
 #define HOME_PHONE 7    // ### ####
 
@@ -24,18 +24,31 @@ typedef enum
 
 typedef struct
 {
-    int userID;
-    char firstName[SM_MAX];
-    char lastName[SM_MAX];
-    Gender gender;
-    char dateOfBirth[DATE];
-    bool filipinoCitizen;
-    char homePhone[MOBILE_PHONE];
-    char mobilePhone[HOME_PHONE];
-    char emailAddress[MD_MAX];
-    char address[MD_MAX];
-    UserType userType;
-} Schema_User;
+    int attendanceID;
+    int employeeID;
+    int present;
+    int absent;
+    int leave;
+    int overtime;
+    char period[MONTH]; 
+} Schema_Attendance;
+
+typedef struct
+{
+    int bonusID;
+    int employeeID;
+    char bonusName[SM_MAX];
+    double amount;
+    char period[MONTH];
+} Schema_Bonus;
+
+typedef struct
+{
+    int issueID;
+    int employeeID;
+    double balance;
+    char period[SM_MAX];
+} Schema_IssueSalary;
 
 typedef struct
 {
@@ -53,31 +66,18 @@ typedef struct
 
 typedef struct
 {
-    int attendanceID;
-    int employeeID;
-    int present;
-    int absent;
-    int leave;
-    int overtime;
-    char period[MONTH]; 
-} Schema_Attendance;
+    int userID;
+    char firstName[SM_MAX];
+    char lastName[SM_MAX];
+    Gender gender;
+    char dateOfBirth[DATE];
+    bool filipinoCitizen;
+    char homePhone[MOBILE_PHONE];
+    char mobilePhone[HOME_PHONE];
+    char emailAddress[MD_MAX];
+    char address[MD_MAX];
+    UserType userType;
+} Schema_User;
 
-typedef struct
-{
-    int issueID;
-    int employeeID;
-    int bonusID;
-    double balance;
-    char period[SM_MAX];
-} Schema_IssueSalary;
-
-typedef struct
-{
-    int bonusID;
-    int employeeID;
-    char bonusName[SM_MAX];
-    double amount;
-    char period[MONTH];
-} Schema_Bonus;
 
 #endif

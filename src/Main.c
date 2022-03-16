@@ -5,6 +5,6 @@ int main()
 {
     Dictionary D;
     initDictionary(&D);
-    // showMenu();
+    showMenu();
     return 0;
 }

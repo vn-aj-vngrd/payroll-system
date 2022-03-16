@@ -6,6 +6,34 @@
 #include "H_Model.h"
 #include "C_DictionaryController.h"
 
+Schema_Bonus createBonus(Dictionary D)
+{
+    Schema_Bonus bonus;
+
+    printf("Create Employee Bonus");
+
+    char dType[10] = "Bonus";
+    bonus.bonusID = getNewID(dType, D);
+
+    printf("\n\tEmployee ID: ");
+    scanf("%s", &bonus.employeeID);
+    fflush(stdin);
+
+    printf("\n\tBonus Name: ");
+    scanf("%s", &bonus.bonusName);
+    fflush(stdin);
+
+    printf("\n\tAmount: ");
+    scanf("%f", &bonus.amount);
+    fflush(stdin);
+
+    printf("\n\tPeriod (mm/dd/yy): ");
+    scanf("%s", &bonus.period);
+    fflush(stdin);
+
+    return bonus;
+}
+
 bool insertBonus(Dictionary *D, Schema_Bonus data)
 {
     PSB *trav;
@@ -90,7 +118,7 @@ Schema_Bonus *searchBonus(Dictionary D, ID bonusID, char period[])
     }
 }
 
-void debugBonus(Dictionary D)
+bool debugBonus(Dictionary D)
 {
     PSB trav;
     int i;
@@ -110,10 +138,15 @@ void debugBonus(Dictionary D)
     if (trav == NULL && i == DICT_SIZE - 1)
     {
         printf("End of Dictionary\n");
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 
-void displayAllBonus(Dictionary D)
+bool displayAllBonus(Dictionary D)
 {
     PSB trav;
     int i;
@@ -165,6 +198,30 @@ void displayAllBonus(Dictionary D)
                "_______",
                "_______");
         printf("End of Dictionary\n");
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+bool displayBonus(int bonusID, Dictionary *D)
+{
+    Schema_Bonus *emp = searchUser(*D, bonusID);
+    if (emp)
+    {
+        printf("|  Bonus ID:       \t%d  |", emp->bonusID);
+        printf("|  Employee ID:    \t%d  |", emp->employeeID);
+        printf("|  Bonus Name:     \t%s  |", emp->bonusName);
+        printf("|  Amount          \t%f  |", emp->amount);
+        printf("|  Period:         \t%s  |", emp->period);
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 
