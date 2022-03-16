@@ -5,6 +5,7 @@
 #include "H_Schema.h"
 #include "C_Controller.h"
 #include <conio.h>
+#include <stdbool.h>
 
 void showMenu(Dictionary *D)
 {
@@ -12,6 +13,7 @@ void showMenu(Dictionary *D)
     int empID;
     bool In = true, In2 = true, In3 = true, In4 = true, In5 = true, In6 = true;
     Schema_JobInformation *jiPtr;
+    
 
     while (In)
     {
@@ -36,8 +38,7 @@ void showMenu(Dictionary *D)
         // Push to Dictionary -- Complete
         case 0:
         {
-            bool b = pushDictionaries(*D);
-            if (b)
+            if (pushDictionaries(*D))
             {
                 printf("\nYour changes have been successfully saved.");
             }

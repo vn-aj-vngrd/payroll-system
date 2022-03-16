@@ -1,6 +1,8 @@
 #ifndef SCHEMA_H
 #define SCHEMA_H
 
+#include <stdbool.h>
+
 #define MD_MAX 200      // medium MAX
 #define SM_MAX 50       // small MAX
 #define DATE 8          // mm/dd/yy
@@ -30,7 +32,7 @@ typedef struct
     int absent;
     int leave;
     int overtime;
-    char period[MONTH]; 
+    char period[MONTH];
 } Schema_Attendance;
 
 typedef struct
@@ -72,12 +74,11 @@ typedef struct
     Gender gender;
     char dateOfBirth[DATE];
     bool filipinoCitizen;
-    char homePhone[MOBILE_PHONE];
-    char mobilePhone[HOME_PHONE];
+    char homePhone[HOME_PHONE];
+    char mobilePhone[MOBILE_PHONE];
     char emailAddress[MD_MAX];
     char address[MD_MAX];
     UserType userType;
 } Schema_User;
-
 
 #endif
