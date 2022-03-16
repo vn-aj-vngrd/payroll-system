@@ -6,7 +6,56 @@
 #include "H_Model.h"
 #include "C_DictionaryController.h"
 
-void insertUser(Dictionary *D, Schema_User data)
+Schema_User createUserInformation(Dictionary D)
+{
+    Schema_User emp;
+
+    printf("Create Employee Information");
+
+    char dType[10] = "User";
+    emp.userID = getNewID(dType, D);
+    emp.userType = EMPLOYER;
+
+    printf("\n\tFirst Name: ");
+    scanf("%s", &emp.firstName);
+    fflush(stdin);
+
+    printf("\n\tLast Name: ");
+    scanf("%s", &emp.lastName);
+    fflush(stdin);
+
+    printf("\n\tGender (MALE/FEMALE): ");
+    scanf("%d", &emp.gender);
+    fflush(stdin);
+
+    printf("\n\tDate of Birth (mm/dd/yy): ");
+    scanf("%s", &emp.dateOfBirth);
+    fflush(stdin);
+
+    printf("\n\tFilipino Citizen: ");
+    scanf("%s", &emp.filipinoCitizen);
+    fflush(stdin);
+
+    printf("\n\tHome Phone: ");
+    scanf("%s", &emp.homePhone);
+    fflush(stdin);
+
+    printf("\n\tMobile Phone: ");
+    scanf("%s", &emp.mobilePhone);
+    fflush(stdin);
+
+    printf("\nEmail Address: ");
+    scanf("%s", &emp.emailAddress);
+    fflush(stdin);
+
+    printf("\n\tAddress: ");
+    scanf("%s", &emp.address);
+    fflush(stdin);
+
+    return emp;
+}
+
+bool insertUser(Dictionary *D, Schema_User data)
 {
     PSU *trav;
     int hashVal = hash(data.userID);
@@ -24,35 +73,28 @@ void insertUser(Dictionary *D, Schema_User data)
             (*trav)->next = NULL;
         }
         D->count[4]++;
-        printf("User Inserted Successfully\n");
+        return true;
     }
     else
     {
-        printf("User already exists\n");
+        return false;
     }
 }
 
-void updateUser(Dictionary *D, Schema_User data)
+bool updateUser(Dictionary *D, Schema_User data, Schema_User *pointer)
 {
-    PSU *trav;
-    int hashVal = hash(data.userID);
-
-    for (trav = &(D->UserD[hashVal]); *trav != NULL && (*trav)->data.userID != data.userID; trav = &(*trav)->next)
+    if (data.userID != pointer->userID)
     {
-    }
-
-    if (trav == NULL)
-    {
-        printf("User ID not found\n");
+        return false;
     }
     else
     {
-        (*trav)->data = data;
-        printf("User Updated Successfully\n");
+        *pointer = data;
+        return true;
     }
 }
 
-void deleteUser(Dictionary *D, ID userID)
+bool deleteUser(Dictionary *D, ID userID)
 {
     PSU *trav, temp;
     int hashVal = hash(userID);
@@ -63,7 +105,7 @@ void deleteUser(Dictionary *D, ID userID)
 
     if (trav == NULL)
     {
-        printf("User ID not found\n");
+        return false;
     }
     else
     {
@@ -71,7 +113,7 @@ void deleteUser(Dictionary *D, ID userID)
         *trav = (*trav)->next;
         free(temp);
         D->count[4]++;
-        printf("User Deleted Successfully\n");
+        return true;
     }
 }
 
@@ -92,9 +134,24 @@ Schema_User *searchUser(Dictionary D, ID userID)
     }
     else
     {
-        printf("User ID not found\n");
         return NULL;
     }
+}
+
+void displayUserInformation(int employeeID, Dictionary *D)
+{
+    Schema_User *emp = searchUser(*D, employeeID);
+
+    printf("|  Employee ID:      \t%d  |", emp->userID);
+    printf("|  First Name:       \t%d  |", emp->firstName);
+    printf("|  Last Name:        \t%s  |", emp->lastName);
+    printf("|  Gender:           \t%s  |", emp->gender);
+    printf("|  Date of Birth     \t%s  |", emp->dateOfBirth);
+    printf("|  Filipino:         \t%s  |", emp->filipinoCitizen);
+    printf("|  Home Phone:       \t%s  |", emp->homePhone);
+    printf("|  Mobile Phone:     \t%d  |", emp->mobilePhone);
+    printf("|  Email:            \t%d  |", emp->emailAddress);
+    printf("|  Address           \t%s  |", emp->address);
 }
 
 #endif

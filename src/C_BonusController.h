@@ -28,23 +28,16 @@ void insertBonus(Dictionary *D, Schema_Bonus data)
     }
 }
 
-void updateBonus(Dictionary *D, Schema_Bonus data)
+bool updateBonus(Dictionary *D, Schema_Bonus data, Schema_Bonus *pointer)
 {
-    PSB *trav;
-    int hashVal = hash(data.bonusID);
-
-    for (trav = &(D->BonusD[hashVal]); *trav != NULL && (*trav)->data.bonusID != data.bonusID; trav = &(*trav)->next)
+    if (data.bonusID != pointer->bonusID)
     {
-    }
-
-    if (trav == NULL)
-    {
-        printf("Bonus ID not found\n");
+        return false;
     }
     else
     {
-        (*trav)->data = data;
-        printf("Bonus Updated Successfully\n");
+        *pointer = data;
+        return true;
     }
 }
 

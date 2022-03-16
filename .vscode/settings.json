@@ -14,6 +14,7 @@
         "h_model.h": "c",
         "c_dictionarycontroller.h": "c",
         "c_bonuscontroller.h": "c",
-        "c_usercontroller.h": "c"
+        "c_usercontroller.h": "c",
+        "c_salarycontroller.h": "c"
     }
 }

@@ -6,7 +6,7 @@
 #include "H_Model.h"
 #include "C_DictionaryController.h"
 
-void insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
+bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
 {
     PSIS *trav;
     int hashVal = hash(data.issueID);
@@ -24,31 +24,28 @@ void insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
             (*trav)->next = NULL;
         }
         D->count[3]++;
-        printf("IssueSalary Inserted Successfully\n");
-    }
-}
-
-void updateIssueSalary(Dictionary *D, Schema_IssueSalary data)
-{
-    PSIS *trav;
-    int hashVal = hash(data.issueID);
-
-    for (trav = &(D->IssueSalaryD[hashVal]); *trav != NULL && (*trav)->data.issueID != data.issueID; trav = &(*trav)->next)
-    {
-    }
-
-    if (trav == NULL)
-    {
-        printf("IssueSalary ID not found\n");
+        return true;
     }
     else
     {
-        (*trav)->data = data;
-        printf("IssueSalary Updated Successfully\n");
+        return false;
     }
 }
 
-void deleteIssueSalary(Dictionary *D, ID issueID)
+bool updateIssueSalary(Dictionary *D, Schema_IssueSalary data, Schema_IssueSalary *pointer)
+{
+    if (data.issueID != pointer->issueID)
+    {
+        return false;
+    }
+    else
+    {
+        *pointer = data;
+        return true;
+    }
+}
+
+bool deleteIssueSalary(Dictionary *D, ID issueID)
 {
     PSIS *trav, temp;
     int hashVal = hash(issueID);
@@ -59,7 +56,7 @@ void deleteIssueSalary(Dictionary *D, ID issueID)
 
     if (trav == NULL)
     {
-        printf("IssueSalary ID not found\n");
+        return false;
     }
     else
     {
@@ -67,7 +64,7 @@ void deleteIssueSalary(Dictionary *D, ID issueID)
         *trav = (*trav)->next;
         free(temp);
         D->count[3]++;
-        printf("IssueSalary Deleted Successfully\n");
+        return true;
     }
 }
 
@@ -179,16 +176,18 @@ double issueSalary(int empID)
     printf("\nIncome: P%.2f", income);
     printf("\nTax: P%.2f", tax);
 
-    // update Pagibig deposit
-    if (fptr != NULL)
-    {
-        fseek(fptr, 0, SEEK_SET);
-        while (empID != ji.employeeID && ftell(fptr) < fSize)
-        {
-            fwrite(&pagibigDeposit, sizeof(double), 1, fptr);
-        }
-        fclose(fptr);
-    }
+    // Update Pagibig deposit
+    // NOTE: Removed because the function only calculates salary, not update tax
+    // if (fptr != NULL)
+    // {
+    //     fseek(fptr, 0, SEEK_SET);
+    //     while (empID != ji.employeeID && ftell(fptr) < fSize)
+    //     {
+    //         fwrite(&pagibigDeposit, sizeof(double), 1, fptr);
+    //     }
+    //     fclose(fptr);
+    // }
+    fclose(fptr);
 
     return income;
 }
@@ -207,16 +206,17 @@ double calculateTax(double taxableIncome, double *pagibigDeposit)
         double pagibigTax = taxableIncome < 1500 ? taxableIncome - (taxableIncome * 0.01) : taxableIncome - (taxableIncome * 0.02);
 
         // Add Pagibig tax such that Pagibig deposit doesn't exceed 24300
-        if (*pagibigDeposit + pagibigTax > 24300)
-        {
-            tax += 24300 - *pagibigDeposit;
-            *pagibigDeposit += 24300 - *pagibigDeposit;
-        }
-        else
-        {
-            tax += pagibigTax;
-            *pagibigDeposit += pagibigTax;
-        }
+        // NOTE: Removed because the function only calculates tax, not update tax
+        // if (*pagibigDeposit + pagibigTax > 24300)
+        // {
+        //     tax += 24300 - *pagibigDeposit;
+        //     *pagibigDeposit += 24300 - *pagibigDeposit;
+        // }
+        // else
+        // {
+        //     tax += pagibigTax;
+        //     *pagibigDeposit += pagibigTax;
+        // }
     }
 
     // PHIC (1.75%)

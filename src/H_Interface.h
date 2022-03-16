@@ -1,64 +1,84 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
-#include "H_Tasks.h"
+#include "H_Schema.h"
+#include "H_Model.h"
+#include "C_AttendanceController.h"
+#include "C_BonusController.h"
+#include "C_DictionaryController.h"
+#include "C_JobInformationController.h"
+#include "C_SalaryController.h"
+#include "C_UserController.h"
 
-void showMenu()
+void showMenu(Dictionary *D)
 {
-    int input1, input2, input3, input4;
+    int temp;
     int empID;
-    bool In = true, In2 = true, In3 = true, In4 = true;
+    bool In = true, In2 = true, In3 = true, In4 = true, In5 = true;
+    Schema_JobInformation *jiPtr;
 
     while (In)
     {
         system("cls");
         printf("Payroll System\n\n");
         printf("[1] Create Employee\n");
-        printf("[2] View/Update Employee Attendance\n");
-        printf("[3] View Employee Salary & Tax\n");
+        printf("[2] Calculate Employee Salary & Tax\n");
+        printf("[3] View/Update Employee Attendance\n");
         printf("[4] View/Update Employee Profile\n");
         printf("[5] View/Update Employee Job Information\n");
         printf("[0] Exit\n\n");
         printf("Select: ");
-        scanf("%d", &input1);
+        scanf("%d", &temp);
         fflush(stdin);
 
-        switch (input1)
+        switch (temp)
         {
         case 0:
-            printf("test");
+
             In = false;
             break;
 
         // Create Employee
         case 1:
-            // createEmployee();
-            printf("test");
-            
+            Schema_User employeeInfo = createUserInformation(*D);
+            bool b1 = insertUser(&D, employeeInfo); 
+
+            Schema_JobInformation jobInfo = createJobInformation(*D, employeeInfo.userID);
+            bool b2 = insertJobInformation(&D, jobInfo);
+
+            printf("\n*press any key to continue...*");
+            getch();
+            break;
+        
+        // Calculate Employee Salary & Tax
+        case 2:
+            printf("Enter Employee ID: ");
+            scanf("%d", &empID);
+            issueSalary(empID);
             printf("\n*press any key to continue...*");
             getch();
             break;
 
         // View/Update Employee Attendance
-        case 2:
+        case 3:
             system("cls");
             while (In2)
             {
-                printf("[1] View Employee Attendance",
-                       "[2] Set Employee Leave",
-                       "[3] Set Employee Absence",
-                       "[4] Set Employee Overtime Hours",
-                       "[0] Back"
-                       "Input: ");
-                scanf("%d", &input2);
-                switch (input2)
+                printf("[1] View Employee Attendance\n");
+                printf("[2] Set Employee Leave\n");
+                printf("[3] Set Employee Absence\n");
+                printf("[4] Set Employee Overtime Hours\n");
+                printf("[0] Back\n\n");
+                printf("Input: ");
+                scanf("%d", &temp);
+                switch (temp)
                 {
                 case 0:
                     In2 = false;
                     break;
                 case 1:
                     printf("Enter Employee ID: ");
-                    scanf("%d",&empID);
+                    scanf("%d", &empID);
                     displayEmployeeAttendence(empID, D);
 
                     printf("\n*press any key to continue...*");
@@ -66,15 +86,15 @@ void showMenu()
                     break;
                 case 2:
                     printf("Enter Employee ID: ");
-                    scanf("%d",&empID);
-
+                    scanf("%d", &empID);
                     setLeave(empID, D);
+
                     printf("\n*press any key to continue...*");
                     getch();
                     break;
                 case 3:
                     printf("Enter Employee ID: ");
-                    scanf("%d",&empID);
+                    scanf("%d", &empID);
                     setAbsence(empID, D);
 
                     printf("\n*press any key to continue...*");
@@ -82,7 +102,7 @@ void showMenu()
                     break;
                 case 4:
                     printf("Enter Employee ID: ");
-                    scanf("%d",&empID);
+                    scanf("%d", &empID);
                     setOvertime(empID, D);
 
                     printf("\n*press any key to continue...*");
@@ -98,37 +118,28 @@ void showMenu()
             }
             In2 = true;
             break;
-        // View Employee Salary & Tax
-        case 3:
-            printf("Enter Employee ID: ");
-            scanf("%d", &empID);
-            createSalary(empID);
-            printf("\n*press any key to continue...*");
-            getch();
-            // double salary = createSalary(empID); // XXX: this is for creating salary; make new function for getSalary or combine with option 5.
-            break;
 
         // View/Update Employee Profile
         case 4:
             system("cls");
             while (In3)
             {
-                printf("EMPLOYEE PROFILE"
-                       "[1] View",
-                       "[2] Update",
-                       "[3] Delete",
-                       "[0] Back",
-                       "Input: ");
-                scanf("%d", &input3);
+                printf("EMPLOYEE PROFILE\n\n");
+                printf("[1] View\n");
+                printf("[2] Update\n");
+                printf("[3] Delete\n");
+                printf("[0] Back\n\n");
+                printf("Input: ");
+                scanf("%d", &temp);
 
-                switch (input3)
+                switch (temp)
                 {
                 case 0:
                     In3 = false;
                     break;
                 case 1:
                     printf("Enter Employee ID: ");
-                    scanf("%d",&empID);
+                    scanf("%d", &empID);
                     displayEmployeeInformation(empID, D);
 
                     printf("\n*press any key to continue...*");
@@ -136,7 +147,7 @@ void showMenu()
                     break;
                 case 2:
                     printf("Enter Employee ID: ");
-                    scanf("%d",&empID);
+                    scanf("%d", &empID);
                     updateEmployeeInformation(empID, D);
 
                     printf("\n*press any key to continue...*");
@@ -144,7 +155,7 @@ void showMenu()
                     break;
                 case 3:
                     printf("Enter Employee ID: ");
-                    scanf("%d",&empID);
+                    scanf("%d", &empID);
                     deleteEmployeeInformation(empID, D);
 
                     printf("\n*press any key to continue...*");
@@ -163,39 +174,128 @@ void showMenu()
             system("cls");
             while (In4)
             {
-                printf("JOB INFORMATION",
-                       "[1] View",
-                       "[2] Update",
-                       "[3] Delete",
-                       "[0] Back",
-                       "Input: ");
-                scanf("%d", &input4);
+                printf("JOB INFORMATION\n\n");
+                printf("[1] View\n");
+                printf("[2] Update\n");
+                printf("[3] Delete\n");
+                printf("[0] Back\n\n");
+                printf("Input: ");
+                scanf("%d", &temp);
 
-                switch (input4)
+                switch (temp)
                 {
                 case 0:
                     In4 = false;
                     break;
                 case 1:
+                    system("cls");
+                    printf("VIEW JOB INFORMATION\n\n");
                     printf("Enter Employee ID: ");
-                    scanf("%d",&empID);
-                    displayEmployeeJobInfo(empID, D);
+                    scanf("%d", &empID);
+                    displayEmployeeJobInfo(&D, empID);
 
                     printf("\n*press any key to continue...*");
                     getch();
                     break;
                 case 2:
+                    system("cls");
                     printf("Enter Employee ID: ");
-                    scanf("%d",&empID);
-                    updateJobInformation(empID, D);
+                    scanf("%d", &empID);
+                    Schema_JobInformation *jobInfo = searchJobInformation(*D, empID);
 
-                    printf("\n*press any key to continue...*");
+                    while (In5)
+                    {
+                        printf("UPDATE JOB INFORMATION\n\n");
+                        printf("[1] Job Position\n");
+                        printf("[2] Job Location\n");
+                        printf("[3] Job Phone\n");
+                        printf("[4] Start Date\n");
+                        printf("[5] Department\n");
+                        printf("[6] Email\n");
+                        printf("[7] Basic Salary\n");
+                        printf("[8] Pagibig Deposit\n");
+                        printf("[9] Update All\n");
+                        printf("[0] Back\n\n");
+                        printf("Input: ");
+                        scanf("%d", temp);
+
+                        switch (temp)
+                        {
+                        case 1:
+                            printf("\n\nEnter new job position: ");
+                            scanf("%s", &jobInfo->jobPosition);
+                            break;
+                        case 2:
+                            printf("\n\nEnter new job location: ");
+                            scanf("%s", &jobInfo->jobLocation);
+                            break;
+                        case 3:
+                            printf("\n\nEnter new job phone: ");
+                            scanf("%s", &jobInfo->jobPhone);
+                            break;
+                        case 4:
+                            printf("\n\nEnter new start date: ");
+                            scanf("%s", &jobInfo->startDate);
+                            break;
+                        case 5:
+                            printf("\n\nEnter new department: ");
+                            scanf("%s", &jobInfo->department);
+                            break;
+                        case 6:
+                            printf("\n\nEnter new email: ");
+                            scanf("%s", &jobInfo->jobEmail);
+                            break;
+                        case 7:
+                            printf("\n\nEnter new basic salary: ");
+                            scanf("%lf", &jobInfo->basicSalary);
+                            break;
+                        case 8:
+                            printf("\n\nEnter new pagibig deposit: ");
+                            scanf("%lf", &jobInfo->pagibigDeposit);
+                            break;
+                        case 9:
+                            printf("\n\nEnter new job position: ");
+                            scanf("%s", &jobInfo->jobPosition);
+
+                            printf("\nEnter new job location: ");
+                            scanf("%s", &jobInfo->jobLocation);
+
+                            printf("\nEnter new job phone: ");
+                            scanf("%s", &jobInfo->jobPhone);
+
+                            printf("\nEnter new start date: ");
+                            scanf("%s", &jobInfo->startDate);
+
+                            printf("\nEnter new department: ");
+                            scanf("%s", &jobInfo->department);
+
+                            printf("\nEnter new email: ");
+                            scanf("%s", &jobInfo->jobEmail);
+
+                            printf("\nEnter new basic salary: ");
+                            scanf("%lf", &jobInfo->basicSalary);
+
+                            printf("\nEnter new pagibig deposit: ");
+                            scanf("%lf", &jobInfo->pagibigDeposit);
+                            break;
+                        case 0:
+                            In5 = false;
+                            break;
+                        default:
+                            printf("Please enter a valid option.");
+                            break;
+                        }
+                    }
+                    In5 = true;
+                    printf("\n*Press any key to continue...*");
                     getch();
                     break;
                 case 3:
+                    system("cls");
+                    printf("DELETE JOB INFORMATION\n\n");
                     printf("Enter Employee ID: ");
-                    scanf("%d",&empID);
-                    deleteJobInformation(empID, D);
+                    scanf("%d", &empID);
+                    deleteJobInformation(&D, empID);
 
                     printf("\n*press any key to continue...*");
                     getch();

@@ -33,24 +33,15 @@ bool insertAttendance(Dictionary *D, Schema_Attendance data)
     }
 }
 
-bool updateAttendance(Dictionary *D, Schema_Attendance data)
+bool updateAttendance(Dictionary *D, Schema_Attendance data, Schema_Attendance *pointer)
 {
-    PSA *trav;
-    int hashVal = hash(data.attendanceID);
-
-    for (trav = &(D->AttendanceD[hashVal]); *trav != NULL && (*trav)->data.attendanceID != data.attendanceID; trav = &(*trav)->next)
+    if (data.attendanceID != pointer->attendanceID)
     {
-    }
-
-    if (trav == NULL)
-    {
-        printf("Attendance ID not found\n");
         return false;
     }
     else
     {
-        (*trav)->data = data;
-        printf("Attendance Updated Successfully\n");
+        *pointer = data;
         return true;
     }
 }
@@ -125,76 +116,76 @@ void displayAllAttendance(Dictionary D)
     }
 }
 
-void setLeave(int employeeID, Dictionary *D)
-{
-    Schema_Attendance *sa = searchAttendance(*D, employeeID);
-    if (sa)
-    {
-        sa->excused += 1;
+// void setLeave(int employeeID, Dictionary *D)
+// {
+//     Schema_Attendance *sa = searchAttendance(*D, employeeID);
+//     if (sa)
+//     {
+//         sa->excused += 1;
 
-        bool b = updateAttendance(D, *sa);
-        if (b)
-        {
-            printf("Leave has been recorded.");
-        }
-        else
-        {
-            printf("Database Error!");
-        }
-    }
-    else
-    {
-        printf("\n\tEmployee not found.");
-    }
-}
+//         bool b = updateAttendance(D, *sa);
+//         if (b)
+//         {
+//             printf("Leave has been recorded.");
+//         }
+//         else
+//         {
+//             printf("Database Error!");
+//         }
+//     }
+//     else
+//     {
+//         printf("\n\tEmployee not found.");
+//     }
+// }
 
-void setAbsence(int employeeID, Dictionary *D)
-{
-    Schema_Attendance *sa = searchAttendance(*D, employeeID);
-    if (sa)
-    {
-        sa->absent += 1;
+// void setAbsence(int employeeID, Dictionary *D)
+// {
+//     Schema_Attendance *sa = searchAttendance(*D, employeeID);
+//     if (sa)
+//     {
+//         sa->absent += 1;
 
-        bool b = updateAttendance(D, *sa);
-        if (b)
-        {
-            printf("Absence has been recorded.");
-        }
-        else
-        {
-            printf("Database Error!");
-        }
-    }
-    else
-    {
-        printf("\n\tEmployee not found.");
-    }
-}
+//         bool b = updateAttendance(D, *sa);
+//         if (b)
+//         {
+//             printf("Absence has been recorded.");
+//         }
+//         else
+//         {
+//             printf("Database Error!");
+//         }
+//     }
+//     else
+//     {
+//         printf("\n\tEmployee not found.");
+//     }
+// }
 
-void setOvertime(int employeeID, Dictionary *D)
-{
-    int otHours;
-    Schema_Attendance *sa = searchAttendance(*D, employeeID);
-    if (sa)
-    {
-        printf("Enter No. of Overtime Hours: ");
-        scanf("%d", &otHours);
-        sa->overtime += otHours;
+// void setOvertime(int employeeID, Dictionary *D)
+// {
+//     int otHours;
+//     Schema_Attendance *sa = searchAttendance(*D, employeeID);
+//     if (sa)
+//     {
+//         printf("Enter No. of Overtime Hours: ");
+//         scanf("%d", &otHours);
+//         sa->overtime += otHours;
 
-        bool b = updateAttendance(D, *sa);
-        if (b)
-        {
-            printf("Overtime hours has been recorded.");
-        }
-        else
-        {
-            printf("Database Error!");
-        }
-    }
-    else
-    {
-        printf("\n\tEmployee not found.");
-    }
-}
+//         bool b = updateAttendance(D, *sa);
+//         if (b)
+//         {
+//             printf("Overtime hours has been recorded.");
+//         }
+//         else
+//         {
+//             printf("Database Error!");
+//         }
+//     }
+//     else
+//     {
+//         printf("\n\tEmployee not found.");
+//     }
+// }
 
 #endif

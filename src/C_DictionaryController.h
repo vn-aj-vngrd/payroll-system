@@ -11,21 +11,21 @@
 #include "C_SalaryController.h"
 #include "C_UserController.h"
 
-void initDictionary(Dictionary D)
+void initDictionary(Dictionary *D)
 {
     int i;
     for (i = 0; i < DICT_SIZE; i++)
     {
-        D.UserD[i] = NULL;
-        D.JobInformationD[i] = NULL;
-        D.AttendanceD[i] = NULL;
-        D.IssueSalaryD[i] = NULL;
-        D.BonusD[i] = NULL;
+        D->UserD[i] = NULL;
+        D->JobInformationD[i] = NULL;
+        D->AttendanceD[i] = NULL;
+        D->IssueSalaryD[i] = NULL;
+        D->BonusD[i] = NULL;
     }
 
     for (i = 0; i < 5; i++)
     {
-        D.count[i] = 0;
+        D->count[i] = 0;
     }
 }
 
@@ -67,11 +67,11 @@ int getNewID(char DictionaryType[], Dictionary D)
     return lastID + 1;
 }
 
-/*
+/**
  * Pull the dictionary to file
  * @param D The dictionary
- **/
-void pullDictionaries(Dictionary *D, char filename[])
+ */
+void pullDictionaries(Dictionary *D)
 {
     // Attendance Information
     FILE *fp = fopen("Employee_Attendance.bin", "rb");
@@ -83,11 +83,12 @@ void pullDictionaries(Dictionary *D, char filename[])
         {
             insertAttendance(D, attendance);
         }
+
         fclose(fp);
     }
     else
     {
-        printf("Employee_Attendance.bin not found\n");
+        return false;
     }
 
     // Bonus Information
@@ -104,7 +105,7 @@ void pullDictionaries(Dictionary *D, char filename[])
     }
     else
     {
-        printf("Employee_Bonus.bin not found\n");
+        return false;
     }
 
     // Job Information
@@ -121,7 +122,7 @@ void pullDictionaries(Dictionary *D, char filename[])
     }
     else
     {
-        printf("Employee_JobInformation.bin not found\n");
+        return false;
     }
 
     // Salary Information
@@ -138,7 +139,7 @@ void pullDictionaries(Dictionary *D, char filename[])
     }
     else
     {
-        printf("Employee_Salary.bin not found\n");
+        return false;
     }
 
     // Employee Information
@@ -155,22 +156,23 @@ void pullDictionaries(Dictionary *D, char filename[])
     }
     else
     {
-        printf("Employee_Information.bin not found\n");
+        return false;
     }
+
+    return true;
 }
 
-/*
+/**
  * Push the dictionary to file
  * @param D The dictionary
- **/
-void pushDictionaries(Dictionary D, char filename[])
+ */
+bool pushDictionaries(Dictionary D)
 {
     PSA ATrav;
     PSB BTrav;
     PSJI JITrav;
     PSIS STrav;
     PSU UTrav;
-
     int i, count;
 
     // Attendance Information
@@ -187,16 +189,15 @@ void pushDictionaries(Dictionary D, char filename[])
 
         fseek(fp, 0L, SEEK_END);
         count = ftell(fp) / sizeof(Schema_Attendance);
-        if (count == D.count[0])
+        if (count != D.count[0])
         {
-            printf("Data saved successfully");
+            return false;
         }
-        else
-        {
-            printf("There was an error saving the data.");
-        }
-
         fclose(fp);
+    }
+    else
+    {
+        return false;
     }
 
     // Bonus Information
@@ -213,16 +214,16 @@ void pushDictionaries(Dictionary D, char filename[])
 
         fseek(fp, 0L, SEEK_END);
         count = ftell(fp) / sizeof(Schema_Bonus);
-        if (count == D.count[1])
+        if (count != D.count[1])
         {
-            printf("Data saved successfully");
-        }
-        else
-        {
-            printf("There was an error saving the data.");
+            return false;
         }
 
         fclose(fp);
+    }
+    else
+    {
+        return false;
     }
 
     // Job Information
@@ -239,16 +240,16 @@ void pushDictionaries(Dictionary D, char filename[])
 
         fseek(fp, 0L, SEEK_END);
         count = ftell(fp) / sizeof(Schema_JobInformation);
-        if (count == D.count[2])
+        if (count != D.count[2])
         {
-            printf("Data saved successfully");
-        }
-        else
-        {
-            printf("There was an error saving the data.");
+            return false;
         }
 
         fclose(fp);
+    }
+    else
+    {
+        return false;
     }
 
     // Salary Information
@@ -265,16 +266,16 @@ void pushDictionaries(Dictionary D, char filename[])
 
         fseek(fp, 0L, SEEK_END);
         count = ftell(fp) / sizeof(Schema_IssueSalary);
-        if (count == D.count[3])
+        if (count != D.count[3])
         {
-            printf("Data saved successfully");
-        }
-        else
-        {
-            printf("There was an error saving the data.");
+            return false;
         }
 
         fclose(fp);
+    }
+    else
+    {
+        return false;
     }
 
     // User Information
@@ -291,17 +292,19 @@ void pushDictionaries(Dictionary D, char filename[])
 
         fseek(fp, 0L, SEEK_END);
         count = ftell(fp) / sizeof(Schema_User);
-        if (count == D.count[4])
+        if (count != D.count[4])
         {
-            printf("Data saved successfully");
-        }
-        else
-        {
-            printf("There was an error saving the data.");
+            return false;
         }
 
         fclose(fp);
     }
+    else
+    {
+        return false;
+    }
+
+    return true;
 }
 
 #endif
