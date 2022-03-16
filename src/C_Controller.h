@@ -32,7 +32,7 @@ bool setOvertime(int employeeID, Dictionary *D);
 void displayAllAttendance(Dictionary D);
 void debugAttendance(Dictionary D);
 
-/*----------------------------------- Bonus Function Headers -------------------------------------*/
+/*----------------------------------- Bonus Function Headers --------------------------------------*/
 
 Schema_Bonus createBonus(Dictionary D);
 bool insertBonus(Dictionary *D, Schema_Bonus data);
@@ -41,9 +41,9 @@ bool deleteBonus(Dictionary *D, ID bonusID);
 Schema_Bonus *searchBonus(Dictionary D, ID bonusID, char period[]);
 bool debugBonus(Dictionary D);
 bool displayAllBonus(Dictionary D);
-bool displayBonus(int bonusID, Dictionary *D);
+bool displayBonus(int bonusID, Dictionary *D, char period[]);
 
-/*---------------------------------- Issue Salary Function Headers -----------------------------*/
+/*-------------------------------- Issue Salary Function Headers ----------------------------------*/
 
 Schema_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[]);
 bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data);
@@ -52,11 +52,11 @@ bool deleteIssueSalary(Dictionary *D, ID issueID);
 Schema_IssueSalary *searchIssueSalary(Dictionary D, ID userID, char period[]);
 void debugSalary(Dictionary D);
 bool displayAllSalary(Dictionary D);
-bool displayIssueSalary(ID issueID, Dictionary *D);
+bool displayIssueSalary(ID issueID, Dictionary *D, char period[]);
 bool issueSalary(int empID, Dictionary *D);
 double calculateTax(double taxableIncome, double *pagibigDeposit);
 
-/*---------------------------------- Job Information Function Headers -------------------------------------*/
+/*-------------------------------- Job Information Function Headers -------------------------------*/
 
 Schema_JobInformation createJobInformation(Dictionary D, ID employeeID);
 bool insertJobInformation(Dictionary *D, Schema_JobInformation data);
@@ -67,7 +67,7 @@ bool debugJobInformation(Dictionary D);
 bool displayAllJobInformation(Dictionary D);
 bool displayJobInformation(ID employeeID, Dictionary *D);
 
-/*---------------------------------- User Function Headers ------------------------------------*/
+/*------------------------------------- User Function Headers -------------------------------------*/
 
 Schema_User createUserInformation(Dictionary D);
 bool insertUser(Dictionary *D, Schema_User data);
@@ -78,7 +78,7 @@ bool debugUser(Dictionary D);
 bool displayAllUser(Dictionary D);
 bool displayUserInformation(ID userID, Dictionary *D);
 
-/*-------------------------------- Start of Functions Definitions ----------------------------------*/
+/*--------------------------------- Start of Dictionary Controller --------------------------------*/
 
 void initDictionary(Dictionary *D)
 {
@@ -368,9 +368,9 @@ bool pushDictionaries(Dictionary D)
     return true;
 }
 
-/* End of Dictionary Controller */
+/*--------------------------------- End of Dictionary Controller ----------------------------------*/
 
-/* Start of Attendance Controller */
+/*-------------------------------- Start of Attendance Controller ---------------------------------*/
 
 Schema_Attendance *searchAttendance(Dictionary D, ID employeeID)
 {
@@ -668,9 +668,9 @@ void debugAttendance(Dictionary D)
     }
 }
 
-/* End of Attendance Controller */
+/*--------------------------------- End of Attendance Controller ----------------------------------*/
 
-/* Start of Bonus Controller */
+/*---------------------------------- Start of Bonus Controller ------------------------------------*/
 
 Schema_Bonus createBonus(Dictionary D)
 {
@@ -872,9 +872,9 @@ bool displayAllBonus(Dictionary D)
     }
 }
 
-bool displayBonus(int bonusID, Dictionary *D)
+bool displayBonus(int bonusID, Dictionary *D, char period[])
 {
-    Schema_Bonus *emp = searchUser(*D, bonusID);
+    Schema_Bonus *emp = searchBonus(*D, bonusID, period);
     if (emp)
     {
         printf("|  Bonus ID:       \t%d  |", emp->bonusID);
@@ -890,15 +890,16 @@ bool displayBonus(int bonusID, Dictionary *D)
     }
 }
 
-/* End of Bonus Controller */
+/*----------------------------------- End of Bonus Controller -------------------------------------*/
 
-/* Start of Issue Salary Controller */
+/*------------------------------- Start of Issue Salary Controller --------------------------------*/
 
 Schema_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[])
 {
     Schema_IssueSalary is;
 
-    is.issueID = getNewID("IssueSalary", D);
+    char dType[15] = "IssueSalary";
+    is.issueID = getNewID(dType, D);
     is.employeeID = employeeID;
     is.balance = balance;
     strcpy(is.period, period);
@@ -1067,9 +1068,9 @@ bool displayAllSalary(Dictionary D)
     }
 }
 
-bool displayIssueSalary(ID issueID, Dictionary *D)
+bool displayIssueSalary(ID issueID, Dictionary *D, char period[])
 {
-    Schema_IssueSalary *emp = searchUser(*D, issueID);
+    Schema_IssueSalary *emp = searchIssueSalary(*D, issueID, period);
     if (emp)
     {
         printf("|  Employee ID:      \t%d  |", emp->issueID);
@@ -1155,21 +1156,23 @@ bool issueSalary(int empID, Dictionary *D)
     {
         income = ((basicSalary + additions) - deductions);
 
+        printf("Basic Income: P%.2f\n", basicSalary);
         printf("Taxable Income: P%.2f\n", income);
+        printf("Additions: P%.2f\n", additions);
+        printf("Dedutions: P%.2f\n", deductions);
 
         tax = calculateTax(income, &pagibigDeposit);
         income -= tax;
 
         printf("Tax: P%.2f\n", tax);
-        printf("Issue Salary: P%.2f\n", income);
+        printf("Issue Salary: P%.2f\n\n", income);
         printf("Add Issue Salary to the employee's record for period %s?\n\n", period);
         printf("[1] Yes\n");
         printf("[2] No\n");
         scanf("%d", &temp);
 
-        switch (temp)
+        if (temp == 1)
         {
-        case 1:
             // Create new issue salary
             *is = createIssueSalary(*D, empID, income, period);
             insertIssueSalary(D, *is);
@@ -1177,16 +1180,15 @@ bool issueSalary(int empID, Dictionary *D)
             Schema_JobInformation *ji = searchJobInformation(*D, empID);
             ji->pagibigDeposit = pagibigDeposit;
             return true;
-            break;
-
-        case 2:
+        }
+        else if (temp == 2)
+        {
             return false;
-            break;
-
-        default:
+        }
+        else
+        {
             printf("Input not recognized!");
             return false;
-            break;
         }
     }
     else
@@ -1263,9 +1265,9 @@ double calculateTax(double taxableIncome, double *pagibigDeposit)
     return tax;
 }
 
-/* End of Issue Salary Controller*/
+/*------------------------------- End of Issue Salary Controller --------------------------------*/
 
-/* Start of Job Information Controller */
+/*------------------------------ Start of Job Information Controller ------------------------------*/
 
 Schema_JobInformation createJobInformation(Dictionary D, ID employeeID)
 {
