@@ -1,7 +1,7 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#define DICT_SIZE 100
+#define DICT_SIZE 10
 
 #include "H_Schema.h"
 

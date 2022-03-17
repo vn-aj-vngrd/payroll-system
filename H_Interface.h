@@ -18,6 +18,7 @@ void showMenu(Dictionary *D)
     while (In)
     {
         system("cls");
+        displayDictionariesCount(*D);
         printf("Payroll System\n\n");
         printf("[1] Create Employee\n");
         printf("[2] Create Monthly Attendance\n");
@@ -38,7 +39,7 @@ void showMenu(Dictionary *D)
         // Push to Dictionary -- Complete
         case 0:
         {
-            if (pushDictionaries(*D))
+            if (pushUserD(*D) && pushJobInformationD(*D) && pushAttendanceD(*D) && pushIssueSalaryD(*D) && pushBonusD(*D)) //pushUserD(*D) && 
             {
                 printf("\nYour changes have been successfully saved.");
             }

@@ -103,7 +103,7 @@ void initDictionary(Dictionary *D)
 
 ElemPos hash(ID id)
 {
-    return id % 100;
+    return id % 10;
 }
 
 int getNewID(char DictionaryType[], Dictionary D)
@@ -230,42 +230,82 @@ bool pullDictionaries(Dictionary *D)
     return true;
 }
 
-bool pushDictionaries(Dictionary D)
+bool pushUserD(Dictionary D)
 {
-    PSA ATrav;
-    PSB BTrav;
-    PSJI JITrav;
-    PSIS STrav;
     PSU UTrav;
     int i, count;
     FILE *fp;
 
-    // Attendance Information
-    fp = fopen("Employee_Attendance.bin", "wb");
+    // User Information
+    fp = fopen("Emp_Info.bin", "wb");
     if (fp)
     {
         for (i = 0; i < DICT_SIZE; i++)
         {
-            for (ATrav = D.AttendanceD[i]; ATrav != NULL; ATrav = ATrav->next)
+            for (UTrav = D.UserD[i]; UTrav != NULL; UTrav = UTrav->next)
             {
-                fwrite(&ATrav->data, sizeof(Schema_Attendance), 1, fp);
+                fwrite(&UTrav->data, sizeof(Schema_User), 1, fp);
             }
         }
 
-        fseek(fp, 0L, SEEK_END);
-        if (ftell(fp) == -1)
+        // fseek(fp, 0L, SEEK_END);
+        // if (ftell(fp) == -1)
+        // {
+        //     count = 0;
+        // }
+        // else
+        // {
+        //     count = ftell(fp) / sizeof(Schema_User);
+        // }
+
+        // if (count != D.count[4])
+        // {
+        //     return false;
+        // }
+
+        fclose(fp);
+    }
+    else
+    {
+        printf("\nFailed to create");
+        return false;
+    }
+
+    return true;
+}
+
+bool pushJobInformationD(Dictionary D)
+{
+    PSJI JITrav;
+    int i, count;
+    FILE *fp;
+
+    // Job Information
+    fp = fopen("Emp_JobInformation.bin", "wb");
+    if (fp)
+    {
+        for (i = 0; i < DICT_SIZE; i++)
         {
-            count = 0;
-        }
-        else
-        {
-            count = ftell(fp) / sizeof(Schema_Attendance);
+            for (JITrav = D.JobInformationD[i]; JITrav != NULL; JITrav = JITrav->next)
+            {
+                fwrite(&JITrav->data, sizeof(Schema_JobInformation), 1, fp);
+            }
         }
 
-        if (count != D.count[0])
-        {
-            return false;
-        }
+        // fseek(fp, 0L, SEEK_END);
+        // if (ftell(fp) == -1)
+        // {
+        //     count = 0;
+        // }
+        // else
+        // {
+        //     count = ftell(fp) / sizeof(Schema_JobInformation);
+        // }
+
+        // if (count != D.count[3])
+        // {
+        //     return false;
+        // }
 
         fclose(fp);
     }
@@ -274,40 +314,14 @@ bool pushDictionaries(Dictionary D)
         return false;
     }
 
-    // Bonus Information
-    fp = fopen("Employee_Bonus.bin", "wb");
-    if (fp)
-    {
-        for (i = 0; i < DICT_SIZE; i++)
-        {
-            for (BTrav = D.BonusD[i]; BTrav != NULL; BTrav = BTrav->next)
-            {
-                fwrite(&BTrav->data, sizeof(Schema_Bonus), 1, fp);
-            }
-        }
+    return true;
+}
 
-        fseek(fp, 0L, SEEK_END);
-        if (ftell(fp) == -1)
-        {
-            count = 0;
-        }
-        else
-        {
-            count = ftell(fp) / sizeof(Schema_Bonus);
-        }
-
-        if (count != D.count[1])
-        {
-
-            return false;
-        }
-
-        fclose(fp);
-    }
-    else
-    {
-        return false;
-    }
+bool pushIssueSalaryD(Dictionary D)
+{
+    PSIS STrav;
+    int i, count;
+    FILE *fp;
 
     // Issue Salary
     fp = fopen("Employee_IssueSalary.bin", "wb");
@@ -321,54 +335,20 @@ bool pushDictionaries(Dictionary D)
             }
         }
 
-        fseek(fp, 0L, SEEK_END);
-        if (ftell(fp) == -1)
-        {
-            count = 0;
-        }
-        else
-        {
-            count = ftell(fp) / sizeof(Schema_IssueSalary);
-        }
+        // fseek(fp, 0L, SEEK_END);
+        // if (ftell(fp) == -1)
+        // {
+        //     count = 0;
+        // }
+        // else
+        // {
+        //     count = ftell(fp) / sizeof(Schema_IssueSalary);
+        // }
 
-        if (count != D.count[2])
-        {
-            return false;
-        }
-
-        fclose(fp);
-    }
-    else
-    {
-        return false;
-    }
-
-    // Job Information
-    fp = fopen("Employee_JobInformation.bin", "wb");
-    if (fp)
-    {
-        for (i = 0; i < DICT_SIZE; i++)
-        {
-            for (JITrav = D.JobInformationD[i]; JITrav != NULL; JITrav = JITrav->next)
-            {
-                fwrite(&JITrav->data, sizeof(Schema_JobInformation), 1, fp);
-            }
-        }
-
-        fseek(fp, 0L, SEEK_END);
-        if (ftell(fp) == -1)
-        {
-            count = 0;
-        }
-        else
-        {
-            count = ftell(fp) / sizeof(Schema_JobInformation);
-        }
-
-        if (count != D.count[3])
-        {
-            return false;
-        }
+        // if (count != D.count[2])
+        // {
+        //     return false;
+        // }
 
         fclose(fp);
     }
@@ -377,32 +357,85 @@ bool pushDictionaries(Dictionary D)
         return false;
     }
 
-    // User Information
-    fp = fopen("Employee_Information.bin", "wb");
+    return true;
+}
+
+bool pushBonusD(Dictionary D)
+{
+    PSB BTrav;
+    int i, count;
+    FILE *fp;
+
+    // Bonus Information
+    fp = fopen("Employee_Bonus.bin", "wb");
     if (fp)
     {
         for (i = 0; i < DICT_SIZE; i++)
         {
-            for (UTrav = D.UserD[i]; UTrav != NULL; UTrav = UTrav->next)
+            for (BTrav = D.BonusD[i]; BTrav != NULL; BTrav = BTrav->next)
             {
-                fwrite(&UTrav->data, sizeof(Schema_User), 1, fp);
+                fwrite(&BTrav->data, sizeof(Schema_Bonus), 1, fp);
             }
         }
 
-        fseek(fp, 0L, SEEK_END);
-        if (ftell(fp) == -1)
+        // fseek(fp, 0L, SEEK_END);
+        // if (ftell(fp) == -1)
+        // {
+        //     count = 0;
+        // }
+        // else
+        // {
+        //     count = ftell(fp) / sizeof(Schema_Bonus);
+        // }
+
+        // if (count != D.count[1])
+        // {
+
+        //     return false;
+        // }
+
+        fclose(fp);
+    }
+    else
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool pushAttendanceD(Dictionary D)
+{
+    PSA ATrav;
+    int i, count;
+    FILE *fp;
+
+    // Attendance Information
+    fp = fopen("Emp_Attendance.bin", "wb");
+    if (fp)
+    {
+        for (i = 0; i < DICT_SIZE; i++)
         {
-            count = 0;
-        }
-        else
-        {
-            count = ftell(fp) / sizeof(Schema_User);
+            for (ATrav = D.AttendanceD[i]; ATrav != NULL; ATrav = ATrav->next)
+            {
+                fwrite(&ATrav->data, sizeof(Schema_Attendance), 1, fp);
+            }
         }
 
-        if (count != D.count[4])
-        {
-            return false;
-        }
+        // fseek(fp, 0L, SEEK_END);
+        // if (ftell(fp) == -1)
+        // {
+        //     count = 0;
+        // }
+        // else
+        // {
+        //     count = ftell(fp) / sizeof(Schema_Attendance);
+        // }
+
+        // if (count != D.count[0])
+        // {
+        //     return false;
+        // }
 
         fclose(fp);
     }
@@ -1028,7 +1061,6 @@ bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
             (*trav)->data = data;
             (*trav)->next = NULL;
             D->count[2]++;
-            printf("%d", D->count[2]);
         }
         return true;
     }
@@ -1424,7 +1456,7 @@ bool insertJobInformation(Dictionary *D, Schema_JobInformation data)
     PSJI *trav;
     int hashVal = hash(data.employmentID);
 
-    for (trav = &D->JobInformationD[hashVal]; *trav != NULL; trav = &(*trav)->next)
+    for (trav = &(D->JobInformationD[hashVal]); *trav != NULL; trav = &(*trav)->next)
     {
     }
 
@@ -1433,9 +1465,9 @@ bool insertJobInformation(Dictionary *D, Schema_JobInformation data)
         *trav = (PSJI)malloc(sizeof(Schema_JobInformation));
         if (*trav != NULL)
         {
+
             (*trav)->data = data;
             (*trav)->next = NULL;
-
             D->count[3]++;
         }
         return true;

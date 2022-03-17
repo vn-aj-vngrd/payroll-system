@@ -8,14 +8,14 @@ int main()
     Dictionary D;
     initDictionary(&D);
 
-    // if (pullDictionaries(&D))
-    // {
-    //     printf("Dictionaries pulled successfully\n");
-    // }
-    // else
-    // {
-    //     printf("Dictionaries failed to pull\n");
-    // }
+    if (pullDictionaries(&D))
+    {
+        printf("Dictionaries pulled successfully\n");
+    }
+    else
+    {
+        printf("Dictionaries failed to pull\n");
+    }
 
     Schema_User defaultUser = {
         1,
@@ -67,14 +67,10 @@ int main()
     insertAttendance(&D, defaultAttendance);
     insertUser(&D, defaultUser);
     insertBonus(&D, defaultBonus);
-    // insertJobInformation(&D, defaultJobInformation);
+    insertJobInformation(&D, defaultJobInformation);
     insertIssueSalary(&D, defaultIssueSalary);
 
-    displayDictionariesCount(D);
-
-    // showMenu(&D);
-
-    // debugSalary(D);
+    showMenu(&D);
 
     return 0;
 }
