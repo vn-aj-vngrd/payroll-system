@@ -5,10 +5,10 @@
 
 #define MD_MAX 200      // medium MAX
 #define SM_MAX 50       // small MAX
-#define DATE 8          // mm/dd/yy
+#define DATE 10         // mm/dd/yy
 #define MONTH 5         // mm/yy
-#define MOBILE_PHONE 11 // ## ### ### ####
-#define HOME_PHONE 7    // ### ####
+#define MOBILE_PHONE 20 // ## ### ### ####
+#define HOME_PHONE 20   // ### ####
 
 // MALE, FEMALE
 typedef enum
