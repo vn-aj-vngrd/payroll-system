@@ -41,11 +41,11 @@ int main()
         0};
 
     debugUser(D);
-     insertUser(&D, defaultUser);
-    // insertJobInformation(&D, defaultJobInformation);
-    // debugUser(D);
+	insertUser(&D, defaultUser);
+    insertJobInformation(&D, defaultJobInformation);
+    debugUser(D);
 
-    // showMenu(&D);
+    showMenu(&D);
 
     return 0;
 }

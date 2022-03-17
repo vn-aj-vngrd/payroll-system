@@ -1630,6 +1630,7 @@ bool insertUser(Dictionary *D, Schema_User data)
 
     for (trav = &D->UserD[hashVal]; *trav != NULL && strcmp(data.emailAddress, (*trav)->data.emailAddress) != 0; trav = &(*trav)->next)
     {
+    	
     }
 
     if (*trav == NULL)
@@ -1641,7 +1642,6 @@ bool insertUser(Dictionary *D, Schema_User data)
             (*trav)->next = NULL;
         }
         D->count[4]++;
-        
         return true;
     }
     else
