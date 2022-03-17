@@ -14,7 +14,6 @@ int getNewID(char DictionaryType[], Dictionary D);
 bool pullDictionaries(Dictionary *D);
 bool pushDictionaries(Dictionary D);
 void displayDictionariesCount(Dictionary D);
-void insertDefault(Dictionary *D);
 
 /*---------------------------------- Attendance Function Headers ----------------------------------*/
 
@@ -76,6 +75,10 @@ Schema_User *searchUser(Dictionary D, ID userID);
 void debugUser(Dictionary D);
 bool displayAllUser(Dictionary D);
 bool displayUserInformation(ID userID, Dictionary *D);
+
+/*--------------------------------- Default --------------------------------*/
+
+void insertDefault(Dictionary *D);
 
 /*--------------------------------- Start of Dictionary Controller --------------------------------*/
 
@@ -413,7 +416,7 @@ bool pushDictionaries(Dictionary D)
 
 void displayDictionariesCount(Dictionary D)
 {
-    printf("Attendance: %d\n", D.count[0]);
+    printf("\nAttendance: %d\n", D.count[0]);
     printf("Bonus: %d\n", D.count[1]);
     printf("Issue Salary: %d\n", D.count[2]);
     printf("Job Information: %d\n", D.count[3]);
@@ -461,7 +464,7 @@ void insertDefault(Dictionary *D)
         1,
         "adminbonus",
         100,
-        "mm/yy"};
+        "03/02"};
 
     Schema_IssueSalary defaultIssueSalary = {
         1,
@@ -469,13 +472,11 @@ void insertDefault(Dictionary *D)
         100,
         "03/22"};
 
-    displayDictionariesCount(*D);
-
-    debugUser(*D);
-    debugJobInformation(*D);
-    debugAttendance(*D);
-    debugBonus(*D);
-    debugSalary(*D);
+    insertUser(D, defaultUser);
+    insertJobInformation(D, defaultJobInformation);
+    insertAttendance(D, defaultAttendance);
+    insertBonus(D, defaultBonus);
+    insertIssueSalary(D, defaultIssueSalary);
 }
 
 /*--------------------------------- End of Dictionary Controller ----------------------------------*/
@@ -536,7 +537,7 @@ Schema_Attendance createAttendance(Dictionary D)
             sa.overtime = 0;
             printf("Enter current month [MM/YY]: ");
             scanf("%s", sa.period);
-        }  
+        }
     }
     return sa;
 }
@@ -557,8 +558,8 @@ bool insertAttendance(Dictionary *D, Schema_Attendance data)
         {
             (*trav)->data = data;
             (*trav)->next = NULL;
+            D->count[0]++;
         }
-        D->count[0]++;
         return true;
     }
     else
@@ -816,7 +817,7 @@ bool insertBonus(Dictionary *D, Schema_Bonus data)
     PSB *trav;
     int hashVal = hash(data.bonusID);
 
-    for (trav = &(D->BonusD[hashVal]); *trav != NULL && strcmp(data.bonusName, (*trav)->data.bonusName) != 0; trav = &(*trav)->next)
+    for (trav = &(D->BonusD[hashVal]); *trav != NULL; trav = &(*trav)->next) // strcmp(data.bonusName, (*trav)->data.bonusName) != 0
     {
     }
 
@@ -827,8 +828,9 @@ bool insertBonus(Dictionary *D, Schema_Bonus data)
         {
             (*trav)->data = data;
             (*trav)->next = NULL;
+
+            D->count[1]++;
         }
-        D->count[1]++;
         return true;
     }
     else
@@ -1022,10 +1024,12 @@ bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
         *trav = (PSIS)malloc(sizeof(Schema_IssueSalary));
         if (*trav != NULL)
         {
+
             (*trav)->data = data;
             (*trav)->next = NULL;
+            D->count[2]++;
+            printf("%d", D->count[2]);
         }
-        D->count[2]++;
         return true;
     }
     else
@@ -1431,8 +1435,9 @@ bool insertJobInformation(Dictionary *D, Schema_JobInformation data)
         {
             (*trav)->data = data;
             (*trav)->next = NULL;
+
+            D->count[3]++;
         }
-        D->count[3]++;
         return true;
     }
     else
@@ -1673,7 +1678,7 @@ bool insertUser(Dictionary *D, Schema_User data)
     PSU *trav;
     int hashVal = hash(data.userID);
 
-    for (trav = &D->UserD[hashVal]; *trav != NULL && strcmp(data.emailAddress, (*trav)->data.emailAddress) != 0; trav = &(*trav)->next)
+    for (trav = &D->UserD[hashVal]; *trav != NULL; trav = &(*trav)->next) // && strcmp(data.emailAddress, (*trav)->data.emailAddress) != 0
     {
     }
 
@@ -1684,8 +1689,9 @@ bool insertUser(Dictionary *D, Schema_User data)
         {
             (*trav)->data = data;
             (*trav)->next = NULL;
+
+            D->count[4]++;
         }
-        D->count[4]++;
         return true;
     }
     else
