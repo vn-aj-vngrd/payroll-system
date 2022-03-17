@@ -5,6 +5,7 @@
 #include "H_Schema.h"
 #include "C_Controller.c"
 #include <conio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 void showMenu(Dictionary *D)
@@ -13,7 +14,7 @@ void showMenu(Dictionary *D)
     int empID;
     bool In = true, In2 = true, In3 = true, In4 = true, In5 = true, In6 = true;
     Schema_JobInformation *jiPtr;
-
+    
     while (In)
     {
         system("cls");

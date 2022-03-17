@@ -3,10 +3,10 @@
 
 #define MD_MAX 200      // medium MAX
 #define SM_MAX 50       // small MAX
-#define DATE 10         // mm/dd/yy
-#define MONTH 5         // mm/yy
-#define MOBILE_PHONE 20 // ## ### ### ####
-#define HOME_PHONE 20   // ### ####
+#define DATE 11         // mm/dd/yy
+#define MONTH 6         // mm/yy
+#define MOBILE_PHONE 21 // ## ### ### ####
+#define HOME_PHONE 21   // ### ####
 
 // MALE, FEMALE
 typedef enum
@@ -54,7 +54,7 @@ typedef struct
     int issueID;
     int employeeID;
     double balance;
-    char period[SM_MAX];
+    char period[MONTH];
 } Schema_IssueSalary;
 
 typedef struct

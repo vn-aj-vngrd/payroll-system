@@ -13,6 +13,8 @@ ElemPos hash(ID id);
 int getNewID(char DictionaryType[], Dictionary D);
 bool pullDictionaries(Dictionary *D);
 bool pushDictionaries(Dictionary D);
+void displayDictionariesCount(Dictionary D);
+void insertDefault(Dictionary *D);
 
 /*---------------------------------- Attendance Function Headers ----------------------------------*/
 
@@ -36,7 +38,7 @@ bool insertBonus(Dictionary *D, Schema_Bonus data);
 bool updateBonus(Dictionary *D, Schema_Bonus data, Schema_Bonus *pointer);
 bool deleteBonus(Dictionary *D, ID bonusID);
 Schema_Bonus *searchBonus(Dictionary D, ID bonusID, char period[]);
-bool debugBonus(Dictionary D);
+void debugBonus(Dictionary D);
 bool displayAllBonus(Dictionary D);
 bool displayBonus(int bonusID, Dictionary *D, char period[]);
 
@@ -60,7 +62,7 @@ bool insertJobInformation(Dictionary *D, Schema_JobInformation data);
 bool updateJobInformation(Dictionary *D, Schema_JobInformation data, Schema_JobInformation *pointer);
 bool deleteJobInformation(Dictionary *D, ID employmentID);
 Schema_JobInformation *searchJobInformation(Dictionary D, ID employmentID);
-bool debugJobInformation(Dictionary D);
+void debugJobInformation(Dictionary D);
 bool displayAllJobInformation(Dictionary D);
 bool displayJobInformation(ID employeeID, Dictionary *D);
 
@@ -71,7 +73,7 @@ bool insertUser(Dictionary *D, Schema_User data);
 bool updateUser(Dictionary *D, Schema_User data, Schema_User *pointer);
 bool deleteUser(Dictionary *D, ID userID);
 Schema_User *searchUser(Dictionary D, ID userID);
-bool debugUser(Dictionary D);
+void debugUser(Dictionary D);
 bool displayAllUser(Dictionary D);
 bool displayUserInformation(ID userID, Dictionary *D);
 
@@ -89,10 +91,11 @@ void initDictionary(Dictionary *D)
         D->BonusD[i] = NULL;
     }
 
-    for (i = 0; i < 5; i++)
-    {
-        D->count[i] = 0;
-    }
+    D->count[0] = 0;
+    D->count[1] = 0;
+    D->count[2] = 0;
+    D->count[3] = 0;
+    D->count[4] = 0;
 }
 
 ElemPos hash(ID id)
@@ -408,6 +411,73 @@ bool pushDictionaries(Dictionary D)
     return true;
 }
 
+void displayDictionariesCount(Dictionary D)
+{
+    printf("Attendance: %d\n", D.count[0]);
+    printf("Bonus: %d\n", D.count[1]);
+    printf("Issue Salary: %d\n", D.count[2]);
+    printf("Job Information: %d\n", D.count[3]);
+    printf("User: %d\n", D.count[4]);
+}
+
+void insertDefault(Dictionary *D)
+{
+    Schema_User defaultUser = {
+        1,
+        "adminfn",
+        "adminln",
+        MALE,
+        "1/1/1",
+        YES,
+        "1234",
+        "1234",
+        "admin@gmail.com",
+        "adminaddress",
+        EMPLOYEE};
+
+    Schema_JobInformation defaultJobInformation = {
+        1,
+        1,
+        "admin",
+        "adminlocation",
+        "1234",
+        "1/1/2001",
+        "admindepartment",
+        "admin@gmail.com",
+        1000,
+        0};
+
+    Schema_Attendance defaultAttendance = {
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        "03/22"};
+
+    Schema_Bonus defaultBonus = {
+        1,
+        1,
+        "adminbonus",
+        100,
+        "mm/yy"};
+
+    Schema_IssueSalary defaultIssueSalary = {
+        1,
+        1,
+        100,
+        "03/22"};
+
+    displayDictionariesCount(*D);
+
+    debugUser(*D);
+    debugJobInformation(*D);
+    debugAttendance(*D);
+    debugBonus(*D);
+    debugSalary(*D);
+}
+
 /*--------------------------------- End of Dictionary Controller ----------------------------------*/
 
 /*-------------------------------- Start of Attendance Controller ---------------------------------*/
@@ -437,8 +507,9 @@ Schema_Attendance createAttendance(Dictionary D)
 {
     Schema_Attendance sa;
     int empID;
+    char period[20];
 
-    printf("Create Employee Attendance");
+    printf("Create Employee Attendance\n");
 
     char dType[15] = "Attendance";
     sa.attendanceID = getNewID(dType, D);
@@ -446,24 +517,28 @@ Schema_Attendance createAttendance(Dictionary D)
     printf("Enter Employee ID: ");
     scanf("%d", &empID);
 
+    printf("Enter period (mm/yy): ");
+    scanf("%s", &period);
+
     Schema_Attendance *temp = searchAttendance(D, empID);
     if (temp)
     {
-        printf("\nEmployee already exists");
-        return sa;
+        if (strcmp(temp->period, period))
+        {
+            printf("\nEmployee attendance for this month already exists.");
+        }
+        else
+        {
+            sa.employeeID = empID;
+            sa.present = 0;
+            sa.absent = 0;
+            sa.leave = 0;
+            sa.overtime = 0;
+            printf("Enter current month [MM/YY]: ");
+            scanf("%s", sa.period);
+        }  
     }
-    else
-    {
-        sa.employeeID = empID;
-        sa.present = 0;
-        sa.absent = 0;
-        sa.leave = 0;
-        sa.overtime = 0;
-        printf("Enter current month [MM/YY]: ");
-        scanf("%s", sa.period);
-
-        return sa;
-    }
+    return sa;
 }
 
 bool insertAttendance(Dictionary *D, Schema_Attendance data)
@@ -475,15 +550,15 @@ bool insertAttendance(Dictionary *D, Schema_Attendance data)
     {
     }
 
-    if (trav == NULL)
+    if (*trav == NULL)
     {
-        trav = (PSA *)malloc(sizeof(Schema_Attendance));
+        *trav = (PSA)malloc(sizeof(Schema_Attendance));
         if (*trav != NULL)
         {
             (*trav)->data = data;
             (*trav)->next = NULL;
         }
-        D->count[3]++;
+        D->count[0]++;
         return true;
     }
     else
@@ -525,7 +600,7 @@ bool deleteAttendance(Dictionary *D, int ID)
         temp = *trav;
         *trav = (*trav)->next;
         free(temp);
-        D->count[3]++;
+        D->count[0]--;
         printf("Attendance Deleted Successfully\n");
         return true;
     }
@@ -702,11 +777,6 @@ void debugAttendance(Dictionary D)
         }
         printf("\n", i);
     }
-
-    if (trav == NULL && i == DICT_SIZE - 1)
-    {
-        printf("End of Dictionary\n");
-    }
 }
 
 /*--------------------------------- End of Attendance Controller ----------------------------------*/
@@ -746,19 +816,19 @@ bool insertBonus(Dictionary *D, Schema_Bonus data)
     PSB *trav;
     int hashVal = hash(data.bonusID);
 
-    for (trav = &(D->BonusD[hashVal]); strcmp(data.bonusName, (*trav)->data.bonusName) != 0 && *trav != NULL; trav = &(*trav)->next)
+    for (trav = &(D->BonusD[hashVal]); *trav != NULL && strcmp(data.bonusName, (*trav)->data.bonusName) != 0; trav = &(*trav)->next)
     {
     }
 
-    if (trav == NULL)
+    if (*trav == NULL)
     {
-        trav = (PSB *)malloc(sizeof(Schema_Bonus));
+        *trav = (PSB)malloc(sizeof(Schema_Bonus));
         if (*trav != NULL)
         {
             (*trav)->data = data;
             (*trav)->next = NULL;
         }
-        D->count[3]++;
+        D->count[1]++;
         return true;
     }
     else
@@ -798,7 +868,7 @@ bool deleteBonus(Dictionary *D, ID bonusID)
         temp = *trav;
         *trav = (*trav)->next;
         free(temp);
-        D->count[3]++;
+        D->count[1]--;
         return true;
     }
 }
@@ -825,7 +895,7 @@ Schema_Bonus *searchBonus(Dictionary D, ID bonusID, char period[])
     }
 }
 
-bool debugBonus(Dictionary D)
+void debugBonus(Dictionary D)
 {
     PSB trav;
     int i;
@@ -840,16 +910,6 @@ bool debugBonus(Dictionary D)
             printf("%d -> ", trav->data.bonusID);
         }
         printf("\n", i);
-    }
-
-    if (trav == NULL && i == DICT_SIZE - 1)
-    {
-        printf("End of Dictionary\n");
-        return true;
-    }
-    else
-    {
-        return false;
     }
 }
 
@@ -957,15 +1017,15 @@ bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
     {
     }
 
-    if (trav == NULL)
+    if (*trav == NULL)
     {
-        trav = (PSIS *)malloc(sizeof(Schema_IssueSalary));
+        *trav = (PSIS)malloc(sizeof(Schema_IssueSalary));
         if (*trav != NULL)
         {
             (*trav)->data = data;
             (*trav)->next = NULL;
         }
-        D->count[3]++;
+        D->count[2]++;
         return true;
     }
     else
@@ -1005,7 +1065,7 @@ bool deleteIssueSalary(Dictionary *D, ID issueID)
         temp = *trav;
         *trav = (*trav)->next;
         free(temp);
-        D->count[3]++;
+        D->count[2]--;
         return true;
     }
 }
@@ -1046,11 +1106,6 @@ void debugSalary(Dictionary D)
             printf("%d -> ", trav->data.issueID);
         }
         printf("\n", i);
-    }
-
-    if (trav == NULL && i == DICT_SIZE - 1)
-    {
-        printf("End of Dictionary\n");
     }
 }
 
@@ -1443,7 +1498,7 @@ Schema_JobInformation *searchJobInformation(Dictionary D, ID employmentID)
     }
 }
 
-bool debugJobInformation(Dictionary D)
+void debugJobInformation(Dictionary D)
 {
     PSJI trav;
     int i;
@@ -1458,16 +1513,6 @@ bool debugJobInformation(Dictionary D)
             printf("%d -> ", trav->data.employmentID);
         }
         printf("\n", i);
-    }
-
-    if (trav == NULL && i == DICT_SIZE - 1)
-    {
-        printf("End of Dictionary\n");
-        return true;
-    }
-    else
-    {
-        return false;
     }
 }
 
@@ -1630,7 +1675,6 @@ bool insertUser(Dictionary *D, Schema_User data)
 
     for (trav = &D->UserD[hashVal]; *trav != NULL && strcmp(data.emailAddress, (*trav)->data.emailAddress) != 0; trav = &(*trav)->next)
     {
-    	
     }
 
     if (*trav == NULL)
@@ -1681,7 +1725,7 @@ bool deleteUser(Dictionary *D, ID userID)
         temp = *trav;
         *trav = (*trav)->next;
         free(temp);
-        D->count[4]++;
+        D->count[4]--;
         return true;
     }
 }
@@ -1707,7 +1751,7 @@ Schema_User *searchUser(Dictionary D, ID userID)
     }
 }
 
-bool debugUser(Dictionary D)
+void debugUser(Dictionary D)
 {
     PSU trav;
     int i;
@@ -1729,17 +1773,6 @@ bool debugUser(Dictionary D)
             }
         }
         printf("\n", i);
-    }
-
-    if (trav == NULL && i == DICT_SIZE - 1)
-    {
-        printf("End of Dictionary\n");
-        return true;
-    }
-    else
-    {
-        printf("Not Empty\n");
-        return false;
     }
 }
 
