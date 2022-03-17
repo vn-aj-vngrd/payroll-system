@@ -41,7 +41,7 @@ int main()
         0};
 
     debugUser(D);
-    // insertUser(&D, defaultUser);
+     insertUser(&D, defaultUser);
     // insertJobInformation(&D, defaultJobInformation);
     // debugUser(D);
 
