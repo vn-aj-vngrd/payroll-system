@@ -1,8 +1,6 @@
 #ifndef SCHEMA_H
 #define SCHEMA_H
 
-#include <stdbool.h>
-
 #define MD_MAX 200      // medium MAX
 #define SM_MAX 50       // small MAX
 #define DATE 10         // mm/dd/yy
@@ -23,6 +21,13 @@ typedef enum
     EMPLOYEE,
     EMPLOYER
 } UserType;
+
+// NO, YES
+typedef enum
+{
+    NO,
+    YES
+} Response;
 
 typedef struct
 {
@@ -73,7 +78,7 @@ typedef struct
     char lastName[SM_MAX];
     Gender gender;
     char dateOfBirth[DATE];
-    bool filipinoCitizen;
+    Response filipinoCitizen;
     char homePhone[HOME_PHONE];
     char mobilePhone[MOBILE_PHONE];
     char emailAddress[MD_MAX];

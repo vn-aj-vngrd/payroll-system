@@ -1,6 +1,3 @@
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -402,7 +399,6 @@ bool pushDictionaries(Dictionary D)
         }
 
         fclose(fp);
-        printf("fclose");
     }
     else
     {
@@ -1604,7 +1600,7 @@ Schema_User createUserInformation(Dictionary D)
     scanf("%s", &emp.dateOfBirth);
     fflush(stdin);
 
-    printf("\tFilipino Citizen (true/false): ");
+    printf("\tFilipino Citizen (YES/NO): ");
     scanf("%s", &emp.filipinoCitizen);
     fflush(stdin);
 
@@ -1645,6 +1641,7 @@ bool insertUser(Dictionary *D, Schema_User data)
             (*trav)->next = NULL;
         }
         D->count[4]++;
+        
         return true;
     }
     else
@@ -1862,5 +1859,3 @@ bool displayUserInformation(ID userID, Dictionary *D)
 /*----------------------------------- End of User Controller --------------------------------------*/
 
 /*------------------------------------- End of Functions ------------------------------------------*/
-
-#endif

@@ -6,15 +6,14 @@ int main()
 {
     Dictionary D;
     initDictionary(&D);
-    bool b = pullDictionaries(&D);
-    if (b)
-    {
-        printf("Dictionaries pulled successfully\n");
-    }
-    else
-    {
-        printf("Dictionaries failed to pull\n");
-    }
+    // if (pullDictionaries(&D))
+    // {
+    //     printf("Dictionaries pulled successfully\n");
+    // }
+    // else
+    // {
+    //     printf("Dictionaries failed to pull\n");
+    // }
 
     Schema_User defaultUser = {
         1,
@@ -22,12 +21,13 @@ int main()
         "adminln",
         MALE,
         "1/1/1",
-        true,
+        YES,
         "1234",
         "1234",
         "admin@gmail.com",
         "adminaddress",
         EMPLOYEE};
+
     Schema_JobInformation defaultJobInformation = {
         1,
         1,
@@ -39,10 +39,13 @@ int main()
         "admin@gmail.com",
         1000,
         0};
-    insertUser(&D, defaultUser);
-    insertJobInformation(&D, defaultJobInformation);
 
-    showMenu(&D);
+    debugUser(D);
+    // insertUser(&D, defaultUser);
+    // insertJobInformation(&D, defaultJobInformation);
+    // debugUser(D);
+
+    // showMenu(&D);
 
     return 0;
 }

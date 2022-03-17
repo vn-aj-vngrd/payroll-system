@@ -1,26 +1,7 @@
 {
     "files.associations": {
-        "stdio.h": "c",
-        "schema.h": "c",
-        "stdbool.h": "c",
-        "database.h": "c",
-        "tasks.h": "c",
-        "stdlib.h": "c",
-        "conio.h": "c",
-        "libraries.h": "c",
-        "interface.h": "c",
-        "h_libraries.h": "c",
-        "h_schema.h": "c",
-        "h_model.h": "c",
-        "c_dictionarycontroller.h": "c",
-        "c_bonuscontroller.h": "c",
-        "c_usercontroller.h": "c",
-        "c_salarycontroller.h": "c",
-        "c_issuesalarycontroller.h": "c",
-        "c_attendancecontroller.h": "c",
-        "c_jobinformationcontroller.h": "c",
         "h_interface.h": "c",
         "h_dictionary.h": "c",
-        "string.h": "c"
+        "h_schema.h": "c"
     }
 }

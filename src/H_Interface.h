@@ -3,7 +3,7 @@
 
 #include "H_Dictionary.h"
 #include "H_Schema.h"
-#include "C_Controller.h"
+#include "C_Controller.c"
 #include <conio.h>
 #include <stdbool.h>
 
