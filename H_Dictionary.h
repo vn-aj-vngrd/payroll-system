@@ -13,35 +13,36 @@ typedef int ElemPos;
 //      PSU = Pointer Schema User
 //      PSA = Pointer Schema Attendance
 //      etc
+
 typedef struct node1
 {
-    Schema_User data;
+    Schema_Attendance data;
     struct node1 *next;
-} NodeUser, *PSU;
+} NodeAttendance, *PSA;
 
 typedef struct node2
 {
-    Schema_JobInformation data;
+    Schema_Bonus data;
     struct node2 *next;
-} NodeJobInformation, *PSJI;
+} NodeBonus, *PSB;
 
 typedef struct node3
 {
-    Schema_Attendance data;
+    Schema_IssueSalary data;
     struct node3 *next;
-} NodeAttendance, *PSA;
+} NodeIssueSalary, *PSIS;
 
 typedef struct node4
 {
-    Schema_IssueSalary data;
+    Schema_JobInformation data;
     struct node4 *next;
-} NodeIssueSalary, *PSIS;
+} NodeJobInformation, *PSJI;
 
 typedef struct node5
 {
-    Schema_Bonus data;
+    Schema_User data;
     struct node5 *next;
-} NodeBonus, *PSB;
+} NodeUser, *PSU;
 
 // Dictionary
 typedef struct

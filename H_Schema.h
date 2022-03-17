@@ -1,13 +1,13 @@
 #ifndef SCHEMA_H
 #define SCHEMA_H
 
-#define MD_MAX 200      // medium MAX
-#define SM_MAX 50       // small MAX
-#define DATE 11         // mm/dd/yy
-#define MONTH 6         // mm/yy
-#define MOBILE_PHONE 21 // ## ### ### ####
-#define HOME_PHONE 21   // ### ####
-
+#define MD_MAX 30       	// medium MAX
+#define SM_MAX 30       	// small MAX 50
+#define DATE 30         	// mm/dd/yy 11
+#define MONTH 30        	// mm/yy 6
+#define MOBILE_PHONE 20 	// ## ### ### #### 21
+#define HOME_PHONE 20  		// ### #### 21
+	
 // MALE, FEMALE
 typedef enum
 {

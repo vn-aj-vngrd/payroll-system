@@ -1,17 +1,112 @@
-===========================
+****************************************************
 TODO
 Fix all ViewAll UI
+CASE 8 View/Update Bonus
 
+****************************************************
+CASE [1] (Create employee)*                             >> COMPLETED
 
-===========================
-COMPLETED
-Case:
-0
-1
+    [1] Create employee
+        Create initial attendance
 
+CASE [2] (Create monthly attendance )*             
 
-TEST CASE
-===========================
-5>2>2       UI
-2           UI
+    [1] Existing attendance wont return                 >> PENDING
+        false bool value
+
+    [2] Error when existing period input                >> C ERROR
+
+CASE [3] (Create monthly bonus)                         >> COMPLETED
+
+    [1] Create Bonus
+
+CASE [4] (Create issue salary)                        
+    [1] Add indention                                   >> PENDING
+
+    [2] Error on the ff. input                          >> PENDING
+        existing employee input and Non
+        existing period
+
+CASE [5] (View update/delete employee attendance)*
+
+    [1] View employee attendance
+        (displays garbage values)                       >> TO CHECK
+
+    [2] View all employee attendance                    >> PENDING
+        (Loop stops half way)            
+
+    [3] Set employee attendance                         >> COMPLETED
+
+    [4] Set employee leave                              >> COMPLETED
+
+    [5] Set employee absent                             >> COMPLETED
+
+    [6] Set employee overtime hours                     >> COMPLETED
+
+CASE [6] (View/Update/Delete Employee Profile)*
+
+    [1] View                                            >> TO CHECK
+        Gender displays 'null'
+
+    [2] Update                                          >> TO CHECK
+
+        [1] First Name                                  >> TO CHECK
+            Fix cannot input
+
+        [2] Last Name                                   >> TO CHECK
+            Fix cannot input
+
+        [3] Gender                                      >> TO CHECK
+            Fix cannot input
+
+        [4] Date of Birth                               >> TO CHECK
+            Fix cannot input
+
+        [5] Filipino Citizenship                        >> TO CHECK
+            Fix cannot input
+
+        [6] Home Phone                                  >> TO CHECK
+            Fix cannot input
+
+        [7] Mobile Phone                                >> TO CHECK
+            Fix cannot input
+
+        [8] Email                                       >> TO CHECK
+            Fix cannot input
+
+        [9] Address                                     >> TO CHECK
+            Fix cannot input
+
+        [10] Update All                                 >> TO CHECK
+            Fix cannot input
+
+    [3] Delete                                          >> COMPLETED
+
+CASE [7] View/Update/Delete Employee Job Information
+
+    [1] View 
+        Fix output format                               >> PENDING
+
+    [2] Update 
+        Fix all cannot input                            >> PENDING
+
+    [3] Delete                                          >> COMPLETED
+        
+CASE [8] View/Update/Delete Bonus           
+
+    [1] View 
+        Complete this shit                              >> PENDING
+
+    [2] Update 
+        Complete this shit                              >> PENDING
+
+    [3] Delete 
+        Complete this shit
+
+CASE [FILE] Save and Exit
+
+    [1] Pull                                            >> PENDING
+
+    [2] Push                                            >> PENDING
+
 

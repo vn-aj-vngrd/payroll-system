@@ -5,18 +5,19 @@
 int main()
 {
     bool truthval;
-    Dictionary D;
-    initDictionary(&D);
+    Dictionary D = {};
+    // initDictionary(&D);
 
-    if (pullDictionaries(&D))
-    {
-        printf("Dictionaries pulled successfully\n");
-    }
-    else
-    {
-        printf("Dictionaries failed to pull\n");
-    }
+    // if (pullDictionaries(&D))
+    // {
+    //     printf("Dictionaries pulled successfully\n");
+    // }
+    // else
+    // {2
+    //     printf("Dictionaries failed to pull\n");
+    // }
 
+    // Insert default schemas
     Schema_User defaultUser = {
         1,
         "adminfn",
@@ -44,7 +45,8 @@ int main()
         0,
         0,
         0,
-        "03/22"};
+        "1/1",
+    };
 
     Schema_IssueSalary defaultIssueSalary = {
         1,
@@ -64,11 +66,18 @@ int main()
         1000,
         0};
 
-    insertAttendance(&D, defaultAttendance);
+    // insertAttendance(&D, defaultAttendance);
     insertUser(&D, defaultUser);
     insertBonus(&D, defaultBonus);
     insertJobInformation(&D, defaultJobInformation);
     insertIssueSalary(&D, defaultIssueSalary);
+    // End of insert default
+
+    // debugAttendance(D);
+    // debugSalary(D);
+    // debugUser(D);
+    // debugJobInformation(D);
+    // debugBonus(D);
 
     showMenu(&D);
 

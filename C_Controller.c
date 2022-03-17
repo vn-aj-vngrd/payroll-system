@@ -527,8 +527,6 @@ Schema_Attendance *searchAttendance(Dictionary D, ID employeeID)
 
     if (trav != NULL)
     {
-        // Schema_Attendance *data = (Schema_Attendance *)malloc(sizeof(Schema_Attendance));
-        // *data = trav->data;
         return &trav->data;
     }
     else
@@ -545,42 +543,37 @@ Schema_Attendance createAttendance(Dictionary D)
 
     printf("Create Employee Attendance\n");
 
-    char dType[15] = "Attendance";
-    sa.attendanceID = getNewID(dType, D);
-
     printf("Enter Employee ID: ");
     scanf("%d", &empID);
 
     printf("Enter period (mm/yy): ");
     scanf("%s", &period);
 
-    Schema_Attendance *temp = searchAttendance(D, empID);
-    if (temp)
+    if (searchUser(D, empID))
     {
-        if (strcmp(temp->period, period))
-        {
-            printf("\nEmployee attendance for this month already exists.");
-        }
-        else
-        {
-            sa.employeeID = empID;
-            sa.present = 0;
-            sa.absent = 0;
-            sa.leave = 0;
-            sa.overtime = 0;
-            printf("Enter current month [MM/YY]: ");
-            scanf("%s", sa.period);
-        }
+        char dType[20] = "Attendance";
+        sa.attendanceID = getNewID(dType, D);
+        sa.employeeID = empID;
+        strcpy(sa.period, period);
+        sa.present = 0;
+        sa.absent = 0;
+        sa.leave = 0;
+        sa.overtime = 0;
     }
+    else
+    {
+        sa.attendanceID = -1;
+    }
+
     return sa;
 }
 
 bool insertAttendance(Dictionary *D, Schema_Attendance data)
 {
     PSA *trav;
-    int hashVal = hash(data.attendanceID);
+    int hashVal = hash(data.employeeID);
 
-    for (trav = &(D->AttendanceD[hashVal]); *trav != NULL; trav = &(*trav)->next)
+    for (trav = &D->AttendanceD[hashVal]; *trav != NULL && strcmp((*trav)->data.period, data.period) != 0; trav = &(*trav)->next) 
     {
     }
 
@@ -821,24 +814,24 @@ Schema_Bonus createBonus(Dictionary D)
 {
     Schema_Bonus bonus;
 
-    printf("Create Employee Bonus");
+    printf("Create Employee Bonus\n");
 
     char dType[10] = "Bonus";
     bonus.bonusID = getNewID(dType, D);
 
-    printf("\n\tEmployee ID: ");
+    printf("\tEmployee ID: ");
     scanf("%s", &bonus.employeeID);
     fflush(stdin);
 
-    printf("\n\tBonus Name: ");
+    printf("\tBonus Name: ");
     scanf("%s", &bonus.bonusName);
     fflush(stdin);
 
-    printf("\n\tAmount: ");
+    printf("\tAmount: ");
     scanf("%f", &bonus.amount);
     fflush(stdin);
 
-    printf("\n\tPeriod (mm/dd/yy): ");
+    printf("\tPeriod (mm/yy): ");
     scanf("%s", &bonus.period);
     fflush(stdin);
 
@@ -908,12 +901,12 @@ bool deleteBonus(Dictionary *D, ID bonusID)
     }
 }
 
-Schema_Bonus *searchBonus(Dictionary D, ID bonusID, char period[])
+Schema_Bonus *searchBonus(Dictionary D, ID employeeID, char period[])
 {
     PSB trav, temp;
-    int hashVal = hash(bonusID);
+    int hashVal = hash(employeeID);
 
-    for (trav = D.BonusD[hashVal]; trav != NULL && trav->data.bonusID != bonusID && strcmp(trav->data.period, period) != 0; trav = trav->next)
+    for (trav = D.BonusD[hashVal]; trav != NULL && trav->data.employeeID != employeeID && strcmp(trav->data.period, period) != 0; trav = trav->next)
     {
     }
 
@@ -1008,9 +1001,9 @@ bool displayAllBonus(Dictionary D)
     }
 }
 
-bool displayBonus(int bonusID, Dictionary *D, char period[])
+bool displayBonus(int employeeID, Dictionary *D, char period[])
 {
-    Schema_Bonus *emp = searchBonus(*D, bonusID, period);
+    Schema_Bonus *emp = searchBonus(*D, employeeID, period);
     if (emp)
     {
         printf("|  Bonus ID:       \t%d  |", emp->bonusID);
@@ -1330,7 +1323,7 @@ bool issueSalary(int empID, Dictionary *D)
     else
     {
 
-        printf("Issue Salary for period %s already exists!", period);
+        printf("\nIssue Salary for period %s already exists!", period);
         return false;
     }
 }
@@ -1465,7 +1458,6 @@ bool insertJobInformation(Dictionary *D, Schema_JobInformation data)
         *trav = (PSJI)malloc(sizeof(Schema_JobInformation));
         if (*trav != NULL)
         {
-
             (*trav)->data = data;
             (*trav)->next = NULL;
             D->count[3]++;
@@ -1710,7 +1702,7 @@ bool insertUser(Dictionary *D, Schema_User data)
     PSU *trav;
     int hashVal = hash(data.userID);
 
-    for (trav = &D->UserD[hashVal]; *trav != NULL; trav = &(*trav)->next) // && strcmp(data.emailAddress, (*trav)->data.emailAddress) != 0
+    for (trav = &D->UserD[hashVal]; *trav != NULL && strcmp(data.emailAddress, (*trav)->data.emailAddress) != 0; trav = &(*trav)->next) //
     {
     }
 
@@ -1912,7 +1904,16 @@ bool displayUserInformation(ID userID, Dictionary *D)
         printf("|  Employee ID:      \t%d  |", emp->userID);
         printf("|  First Name:       \t%d  |", emp->firstName);
         printf("|  Last Name:        \t%s  |", emp->lastName);
-        printf("|  Gender:           \t%s  |", emp->gender);
+
+        if (emp->gender == MALE)
+        {
+            printf("|  Gender:           \t%s  |", "MALE");
+        }
+        else
+        {
+            printf("|  Gender:           \t%s  |", "FEMALE");
+        }
+
         printf("|  Date of Birth     \t%s  |", emp->dateOfBirth);
         printf("|  Filipino:         \t%s  |", emp->filipinoCitizen);
         printf("|  Home Phone:       \t%s  |", emp->homePhone);

@@ -2,6 +2,7 @@
     "files.associations": {
         "h_interface.h": "c",
         "h_dictionary.h": "c",
-        "h_schema.h": "c"
+        "h_schema.h": "c",
+        "stdlib.h": "c"
     }
 }
