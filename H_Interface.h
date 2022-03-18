@@ -12,14 +12,19 @@ void showMenu(Dictionary *D)
 {
     int temp;
     int empID;
-    bool In = true, In2 = true, In3 = true, In4 = true, In5 = true, In6 = true, In7 = true, In8 = true;
+    char period[MONTH];
+    bool In = true, In2 = true, In3 = true, In4 = true, In5 = true, In6 = true, In7 = true, In8 = true, In9 = true;
     Schema_JobInformation *jiPtr;
 
     while (In)
     {
         system("cls");
         displayDictionariesCount(*D);
-        printf("\nPayroll System\n\n");
+        printf("\n  _          _   _           __     __ ___ _      \n");
+        printf(" |_) /\\ \\_/ |_) / \\ |  |    (_ \\_/ (_   | |_ |\\/| \n");
+        printf(" |  /--\\ |  | \\ \\_/ |_ |_   __) |  __)  | |_ |  | \n");
+        printf("                                                 \n\n");
+
         printf("[1] Create Employee\n");
         printf("[2] Create Monthly Attendance\n");
         printf("[3] Create Monthly Bonus\n");
@@ -121,9 +126,11 @@ void showMenu(Dictionary *D)
         {
             printf("Enter Employee ID: ");
             scanf("%d", &empID);
+            printf("Enter period (mm/yy): ");
+            scanf("%s", &period);
             fflush(stdin);
 
-            bool b = issueSalary(empID, D);
+            bool b = issueSalary(D, empID, period);
             if (b)
             {
                 printf("\nEmployee salary was successfully issued.");
@@ -146,10 +153,12 @@ void showMenu(Dictionary *D)
                 printf("EMPLOYEE ATTENDANCE\n\n");
                 printf("[1] View Employee Attendance\n");
                 printf("[2] View All Employee Attendance\n");
-                printf("[3] Set Employee Attendance\n");
-                printf("[4] Set Employee Leave\n");
-                printf("[5] Set Employee Absence\n");
-                printf("[6] Set Employee Overtime Hours\n");
+                printf("[3] Update Employee Attendance\n");
+                printf("[4] Delete Employee Attendance\n");
+                printf("[5] Set Employee Attendance\n");
+                printf("[6] Set Employee Leave\n");
+                printf("[7] Set Employee Absence\n");
+                printf("[8] Set Employee Overtime Hours\n");
                 printf("[0] Back\n\n");
                 printf("Select Option: ");
                 scanf("%d", &temp);
@@ -168,8 +177,10 @@ void showMenu(Dictionary *D)
                     printf("VIEW EMPLOYEE ATTENDANCE\n\n");
                     printf("Enter Employee ID: ");
                     scanf("%d", &empID);
+                    printf("Enter Period: ");
+                    scanf("%s", &period);
                     fflush(stdin);
-                    displayUserInformation(empID, D);
+                    displayAttendance(D, empID, period);
 
                     printf("\n*Press any key to continue...* ");
                     getch();
@@ -179,7 +190,9 @@ void showMenu(Dictionary *D)
                 {
                     system("cls");
                     printf("VIEW ALL EMPLOYEE ATTENDANCE\n\n");
-                    displayAllAttendance(*D);
+                    printf("Enter Period: ");
+                    scanf("%s", &period);
+                    displayAllAttendance(*D, period);
 
                     printf("\n*Press any key to continue...* ");
                     getch();
@@ -187,25 +200,145 @@ void showMenu(Dictionary *D)
                 }
                 case 3:
                 {
+                    char period[20];
                     system("cls");
-                    printf("SET EMPLOYEE ATTENDANCE\n\n");
+                    printf("UPDATE EMPLOYEE ATTENDANCE\n\n");
                     printf("Enter Employee ID: ");
                     scanf("%d", &empID);
+                    printf("Enter Period: ");
+                    scanf("%s", &period);
                     fflush(stdin);
-                    setPresent(empID, D);
 
+                    Schema_Attendance *empAttInfo = searchAttendance(*D, empID, period);
+
+                    while (In9)
+                    {
+                        system("cls");
+                        printf("UPDATE EMPLOYEE ATTENDANCE FOR %s\n\n", period);
+                        printf("[1] No. of Present Days\n");
+                        printf("[2] No. of Absents\n");
+                        printf("[3] No. of Leaves\n");
+                        printf("[4] No. of Overtime Hours\n");
+                        printf("[5] Period [MM/YY]\n");
+                        printf("[6] Update All\n");
+                        printf("[0] Back\n\n");
+                        printf("Select Option: ");
+                        scanf("%d", &temp);
+                        fflush(stdin);
+
+                        system("cls");
+                        displayAttendance(D, empID, period);
+
+                        switch (temp)
+                        {
+                        case 0:
+                        {
+                            In9 = false;
+                            break;
+                        }
+                        case 1:
+                        {
+                            printf("\n\nEnter new number of present days: ");
+                            scanf("%s", &empAttInfo->present);
+                            fflush(stdin);
+
+                            printf("\n*Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 2:
+                        {
+                            printf("\n\nEnter new number of absent days: ");
+                            scanf("%s", &empAttInfo->absent);
+                            fflush(stdin);
+
+                            printf("\n*Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 3:
+                        {
+                            printf("\n\nEnter new number of leave days: ");
+                            scanf("%s", &empAttInfo->leave);
+                            fflush(stdin);
+
+                            printf("\n*Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 4:
+                        {
+                            printf("\n\nEnter new number of overtime hours: ");
+                            scanf("%s", &empAttInfo->overtime);
+                            fflush(stdin);
+
+                            printf("\n*Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 5:
+                        {
+                            printf("\n\nEnter new period: ");
+                            scanf("%s", &empAttInfo->period);
+                            fflush(stdin);
+
+                            printf("\n*Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 6:
+                        {
+                            Schema_Attendance att;
+                            printf("\n\nEnter new number of present days: ");
+                            scanf("%s", &att.present);
+                            fflush(stdin);
+
+                            printf("\n\nEnter new number of absent days: ");
+                            scanf("%s", &att.absent);
+                            fflush(stdin);
+
+                            printf("\n\nEnter new number of leave days: ");
+                            scanf("%s", &att.leave);
+                            fflush(stdin);
+
+                            printf("\n\nEnter new number of overtime hours: ");
+                            scanf("%s", &att.overtime);
+                            fflush(stdin);
+
+                            printf("\n\nEnter new period: ");
+                            scanf("%s", &att.period);
+                            fflush(stdin);
+
+                            updateAttendance(D, att, empAttInfo, period);
+
+                            printf("\n*Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+
+                        default:
+                        {
+                            printf("Please enter a valid option.");
+                            break;
+                        }
+                        }
+                    }
+                    In9 = true;
                     printf("\n*Press any key to continue...* ");
                     getch();
                     break;
                 }
+
                 case 4:
                 {
                     system("cls");
-                    printf("SET EMPLOYEE LEAVE\n\n");
+                    printf("DELETE EMPLOYEE ATTENDANCE\n\n");
                     printf("Enter Employee ID: ");
                     scanf("%d", &empID);
+                    printf("Enter period (mm/yy): ");
+                    scanf("%s", &period);
                     fflush(stdin);
-                    setLeave(empID, D);
+                    deleteAttendance(D, empID, period);
 
                     printf("\n*Press any key to continue...* ");
                     getch();
@@ -214,11 +347,13 @@ void showMenu(Dictionary *D)
                 case 5:
                 {
                     system("cls");
-                    printf("SET EMPLOYEE ABSENCE\n\n");
+                    printf("SET EMPLOYEE ATTENDANCE\n\n");
                     printf("Enter Employee ID: ");
                     scanf("%d", &empID);
+                    printf("Enter period (mm/yy): ");
+                    scanf("%s", &period);
                     fflush(stdin);
-                    setAbsent(empID, D);
+                    setPresent(empID, D, period);
 
                     printf("\n*Press any key to continue...* ");
                     getch();
@@ -227,11 +362,43 @@ void showMenu(Dictionary *D)
                 case 6:
                 {
                     system("cls");
+                    printf("SET EMPLOYEE LEAVE\n\n");
+                    printf("Enter Employee ID: ");
+                    scanf("%d", &empID);
+                    printf("Enter period (mm/yy): ");
+                    scanf("%s", &period);
+                    fflush(stdin);
+                    setLeave(empID, D, period);
+
+                    printf("\n*Press any key to continue...* ");
+                    getch();
+                    break;
+                }
+                case 7:
+                {
+                    system("cls");
+                    printf("SET EMPLOYEE ABSENCE\n\n");
+                    printf("Enter Employee ID: ");
+                    scanf("%d", &empID);
+                    printf("Enter period (mm/yy): ");
+                    scanf("%s", &period);
+                    fflush(stdin);
+                    setAbsent(empID, D, period);
+
+                    printf("\n*Press any key to continue...* ");
+                    getch();
+                    break;
+                }
+                case 8:
+                {
+                    system("cls");
                     printf("SET EMPLOYEE OVERTIME HOURS\n\n");
                     printf("Enter Employee ID: ");
                     scanf("%d", &empID);
+                    printf("Enter period (mm/yy): ");
+                    scanf("%s", &period);
                     fflush(stdin);
-                    setOvertime(empID, D);
+                    setOvertime(empID, D, period);
 
                     printf("\n*Press any key to continue...* ");
                     getch();
@@ -259,8 +426,9 @@ void showMenu(Dictionary *D)
                 system("cls");
                 printf("EMPLOYEE PROFILE\n\n");
                 printf("[1] View\n");
-                printf("[2] Update\n");
-                printf("[3] Delete\n");
+                printf("[2] View All\n");
+                printf("[3] Update\n");
+                printf("[4] Delete\n");
                 printf("[0] Back\n\n");
                 printf("Select Option: ");
                 scanf("%d", &temp);
@@ -282,11 +450,21 @@ void showMenu(Dictionary *D)
                     fflush(stdin);
                     displayUserInformation(empID, D);
 
-                    printf("\n*Press any key to continue...* ");
+                    printf("\n\n*Press any key to continue...* ");
                     getch();
                     break;
                 }
                 case 2:
+                {
+                    system("cls");
+                    printf("VIEW ALL EMPLOYEE PROFILE\n\n");
+                    displayAllUser(*D);
+
+                    printf("\n\n*Press any key to continue...* ");
+                    getch();
+                    break;
+                }
+                case 3:
                 {
                     system("cls");
                     printf("UPDATE EMPLOYEE PROFILE\n\n");
@@ -470,7 +648,7 @@ void showMenu(Dictionary *D)
                     getch();
                     break;
                 }
-                case 3:
+                case 4:
                 {
                     system("cls");
                     printf("DELETE EMPLOYEE PROFILE\n\n");

@@ -4,6 +4,7 @@
         "h_dictionary.h": "c",
         "h_schema.h": "c",
         "stdlib.h": "c",
-        "conio.h": "c"
+        "conio.h": "c",
+        "stdbool.h": "c"
     }
 }

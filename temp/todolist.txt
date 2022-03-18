@@ -11,10 +11,10 @@ CASE [1] (Create employee)*                             >> COMPLETED
 
 CASE [2] (Create monthly attendance )*             
 
-    [1] Existing attendance wont return                 >> PENDING
+    [1] Existing attendance wont return                 >> COMPLETED
         false bool value
 
-    [2] Error when existing period input                >> C ERROR
+    [2] Error when existing period input                >> COMPLETED
 
 CASE [3] (Create monthly bonus)                         >> COMPLETED
 
@@ -30,7 +30,7 @@ CASE [4] (Create issue salary)
 CASE [5] (View update/delete employee attendance)*
 
     [1] View employee attendance
-        (displays garbage values)                       >> TO CHECK
+        (displays garbage values)                       >> COMPLETED
 
     [2] View all employee attendance                    >> PENDING
         (Loop stops half way)            
@@ -45,8 +45,7 @@ CASE [5] (View update/delete employee attendance)*
 
 CASE [6] (View/Update/Delete Employee Profile)*
 
-    [1] View                                            >> TO CHECK
-        Gender displays 'null'
+    [1] View                                            >> COMPLETED
 
     [2] Update                                          >> TO CHECK
 

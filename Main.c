@@ -4,7 +4,8 @@
 
 int main()
 {
-    Dictionary D;;
+    Dictionary D;
+
     initDictionary(&D);
 
     // if (pullDictionaries(&D))
@@ -19,32 +20,32 @@ int main()
     // Insert default schemas
     Schema_User defaultUser = {
         1,
-        "adminfn",
-        "adminln",
+        "employeefn",
+        "employeeln",
         MALE,
         "1/1/1",
         YES,
         "1234",
         "1234",
-        "admin@gmail.com",
-        "adminaddress",
+        "employee@gmail.com",
+        "employeeaddress",
         EMPLOYEE};
 
     Schema_Bonus defaultBonus = {
         1,
         1,
-        "adminbonus",
+        "employeebonus",
         100,
         "03/02"};
 
     Schema_Attendance defaultAttendance = {
         1,
         1,
+        30,
         0,
         0,
         0,
-        0,
-        "1/1",
+        "03/22",
     };
 
     Schema_IssueSalary defaultIssueSalary = {
@@ -56,12 +57,12 @@ int main()
     Schema_JobInformation defaultJobInformation = {
         1,
         1,
-        "admin",
-        "adminlocation",
+        "employee",
+        "employeelocation",
         "1234",
         "1/1/2001",
-        "admindepartment",
-        "admin@gmail.com",
+        "employeedepartment",
+        "employee@gmail.com",
         1000,
         0};
 
