@@ -4,9 +4,8 @@
 
 int main()
 {
-    bool truthval;
-    Dictionary D = {};
-    // initDictionary(&D);
+    Dictionary D;;
+    initDictionary(&D);
 
     // if (pullDictionaries(&D))
     // {
@@ -66,18 +65,12 @@ int main()
         1000,
         0};
 
-    // insertAttendance(&D, defaultAttendance);
     insertUser(&D, defaultUser);
+    insertAttendance(&D, defaultAttendance);
     insertBonus(&D, defaultBonus);
     insertJobInformation(&D, defaultJobInformation);
     insertIssueSalary(&D, defaultIssueSalary);
     // End of insert default
-
-    // debugAttendance(D);
-    // debugSalary(D);
-    // debugUser(D);
-    // debugJobInformation(D);
-    // debugBonus(D);
 
     showMenu(&D);
 

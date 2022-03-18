@@ -449,7 +449,7 @@ bool pushAttendanceD(Dictionary D)
 
 void displayDictionariesCount(Dictionary D)
 {
-    printf("\nAttendance: %d\n", D.count[0]);
+    printf("Attendance: %d\n", D.count[0]);
     printf("Bonus: %d\n", D.count[1]);
     printf("Issue Salary: %d\n", D.count[2]);
     printf("Job Information: %d\n", D.count[3]);
@@ -570,10 +570,10 @@ Schema_Attendance createAttendance(Dictionary D)
 
 bool insertAttendance(Dictionary *D, Schema_Attendance data)
 {
-    PSA *trav;
     int hashVal = hash(data.employeeID);
+    PSA *trav = &D->AttendanceD[hashVal];
 
-    for (trav = &D->AttendanceD[hashVal]; *trav != NULL && strcmp((*trav)->data.period, data.period) != 0; trav = &(*trav)->next) 
+    for (trav = &D->AttendanceD[hashVal]; *trav != NULL && strcmp((*trav)->data.period, data.period) != 0; trav = &(*trav)->next)
     {
     }
 
@@ -582,7 +582,7 @@ bool insertAttendance(Dictionary *D, Schema_Attendance data)
         *trav = (PSA)malloc(sizeof(Schema_Attendance));
         if (*trav != NULL)
         {
-            (*trav)->data = data;
+            (*trav)->data.attendanceID = 1;
             (*trav)->next = NULL;
             D->count[0]++;
         }

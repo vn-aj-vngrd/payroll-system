@@ -17,7 +17,7 @@ void showMenu(Dictionary *D)
 
     while (In)
     {
-//        system("cls");
+        system("cls");
         displayDictionariesCount(*D);
         printf("\nPayroll System\n\n");
         printf("[1] Create Employee\n");
