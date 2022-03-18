@@ -9,7 +9,7 @@ CASE [1] (Create employee)*                             >> COMPLETED
     [1] Create employee
         Create initial attendance
 
-CASE [2] (Create monthly attendance )*             
+CASE [2] (Create monthly attendance)*             
 
     [1] Existing attendance wont return                 >> COMPLETED
         false bool value
@@ -21,9 +21,9 @@ CASE [3] (Create monthly bonus)                         >> COMPLETED
     [1] Create Bonus
 
 CASE [4] (Create issue salary)                        
-    [1] Add indention                                   >> PENDING
+    [1] Add indention                                   >> TO CHECK
 
-    [2] Error on the ff. input                          >> PENDING
+    [2] Error on the ff. input                          >> COMPLETED
         existing employee input and Non
         existing period
 
@@ -32,7 +32,7 @@ CASE [5] (View update/delete employee attendance)*
     [1] View employee attendance
         (displays garbage values)                       >> COMPLETED
 
-    [2] View all employee attendance                    >> PENDING
+    [2] View all employee attendance                    >> TO CHECK
         (Loop stops half way)            
 
     [3] Set employee attendance                         >> COMPLETED
@@ -104,8 +104,8 @@ CASE [8] View/Update/Delete Bonus
 
 CASE [FILE] Save and Exit
 
-    [1] Pull                                            >> PENDING
+    [1] Pull                                            >> COMPLETED
 
-    [2] Push                                            >> PENDING
+    [2] Push                                            >> COMPLETED
 
 

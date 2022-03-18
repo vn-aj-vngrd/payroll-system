@@ -4,18 +4,26 @@
 
 int main()
 {
-    dPtr D;
+    if(login)
+    {
+        login();
+    }
+    else
+    {
+        return 0;
+    }
 
+    dPtr D;
     initDictionary(&D);
 
-    // if (pullDictionaries(&D))
-    // {
-    //     printf("Dictionaries pulled successfully\n");
-    // }
-    // else
-    // {2
-    //     printf("Dictionaries failed to pull\n");
-    // }
+    if (pullDictionaries(D))
+    {
+        printf("Dictionaries pulled successfully\n");
+    }
+    else
+    {
+        printf("Dictionaries failed to pull\n");
+    }
 
     // Insert default schemas
     Schema_User defaultUser = {
@@ -45,8 +53,7 @@ int main()
         0,
         0,
         0,
-        "03/22",
-    };
+        "03/22",};
 
     Schema_IssueSalary defaultIssueSalary = {
         1,
@@ -71,15 +78,9 @@ int main()
     insertBonus(D, defaultBonus);
     insertJobInformation(D, defaultJobInformation);
     insertIssueSalary(D, defaultIssueSalary);
-    // // End of insert default
+    // End of insert default
 
     showMenu(D);
-    // debugUser(*D);
-    // debugBonus(*D);
-    // debugAttendance(*D);
-    // debugJobInformation(*D);
-    // debugSalary(*D);
-    // debugJobInformation(*D);
 
     return 0;
 }
