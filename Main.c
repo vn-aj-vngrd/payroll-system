@@ -4,40 +4,46 @@
 
 int main()
 {
-    if(login)
+    bool loginRequired = false;
+
+    // Login
+    if (loginRequired)
     {
-        login();
-    }
-    else
-    {
-        return 0;
+        header();
+        if (!login())
+        {
+            printf(" ERROR: The username or password is incorrect*\n");
+            printf(" \n*Press any key to continue...* ");
+            getch();
+            return 0;
+        }
     }
 
     dPtr D;
     initDictionary(&D);
 
-    if (pullDictionaries(D))
-    {
-        printf("Dictionaries pulled successfully\n");
-    }
-    else
-    {
-        printf("Dictionaries failed to pull\n");
-    }
+    // if (pullDictionaries(D))
+    // {
+    //     printf(" Dictionaries pulled successfully\n");
+    // }
+    // else
+    // {
+    //     printf(" Dictionaries failed to pull\n");
+    // }
 
     // Insert default schemas
     Schema_User defaultUser = {
         1,
         "employeefn",
         "employeeln",
-        MALE,
+        FEMALE,
         "1/1/1",
-        YES,
+        NO,
         "1234",
         "1234",
         "employee@gmail.com",
         "employeeaddress",
-        EMPLOYEE};
+        EMPLOYER};
 
     Schema_Bonus defaultBonus = {
         1,
@@ -53,7 +59,8 @@ int main()
         0,
         0,
         0,
-        "03/22",};
+        "03/22",
+    };
 
     Schema_IssueSalary defaultIssueSalary = {
         1,

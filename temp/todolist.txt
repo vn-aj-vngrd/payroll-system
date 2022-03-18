@@ -1,9 +1,9 @@
-****************************************************
+********************************************************************
 TODO
 Fix all ViewAll UI
 CASE 8 View/Update Bonus
 
-****************************************************
+********************************************************************
 CASE [1] (Create employee)*                             >> COMPLETED
 
     [1] Create employee
@@ -21,6 +21,7 @@ CASE [3] (Create monthly bonus)                         >> COMPLETED
     [1] Create Bonus
 
 CASE [4] (Create issue salary)                        
+
     [1] Add indention                                   >> TO CHECK
 
     [2] Error on the ff. input                          >> COMPLETED
@@ -32,7 +33,7 @@ CASE [5] (View update/delete employee attendance)*
     [1] View employee attendance
         (displays garbage values)                       >> COMPLETED
 
-    [2] View all employee attendance                    >> TO CHECK
+    [2] View all employee attendance                    >> COMPLETED
         (Loop stops half way)            
 
     [3] Set employee attendance                         >> COMPLETED

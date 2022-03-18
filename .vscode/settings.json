@@ -5,6 +5,7 @@
         "h_schema.h": "c",
         "stdlib.h": "c",
         "conio.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "stdio.h": "c"
     }
 }

@@ -1,8 +1,10 @@
 #ifndef SCHEMA_H
 #define SCHEMA_H
 
-#define USER admin      
-#define PASSWORD admin
+
+// change to true to enable debug mode
+#define debug false
+
 #define MD_MAX 30           // medium MAX
 #define SM_MAX 30            // small MAX 50
 #define DATE 30             // mm/dd/yy 11
