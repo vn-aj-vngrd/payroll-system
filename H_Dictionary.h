@@ -1,9 +1,9 @@
-#ifndef DATABASE_H
-#define DATABASE_H
+#ifndef DICTIONARY_H
+#define DICTIONARY_H
 
 #define DICT_SIZE 10
 
-#include "H_Model.h"
+#include "H_Schema.h"
 
 typedef int ID;
 typedef int ElemPos;

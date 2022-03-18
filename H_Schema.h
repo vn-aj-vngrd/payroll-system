@@ -4,8 +4,8 @@
 // change to true to enable debug mode
 #define debug true
 
-#define MD_MAX 30       // medium MAX
-#define SM_MAX 30       // small MAX 50
+#define MD_MAX 50       // medium MAX
+#define SM_MAX 50       // small MAX 50
 #define DATE 30         // mm/dd/yy 11
 #define MONTH 20        // mm/yy 6
 #define MOBILE_PHONE 20 // ## ### ### #### 21

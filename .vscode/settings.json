@@ -8,6 +8,7 @@
         "stdbool.h": "c",
         "stdio.h": "c",
         "h_model.h": "c",
-        "h_view.h": "c"
+        "h_view.h": "c",
+        "string.h": "c"
     }
 }

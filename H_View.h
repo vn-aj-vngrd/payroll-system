@@ -2,7 +2,7 @@
 #define VIEW_H
 
 #include "H_Dictionary.h"
-#include "H_Model.h"
+#include "H_Schema.h"
 #include "C_Controller.c"
 #include <conio.h>
 #include <stdlib.h>
@@ -612,7 +612,7 @@ void showMenu(Dictionary *D)
                     displayDictionariesCount(*D);
                 }
                 header();
-                printf(" Employee Profile\n\n");
+                printf(" EMPLOYEE PROFILE\n\n");
 
                 printf("  [1] View\n");
                 printf("  [2] View All\n");
@@ -947,274 +947,274 @@ void showMenu(Dictionary *D)
             break;
         }
 
-        // TODO: View/Update Employee Job Information -- To Do
+        // TODO: View/Update Employee Job Information -- TODO
         case 7:
         {
-            // while (In4)
-            // {
-            //     system("cls");
-            if (debug == true)
+            while (In4)
             {
-                displayDictionariesCount(*D);
+                system("cls");
+                if (debug == true)
+                {
+                    displayDictionariesCount(*D);
+                }
+                header();
+                printf(" Employee Job Information\n\n");
+
+                printf(" JOB INFORMATION\n\n");
+                printf("  [1] View\n");
+                printf("  [2] Update\n");
+                printf("  [3] Delete\n");
+                printf("  [0] Back\n");
+                printf(" _____________________________________________________\n\n");
+                printf(" Select Option: ");
+
+                scanf("%d", &temp);
+                fflush(stdin);
+
+                switch (temp)
+                {
+                case 0:
+                {
+                    In4 = false;
+                    break;
+                }
+                case 1:
+                {
+                    system("cls");
+                    if (debug == true)
+                    {
+                        displayDictionariesCount(*D);
+                    }
+                    header();
+                    printf(" VIEW JOB INFORMATION\n\n");
+                    printf(" Enter Employee ID: ");
+                    scanf("%d", &empID);
+                    fflush(stdin);
+                    displayJobInformation(empID, D);
+
+                    printf(" _____________________________________________________\n\n");
+                    printf(" *Press any key to continue...* ");
+                    getch();
+                    break;
+                }
+                case 2:
+                {
+                    system("cls");
+                    if (debug == true)
+                    {
+                        displayDictionariesCount(*D);
+                    }
+                    header();
+                    printf(" UPDATE JOB INFORMATION\n\n");
+                    printf(" Enter Employee ID: ");
+                    scanf("%d", &empID);
+                    fflush(stdin);
+
+                    Schema_JobInformation *jobInfo = searchJobInformation(*D, empID);
+
+                    while (In5)
+                    {
+                        system("cls");
+                        if (debug == true)
+                        {
+                            displayDictionariesCount(*D);
+                        }
+                        header();
+                        printf(" UPDATE JOB INFORMATION\n\n");
+                        printf("  [1] Job Position\n");
+                        printf("  [2] Job Location\n");
+                        printf("  [3] Job Phone\n");
+                        printf("  [4] Start Date\n");
+                        printf("  [5] Department\n");
+                        printf("  [6] Email\n");
+                        printf("  [7] Basic Salary\n");
+                        printf("  [8] Pagibig Deposit\n");
+                        printf("  [9] Update All\n");
+                        printf("  [0] Back\n");
+                        printf(" _____________________________________________________\n\n");
+                        printf("  Select Option: ");
+                        scanf("%d", temp);
+                        fflush(stdin);
+
+                        system("cls");
+                        if (debug == true)
+                        {
+                            displayDictionariesCount(*D);
+                        }
+                        header();
+                        displayJobInformation(empID, D);
+
+                        switch (temp)
+                        {
+                        case 1:
+                        {
+                            printf(" \n\nEnter new job position: ");
+                            scanf("%s", &jobInfo->jobPosition);
+                            fflush(stdin);
+
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 2:
+                        {
+                            printf(" \n\nEnter new job location: ");
+                            scanf("%s", &jobInfo->jobLocation);
+                            fflush(stdin);
+
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 3:
+                        {
+                            printf(" \n\nEnter new job phone: ");
+                            scanf("%s", &jobInfo->jobPhone);
+                            fflush(stdin);
+
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 4:
+                        {
+                            printf(" \n\nEnter new start date: ");
+                            scanf("%s", &jobInfo->startDate);
+                            fflush(stdin);
+
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 5:
+                        {
+                            printf(" \n\nEnter new department: ");
+                            scanf("%s", &jobInfo->department);
+                            fflush(stdin);
+
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 6:
+                        {
+                            printf(" \n\nEnter new email: ");
+                            scanf("%s", &jobInfo->jobEmail);
+                            fflush(stdin);
+
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 7:
+                        {
+                            printf(" \n\nEnter new basic salary: ");
+                            scanf("%lf", &jobInfo->basicSalary);
+                            fflush(stdin);
+
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 8:
+                        {
+                            printf(" \n\nEnter new pagibig deposit: ");
+                            scanf("%lf", &jobInfo->pagibigDeposit);
+                            fflush(stdin);
+
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 9:
+                        {
+                            Schema_JobInformation data;
+
+                            printf(" \n\nEnter new job position: ");
+                            scanf("%s", &data.jobPosition);
+                            fflush(stdin);
+
+                            printf(" \nEnter new job location: ");
+                            scanf("%s", &data.jobLocation);
+                            fflush(stdin);
+
+                            printf(" \nEnter new job phone: ");
+                            scanf("%s", &data.jobPhone);
+                            fflush(stdin);
+
+                            printf(" \nEnter new start date: ");
+                            scanf("%s", &data.startDate);
+                            fflush(stdin);
+
+                            printf(" \nEnter new department: ");
+                            scanf("%s", &data.department);
+                            fflush(stdin);
+
+                            printf(" \nEnter new email: ");
+                            scanf("%s", &data.jobEmail);
+                            fflush(stdin);
+
+                            printf(" \nEnter new basic salary: ");
+                            scanf("%lf", &data.basicSalary);
+                            fflush(stdin);
+
+                            printf(" \nEnter new pagibig deposit: ");
+                            scanf("%lf", &data.pagibigDeposit);
+                            fflush(stdin);
+
+                            updateJobInformation(D, data, jobInfo);
+                            break;
+                        }
+                        case 0:
+                        {
+                            In5 = false;
+                            break;
+                        }
+                        default:
+                        {
+                            printf(" ERROR: Please enter a vaid input*\n");
+                            break;
+                        }
+                        }
+                    }
+                    In5 = true;
+                    break;
+                }
+                case 3:
+                {
+                    system("cls");
+                    if (debug == true)
+                    {
+                        displayDictionariesCount(*D);
+                    }
+                    header();
+                    printf(" DELETE JOB INFORMATION\n\n");
+                    printf(" Enter Employee ID: ");
+                    scanf("%d", &empID);
+                    fflush(stdin);
+                    deleteJobInformation(D, empID);
+
+                    printf(" _____________________________________________________\n\n");
+                    printf(" *Press any key to continue...* ");
+                    getch();
+                    break;
+                }
+                default:
+                {
+                    printf(" ERROR: Please enter a vaid input*\n");
+                    break;
+                }
+                }
             }
-            header();
-            //     printf(" Employee Job Information\n\n");
-
-            //     printf(" JOB INFORMATION\n\n");
-            //     printf("  [1] View\n");
-            //     printf("  [2] Update\n");
-            //     printf("  [3] Delete\n");
-            //     printf("  [0] Back\n");
-            //     printf(" _____________________________________________________\n\n");
-            //     printf(" Select Option: ");
-
-            //     scanf("%d", &temp);
-            //     fflush(stdin);
-
-            //     switch (temp)
-            //     {
-            //     case 0:
-            //     {
-            //         In4 = false;
-            //         break;
-            //     }
-            //     case 1:
-            //     {
-            //         system("cls");
-            if (debug == true)
-            {
-                displayDictionariesCount(*D);
-            }
-            header();
-            //         printf(" VIEW JOB INFORMATION\n\n");
-            //         printf(" Enter Employee ID: ");
-            //         scanf("%d", &empID);
-            //         fflush(stdin);
-            //         displayJobInformation(empID, D);
-
-            //         printf(" _____________________________________________________\n\n");
-            printf(" *Press any key to continue...* ");
-            //         getch();
-            //         break;
-            //     }
-            //     case 2:
-            //     {
-            //         system("cls");
-            if (debug == true)
-            {
-                displayDictionariesCount(*D);
-            }
-            header();
-            //         printf(" UPDATE JOB INFORMATION\n\n");
-            //         printf(" Enter Employee ID: ");
-            //         scanf("%d", &empID);
-            //         fflush(stdin);
-
-            //         Schema_JobInformation *jobInfo = searchJobInformation(*D, empID);
-
-            //         while (In5)
-            //         {
-            //             system("cls");
-            if (debug == true)
-            {
-                displayDictionariesCount(*D);
-            }
-            header();
-            //             printf(" UPDATE JOB INFORMATION\n\n");
-            //             printf("  [1] Job Position\n");
-            //             printf("  [2] Job Location\n");
-            //             printf("  [3] Job Phone\n");
-            //             printf("  [4] Start Date\n");
-            //             printf("  [5] Department\n");
-            //             printf("  [6] Email\n");
-            //             printf("  [7] Basic Salary\n");
-            //             printf("  [8] Pagibig Deposit\n");
-            //             printf("  [9] Update All\n");
-            //             printf("  [0] Back\n");
-            //             printf(" _____________________________________________________\n\n");
-            //             printf("  Select Option: ");
-            //             scanf("%d", temp);
-            //             fflush(stdin);
-
-            //             system("cls");
-            if (debug == true)
-            {
-                displayDictionariesCount(*D);
-            }
-            header();
-            //             displayJobInformation(empID, D);
-
-            //             switch (temp)
-            //             {
-            //             case 1:
-            //             {
-            //                 printf(" \n\nEnter new job position: ");
-            //                 scanf("%s", &jobInfo->jobPosition);
-            //                 fflush(stdin);
-
-            //                 printf(" _____________________________________________________\n\n");
-            printf(" *Press any key to continue...* ");
-            //                 getch();
-            //                 break;
-            //             }
-            //             case 2:
-            //             {
-            //                 printf(" \n\nEnter new job location: ");
-            //                 scanf("%s", &jobInfo->jobLocation);
-            //                 fflush(stdin);
-
-            //                 printf(" _____________________________________________________\n\n");
-            printf(" *Press any key to continue...* ");
-            //                 getch();
-            //                 break;
-            //             }
-            //             case 3:
-            //             {
-            //                 printf(" \n\nEnter new job phone: ");
-            //                 scanf("%s", &jobInfo->jobPhone);
-            //                 fflush(stdin);
-
-            //                 printf(" _____________________________________________________\n\n");
-            printf(" *Press any key to continue...* ");
-            //                 getch();
-            //                 break;
-            //             }
-            //             case 4:
-            //             {
-            //                 printf(" \n\nEnter new start date: ");
-            //                 scanf("%s", &jobInfo->startDate);
-            //                 fflush(stdin);
-
-            //                 printf(" _____________________________________________________\n\n");
-            printf(" *Press any key to continue...* ");
-            //                 getch();
-            //                 break;
-            //             }
-            //             case 5:
-            //             {
-            //                 printf(" \n\nEnter new department: ");
-            //                 scanf("%s", &jobInfo->department);
-            //                 fflush(stdin);
-
-            //                 printf(" _____________________________________________________\n\n");
-            printf(" *Press any key to continue...* ");
-            //                 getch();
-            //                 break;
-            //             }
-            //             case 6:
-            //             {
-            //                 printf(" \n\nEnter new email: ");
-            //                 scanf("%s", &jobInfo->jobEmail);
-            //                 fflush(stdin);
-
-            //                 printf(" _____________________________________________________\n\n");
-            printf(" *Press any key to continue...* ");
-            //                 getch();
-            //                 break;
-            //             }
-            //             case 7:
-            //             {
-            //                 printf(" \n\nEnter new basic salary: ");
-            //                 scanf("%lf", &jobInfo->basicSalary);
-            //                 fflush(stdin);
-
-            //                 printf(" _____________________________________________________\n\n");
-            printf(" *Press any key to continue...* ");
-            //                 getch();
-            //                 break;
-            //             }
-            //             case 8:
-            //             {
-            //                 printf(" \n\nEnter new pagibig deposit: ");
-            //                 scanf("%lf", &jobInfo->pagibigDeposit);
-            //                 fflush(stdin);
-
-            //                 printf(" _____________________________________________________\n\n");
-            printf(" *Press any key to continue...* ");
-            //                 getch();
-            //                 break;
-            //             }
-            //             case 9:
-            //             {
-            //                 Schema_JobInformation data;
-
-            //                 printf(" \n\nEnter new job position: ");
-            //                 scanf("%s", &data.jobPosition);
-            //                 fflush(stdin);
-
-            //                 printf(" \nEnter new job location: ");
-            //                 scanf("%s", &data.jobLocation);
-            //                 fflush(stdin);
-
-            //                 printf(" \nEnter new job phone: ");
-            //                 scanf("%s", &data.jobPhone);
-            //                 fflush(stdin);
-
-            //                 printf(" \nEnter new start date: ");
-            //                 scanf("%s", &data.startDate);
-            //                 fflush(stdin);
-
-            //                 printf(" \nEnter new department: ");
-            //                 scanf("%s", &data.department);
-            //                 fflush(stdin);
-
-            //                 printf(" \nEnter new email: ");
-            //                 scanf("%s", &data.jobEmail);
-            //                 fflush(stdin);
-
-            //                 printf(" \nEnter new basic salary: ");
-            //                 scanf("%lf", &data.basicSalary);
-            //                 fflush(stdin);
-
-            //                 printf(" \nEnter new pagibig deposit: ");
-            //                 scanf("%lf", &data.pagibigDeposit);
-            //                 fflush(stdin);
-
-            //                 updateJobInformation(D, data, jobInfo);
-            //                 break;
-            //             }
-            //             case 0:
-            //             {
-            //                 In5 = false;
-            //                 break;
-            //             }
-            //             default:
-            //             {
-            //                 printf(" ERROR: Please enter a vaid input*\n");
-            //                 break;
-            //             }
-            //             }
-            //         }
-            //         In5 = true;
-            //         break;
-            //     }
-            //     case 3:
-            //     {
-            //         system("cls");
-            if (debug == true)
-            {
-                displayDictionariesCount(*D);
-            }
-            header();
-            //         printf(" DELETE JOB INFORMATION\n\n");
-            //         printf(" Enter Employee ID: ");
-            //         scanf("%d", &empID);
-            //         fflush(stdin);
-            //         deleteJobInformation(D, empID);
-
-            //         printf(" _____________________________________________________\n\n");
-            printf(" *Press any key to continue...* ");
-            //         getch();
-            //         break;
-            //     }
-            //     default:
-            //     {
-            //         printf(" ERROR: Please enter a vaid input*\n");
-            //         break;
-            //     }
-            //     }
-            // }
-            // In4 = true;
+            In4 = true;
             break;
         }
 
@@ -1452,8 +1452,6 @@ void showMenu(Dictionary *D)
                     displayDictionariesCount(*D);
                 }
                 header();
-                printf(" Employee Salary\n\n");
-
                 printf(" EMPLOYEE SALARY\n\n");
                 printf("  [1] View All\n");
                 printf("  [2] View One\n");
@@ -1471,7 +1469,12 @@ void showMenu(Dictionary *D)
                     break;
                 case 1:
                     system("cls");
+                    if (debug == true)
+                    {
+                        displayDictionariesCount(*D);
+                    }
                     header();
+                    printf(" Employee Salary > View All\n\n");
                     printf(" Enter Period (mm/yy): ");
                     scanf("%s", &period);
                     fflush(stdin);
@@ -1483,7 +1486,12 @@ void showMenu(Dictionary *D)
                     break;
                 case 2:
                     system("cls");
+                    if (debug == true)
+                    {
+                        displayDictionariesCount(*D);
+                    }
                     header();
+                    printf(" Employee Salary > View One\n\n");
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
                     printf(" Enter Period (mm/yy): ");
@@ -1497,7 +1505,12 @@ void showMenu(Dictionary *D)
                     break;
                 case 3:
                     system("cls");
+                    if (debug == true)
+                    {
+                        displayDictionariesCount(*D);
+                    }
                     header();
+                    printf(" Employee Salary > Delete\n\n");
                     printf(" DELETE SALARY INFORMATION\n\n");
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
