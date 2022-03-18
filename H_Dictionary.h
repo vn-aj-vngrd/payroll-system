@@ -3,7 +3,7 @@
 
 #define DICT_SIZE 10
 
-#include "H_Schema.h"
+#include "H_Model.h"
 
 typedef int ID;
 typedef int ElemPos;
