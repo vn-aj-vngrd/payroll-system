@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "H_Schema.h"
 #include "H_Dictionary.h"
+#include "H_Model.h"
 
 /*-------------------------------------------------------------------------------------------------*/
 /*------------------------------------- Function Prototypes ---------------------------------------*/
