@@ -1,2 +1,0 @@
-
-    initDictionary(&D);
