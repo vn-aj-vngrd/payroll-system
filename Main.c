@@ -24,17 +24,17 @@ int main()
     }
 
     /* Pull Data from Files */
-    // if (pullDictionaries(D))
-    // {
-    //     printf(" Dictionaries pulled successfully\n");
-    // }
-    // else
-    // {
-    //     printf(" Dictionaries failed to pull\n");
-    // }
+    if (pullDictionaries(D))
+    {
+        printf(" Dictionaries pulled successfully\n");
+    }
+    else
+    {
+        printf(" Dictionaries failed to pull\n");
+    }
 
     /* Insert default schemas */
-    insertDefault(D);
+    // insertDefault(D);
 
     /* Show User Interface */
     showMenu(D);
