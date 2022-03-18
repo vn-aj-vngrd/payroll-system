@@ -53,6 +53,6 @@ typedef struct
     PSJI JobInformationD[DICT_SIZE];
     PSU UserD[DICT_SIZE];
     int count[5];
-} Dictionary;
+} Dictionary, *dPtr;
 
 #endif

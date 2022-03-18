@@ -4,7 +4,7 @@
 
 int main()
 {
-    Dictionary D;
+    dPtr D;
 
     initDictionary(&D);
 
@@ -41,7 +41,7 @@ int main()
     Schema_Attendance defaultAttendance = {
         1,
         1,
-        30,
+        0,
         0,
         0,
         0,
@@ -66,14 +66,20 @@ int main()
         1000,
         0};
 
-    insertUser(&D, defaultUser);
-    insertAttendance(&D, defaultAttendance);
-    insertBonus(&D, defaultBonus);
-    insertJobInformation(&D, defaultJobInformation);
-    insertIssueSalary(&D, defaultIssueSalary);
-    // End of insert default
+    insertUser(D, defaultUser);
+    insertAttendance(D, defaultAttendance);
+    insertBonus(D, defaultBonus);
+    insertJobInformation(D, defaultJobInformation);
+    insertIssueSalary(D, defaultIssueSalary);
+    // // End of insert default
 
-    showMenu(&D);
+    showMenu(D);
+    // debugUser(*D);
+    // debugBonus(*D);
+    // debugAttendance(*D);
+    // debugJobInformation(*D);
+    // debugSalary(*D);
+    // debugJobInformation(*D);
 
     return 0;
 }

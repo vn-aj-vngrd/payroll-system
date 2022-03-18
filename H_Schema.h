@@ -4,10 +4,10 @@
 #define MD_MAX 30           // medium MAX
 #define SM_MAX 30            // small MAX 50
 #define DATE 30             // mm/dd/yy 11
-#define MONTH 30            // mm/yy 6
+#define MONTH 20            // mm/yy 6
 #define MOBILE_PHONE 20     // ## ### ### #### 21
 #define HOME_PHONE 20       // ### #### 21
-#pragma pack(1)
+// #pragma pack(1)
 
 // MALE, FEMALE
 typedef enum
@@ -30,18 +30,7 @@ typedef enum
     YES
 } Response;
 
-typedef struct
-{
-    int attendanceID;
-    int employeeID;
-    int present;
-    int absent;
-    int leave;
-    int overtime;
-    char period[MONTH];
-} Schema_Attendance;
-
-typedef struct
+typedef struct bonus
 {
     int bonusID;
     int employeeID;
@@ -50,7 +39,7 @@ typedef struct
     char period[MONTH];
 } Schema_Bonus;
 
-typedef struct
+typedef struct issueSalary
 {
     int issueID;
     int employeeID;
@@ -58,7 +47,7 @@ typedef struct
     char period[MONTH];
 } Schema_IssueSalary;
 
-typedef struct
+typedef struct jobInformation
 {
     int employmentID;
     int employeeID;
@@ -72,7 +61,7 @@ typedef struct
     double pagibigDeposit;
 } Schema_JobInformation;
 
-typedef struct
+typedef struct user
 {
     int userID;
     char firstName[SM_MAX];
@@ -86,5 +75,16 @@ typedef struct
     char address[MD_MAX];
     UserType userType;
 } Schema_User;
+
+typedef struct attendance
+{
+    int attendanceID;
+    int employeeID;
+    int present;
+    int absent;
+    int leave;
+    int overtime;
+    char period[MONTH];
+} Schema_Attendance;
 
 #endif

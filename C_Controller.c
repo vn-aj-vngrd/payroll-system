@@ -8,7 +8,7 @@
 
 /*---------------------------------- Dictionary Function Headers ----------------------------------*/
 
-void initDictionary(Dictionary *D);
+void initDictionary(dPtr *D);
 ElemPos hash(ID id);
 int getNewID(char DictionaryType[], Dictionary D);
 bool pullDictionaries(Dictionary *D);
@@ -82,23 +82,9 @@ void insertDefault(Dictionary *D);
 
 /*--------------------------------- Start of Dictionary Controller --------------------------------*/
 
-void initDictionary(Dictionary *D)
+void initDictionary(dPtr *D)
 {
-    int i;
-    for (i = 0; i < DICT_SIZE; i++)
-    {
-        D->UserD[i] = NULL;
-        D->JobInformationD[i] = NULL;
-        D->AttendanceD[i] = NULL;
-        D->IssueSalaryD[i] = NULL;
-        D->BonusD[i] = NULL;
-    }
-
-    D->count[0] = 0;
-    D->count[1] = 0;
-    D->count[2] = 0;
-    D->count[3] = 0;
-    D->count[4] = 0;
+    *D = (dPtr)calloc(1, sizeof(Dictionary));
 }
 
 ElemPos hash(ID id)
@@ -570,19 +556,19 @@ Schema_Attendance createAttendance(Dictionary D)
 
 bool insertAttendance(Dictionary *D, Schema_Attendance data)
 {
+    PSA *trav;
     int hashVal = hash(data.employeeID);
-    PSA *trav = &D->AttendanceD[hashVal];
 
-    for (trav = &D->AttendanceD[hashVal]; *trav != NULL && strcmp((*trav)->data.period, data.period) != 0; trav = &(*trav)->next)
+    for (trav = &(D->AttendanceD[hashVal]); *trav != NULL && strcmp((*trav)->data.period, data.period) != 0; trav = &(*trav)->next)
     {
     }
 
     if (*trav == NULL)
     {
-        *trav = (PSA)malloc(sizeof(Schema_Attendance));
-        if (*trav != NULL)
+        *trav = (PSA)malloc(sizeof(Schema_Attendance) + 1);
+        if (trav != NULL)
         {
-            (*trav)->data.attendanceID = 1;
+            (*trav)->data = data;
             (*trav)->next = NULL;
             D->count[0]++;
         }
@@ -849,7 +835,7 @@ bool insertBonus(Dictionary *D, Schema_Bonus data)
 
     if (*trav == NULL)
     {
-        *trav = (PSB)malloc(sizeof(Schema_Bonus));
+        *trav = (PSB)malloc(sizeof(Schema_Bonus) + 1);
         if (*trav != NULL)
         {
             (*trav)->data = data;
@@ -1047,10 +1033,9 @@ bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
 
     if (*trav == NULL)
     {
-        *trav = (PSIS)malloc(sizeof(Schema_IssueSalary));
+        *trav = (PSIS)malloc(sizeof(Schema_User) + 1);
         if (*trav != NULL)
         {
-
             (*trav)->data = data;
             (*trav)->next = NULL;
             D->count[2]++;
@@ -1225,15 +1210,12 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     double income;
     double tax;
 
-    printf("\n(debug)Period: %s", period); // good
-
     Schema_Attendance *sa = searchAttendance(*D, empID, period);
     if (sa)
     {
         leave = sa->leave;
         absent = sa->absent;
         overtime = sa->overtime;
-        printf("\n(debug)Attendance ID: %d", sa->attendanceID);
     }
     else
     {
@@ -1246,7 +1228,6 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     {
         basicSalary = ji->basicSalary;
         pagibigDeposit = ji->pagibigDeposit;
-        printf("(debug)Basic Salary: %lf", basicSalary);
     }
     else
     {
@@ -1259,12 +1240,10 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     if (b)
     {
         additions += b->amount;
-        printf("\n(debug)Bonus: %lf", b->amount);
     }
 
     dailyRate = basicSalary / 30;
     hourlyRate = dailyRate / 8;
-    printf("\n(debug)Hourly Rate: %lf", hourlyRate);
 
     // check if employee has absences
     if (leave != absent)
@@ -1452,7 +1431,7 @@ bool insertJobInformation(Dictionary *D, Schema_JobInformation data)
 
     if (*trav == NULL)
     {
-        *trav = (PSJI)malloc(sizeof(Schema_JobInformation));
+        *trav = (PSJI)malloc(sizeof(Schema_JobInformation) + 1);
         if (*trav != NULL)
         {
             (*trav)->data = data;
@@ -1705,7 +1684,7 @@ bool insertUser(Dictionary *D, Schema_User data)
 
     if (*trav == NULL)
     {
-        *trav = (PSU)malloc(sizeof(Schema_User));
+        *trav = (PSU)malloc(sizeof(Schema_User) + 1);
         if (*trav != NULL)
         {
             (*trav)->data = data;
@@ -1808,7 +1787,7 @@ bool displayAllUser(Dictionary D)
     PSU trav;
     int i;
 
-    printf("%-4s___%-8s___%-11s___%-10s___%-7s___%-14s___%-17s___%-10s___%-13s___%-14s___%-8s___%-10s \n",
+    printf("%-4s___%-8s___%-11s___%-10s___%-7s___%-14s___%-17s___%-10s___%-13s___%-20s___%-20s___%-10s \n",
            "____",
            "________",
            "___________",
@@ -1818,11 +1797,11 @@ bool displayAllUser(Dictionary D)
            "_________________",
            "__________",
            "_____________",
-           "______________",
-           "________",
+           "____________________",
+           "____________________",
            "__________");
     printf("USER\n");
-    printf("%-4s___%-8s___%-11s___%-10s___%-7s___%-14s___%-17s___%-10s___%-13s___%-14s___%-8s___%-10s \n",
+    printf("%-4s___%-8s___%-11s___%-10s___%-7s___%-14s___%-17s___%-10s___%-13s___%-20s___%-20s___%-10s \n",
            "____",
            "________",
            "___________",
@@ -1832,10 +1811,10 @@ bool displayAllUser(Dictionary D)
            "_________________",
            "__________",
            "_____________",
-           "______________",
-           "________",
+           "____________________",
+           "____________________",
            "__________");
-    printf("%-4s | %-8s | %-11s | %-10s | %-7s | %-14s | %-17s | %-10s | %-13s | %-14s | %-8s | %-10s \n",
+    printf("%-4s | %-8s | %-11s | %-10s | %-7s | %-14s | %-17s | %-10s | %-13s | %-20s | %-20s | %-10s \n",
            "#",
            "USER ID",
            "FIRST NAME",
@@ -1860,11 +1839,11 @@ bool displayAllUser(Dictionary D)
             if (trav->data.gender == 0)
             {
 
-                strcpy(filipinoCitizen, "Male");
+                strcpy(gender, "Male");
             }
             else
             {
-                strcpy(filipinoCitizen, "Female");
+                strcpy(gender, "Female");
             }
 
             if (trav->data.filipinoCitizen == 0)
@@ -1887,7 +1866,7 @@ bool displayAllUser(Dictionary D)
                 strcpy(userType, "Employer");
             }
 
-            printf("%-4d | %-8s | %-11s | %-10s | %-7s | %-14s | %-17s | %-10s | %-13s | %-14s | %-8s | %-10s \n",
+            printf("%-4d | %-8d | %-11s | %-10s | %-7s | %-14s | %-17s | %-10s | %-13s | %-20s | %-20s | %-10s \n",
                    i,
                    trav->data.userID,
                    trav->data.firstName,
@@ -1905,7 +1884,7 @@ bool displayAllUser(Dictionary D)
 
     if (trav == NULL && i == DICT_SIZE - 1)
     {
-        printf("%-4s___%-8s___%-11s___%-10s___%-7s___%-14s___%-17s___%-10s___%-13s___%-14s___%-8s___%-10s \n",
+        printf("%-4s___%-8s___%-11s___%-10s___%-7s___%-14s___%-17s___%-10s___%-13s___%-20s___%-20s___%-10s \n",
                "____",
                "________",
                "___________",

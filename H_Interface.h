@@ -88,14 +88,14 @@ void showMenu(Dictionary *D)
             {
                 printf("\nCreating Employee Attendance... \n");
 
-                if (insertAttendance(D, sa))
-                {
-                    printf("\nEmployee monthly attendance was successfully created.");
-                }
-                else
-                {
-                    printf("\nEmployee monthly attendance already exists.");
-                }
+               if (insertAttendance(D, sa))
+               {
+                   printf("\nEmployee monthly attendance was successfully created.");
+               }
+               else
+               {
+                   printf("\nEmployee monthly attendance already exists.");
+               }
             }
             printf("\n*Press any key to continue...* ");
             getch();
