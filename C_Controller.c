@@ -978,7 +978,7 @@ void debugBonus(Dictionary D)
         {
             printf(" %d -> ", trav->data.bonusID);
         }
-        printf(" \n ", i);
+        printf("\n", i);
     }
 }
 
@@ -1167,7 +1167,7 @@ void debugSalary(Dictionary D)
         {
             printf(" %d -> ", trav->data.issueID);
         }
-        printf(" \n ", i);
+        printf("\n", i);
     }
 }
 
@@ -1594,7 +1594,7 @@ void debugJobInformation(Dictionary D)
         {
             printf(" %d -> ", trav->data.employmentID);
         }
-        printf(" \n ", i);
+        printf("\n", i);
     }
 }
 
@@ -1845,7 +1845,7 @@ void debugUser(Dictionary D)
                 printf(" %d -> ", trav->data.userID);
             }
         }
-        printf(" \n ", i);
+        printf("\n", i);
     }
 }
 

@@ -63,7 +63,7 @@ void showMenu(Dictionary *D)
         {
 
         case -5:
-            debugUser(*D);
+            debugAttendance(*D);
             printf(" _____________________________________________________\n\n");
             printf(" *Press any key to continue...* ");
             getch();
@@ -91,7 +91,7 @@ void showMenu(Dictionary *D)
             break;
 
         case -1:
-            debugAttendance(*D);
+            debugUser(*D);
             printf(" _____________________________________________________\n\n");
             printf(" *Press any key to continue...* ");
             getch();
