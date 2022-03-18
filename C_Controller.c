@@ -6,6 +6,10 @@
 #include "H_Schema.h"
 #include "H_Dictionary.h"
 
+/*-------------------------------------------------------------------------------------------------*/
+/*------------------------------------- Function Prototypes ---------------------------------------*/
+/*-------------------------------------------------------------------------------------------------*/
+
 /*---------------------------------------- AUTHORIZATION ------------------------------------------*/
 
 bool login(void);
@@ -25,63 +29,67 @@ Schema_Attendance createAttendance(Dictionary D);
 bool insertAttendance(Dictionary *D, Schema_Attendance data);
 bool updateAttendance(Dictionary *D, Schema_Attendance data, Schema_Attendance *pointer, char period[]);
 bool deleteAttendance(Dictionary *D, int ID, char period[]);
-bool displayAttendance(Dictionary *D, int employeeID, char period[]);
 bool setPresent(int employeeID, Dictionary *D, char period[]);
 bool setLeave(int employeeID, Dictionary *D, char period[]);
 bool setAbsent(int employeeID, Dictionary *D, char period[]);
 bool setOvertime(int employeeID, Dictionary *D, char period[]);
+void displayAttendance(Dictionary *D, int employeeID, char period[]);
 void displayAllAttendance(Dictionary D, char period[]);
-void debugAttendance(Dictionary D);
 
 /*----------------------------------- Bonus Function Headers --------------------------------------*/
 
+Schema_Bonus *searchBonus(Dictionary D, ID bonusID, char period[]);
 Schema_Bonus createBonus(Dictionary D);
 bool insertBonus(Dictionary *D, Schema_Bonus data);
 bool updateBonus(Dictionary *D, Schema_Bonus data, Schema_Bonus *pointer);
 bool deleteBonus(Dictionary *D, ID bonusID);
-Schema_Bonus *searchBonus(Dictionary D, ID bonusID, char period[]);
-void debugBonus(Dictionary D);
-bool displayAllBonus(Dictionary D);
-bool displayBonus(int bonusID, Dictionary *D, char period[]);
+void displayBonus(int bonusID, Dictionary *D, char period[]);
+void displayAllBonus(Dictionary D);
 
 /*-------------------------------- Issue Salary Function Headers ----------------------------------*/
 
+Schema_IssueSalary *searchIssueSalary(Dictionary D, ID userID, char period[]);
 Schema_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[]);
 bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data);
 bool updateIssueSalary(Dictionary *D, Schema_IssueSalary data, Schema_IssueSalary *pointer);
 bool deleteIssueSalary(Dictionary *D, ID issueID);
-Schema_IssueSalary *searchIssueSalary(Dictionary D, ID userID, char period[]);
-void debugSalary(Dictionary D);
-bool displayAllSalary(Dictionary D, char period[]);
-bool displayIssueSalary(Dictionary *D, ID empID, char period[]);
 bool issueSalary(Dictionary *D, int empID, char period[]);
 double calculateTax(double basicIncome, double taxableIncome, double *pagibigDeposit);
+void displayIssueSalary(Dictionary *D, ID empID, char period[]);
+void displayAllSalary(Dictionary D, char period[]);
 
 /*-------------------------------- Job Information Function Headers -------------------------------*/
 
+Schema_JobInformation *searchJobInformation(Dictionary D, ID employmentID);
 Schema_JobInformation createJobInformation(Dictionary D, ID employeeID);
 bool insertJobInformation(Dictionary *D, Schema_JobInformation data);
 bool updateJobInformation(Dictionary *D, Schema_JobInformation data, Schema_JobInformation *pointer);
 bool deleteJobInformation(Dictionary *D, ID employmentID);
-Schema_JobInformation *searchJobInformation(Dictionary D, ID employmentID);
-void debugJobInformation(Dictionary D);
-bool displayAllJobInformation(Dictionary D);
-bool displayJobInformation(ID employeeID, Dictionary *D);
+void displayJobInformation(ID employeeID, Dictionary *D);
+void displayAllJobInformation(Dictionary D);
 
 /*------------------------------------- User Function Headers -------------------------------------*/
 
+Schema_User *searchUser(Dictionary D, ID userID);
 Schema_User createUserInformation(Dictionary D);
 bool insertUser(Dictionary *D, Schema_User data);
 bool updateUser(Dictionary *D, Schema_User data, Schema_User *pointer);
 bool deleteUser(Dictionary *D, ID userID);
-Schema_User *searchUser(Dictionary D, ID userID);
-void debugUser(Dictionary D);
-bool displayAllUser(Dictionary D);
-bool displayUserInformation(ID userID, Dictionary *D);
+void displayUserInformation(ID userID, Dictionary *D);
+void displayAllUser(Dictionary D);
 
 /*------------------------------------------- Default ---------------------------------------------*/
 
 void insertDefault(Dictionary *D);
+
+/*-------------------------------------------- Debug ----------------------------------------------*/
+
+void debugAttendance(Dictionary D);
+void debugBonus(Dictionary D);
+void debugSalary(Dictionary D);
+void debugJobInformation(Dictionary D);
+void debugUser(Dictionary D);
+void debugAll(Dictionary D);
 
 /*---------------------------------------------- UI -----------------------------------------------*/
 
@@ -90,6 +98,24 @@ void header(void);
 /*-------------------------------------------- DEBUG ----------------------------------------------*/
 
 void displayDictionariesCount(Dictionary D);
+
+/*-------------------------------------------------------------------------------------------------*/
+/*------------------------------------ Function Definitions  --------------------------------------*/
+/*-------------------------------------------------------------------------------------------------*/
+
+/*-------------------------------- Start of Debug All Controller ----------------------------------*/
+
+void debugAll(Dictionary D)
+{
+    debugAttendance(D);
+    debugBonus(D);
+    debugSalary(D);
+    debugJobInformation(D);
+    debugUser(D);
+    debugAll(D);
+}
+
+/*--------------------------------- End of Debug All Controller ------------------------------------*/
 
 /*------------------------------ Start of Authorization Controller ---------------------------------*/
 
@@ -476,28 +502,23 @@ void insertDefault(Dictionary *D)
 {
     Schema_User defaultUser = {
         1,
-        "adminfn",
-        "adminln",
-        MALE,
+        "employeefn",
+        "employeeln",
+        FEMALE,
         "1/1/1",
-        YES,
+        NO,
         "1234",
         "1234",
-        "admin@gmail.com",
-        "adminaddress",
-        EMPLOYEE};
+        "employee@gmail.com",
+        "employeeaddress",
+        EMPLOYER};
 
-    Schema_JobInformation defaultJobInformation = {
+    Schema_Bonus defaultBonus = {
         1,
         1,
-        "admin",
-        "adminlocation",
-        "1234",
-        "1/1/2001",
-        "admindepartment",
-        "admin@gmail.com",
-        1000,
-        0};
+        "employeebonus",
+        100,
+        "03/02"};
 
     Schema_Attendance defaultAttendance = {
         1,
@@ -506,14 +527,8 @@ void insertDefault(Dictionary *D)
         0,
         0,
         0,
-        "03/22"};
-
-    Schema_Bonus defaultBonus = {
-        1,
-        1,
-        "adminbonus",
-        100,
-        "03/02"};
+        "03/22",
+    };
 
     Schema_IssueSalary defaultIssueSalary = {
         1,
@@ -521,10 +536,22 @@ void insertDefault(Dictionary *D)
         100,
         "03/22"};
 
+    Schema_JobInformation defaultJobInformation = {
+        1,
+        1,
+        "employee",
+        "employeelocation",
+        "1234",
+        "1/1/2001",
+        "employeedepartment",
+        "employee@gmail.com",
+        1000,
+        0};
+
     insertUser(D, defaultUser);
-    insertJobInformation(D, defaultJobInformation);
     insertAttendance(D, defaultAttendance);
     insertBonus(D, defaultBonus);
+    insertJobInformation(D, defaultJobInformation);
     insertIssueSalary(D, defaultIssueSalary);
 }
 
@@ -539,7 +566,7 @@ Schema_Attendance *searchAttendance(Dictionary D, ID employeeID, char period[])
 
     for (trav = D.AttendanceD[hashVal]; trav != NULL && (trav->data.employeeID != employeeID || strcmp(trav->data.period, period) != 0); trav = trav->next)
     {
-        if (trav->data.employeeID != employeeID && strcmp(trav->data.period, period) != 0)
+        if (trav->data.employeeID == employeeID && strcmp(trav->data.period, period) == 0)
             break;
     }
 
@@ -628,14 +655,12 @@ bool deleteAttendance(Dictionary *D, int ID, char period[])
     PSA *trav, temp;
     int hashVal = hash(ID);
 
-    for (trav = &(D->AttendanceD[hashVal]); *trav != NULL && (*trav)->data.attendanceID != ID; trav = &(*trav)->next)
+    for (trav = &(D->AttendanceD[hashVal]); *trav != NULL && ((*trav)->data.attendanceID != ID || strcmp((*trav)->data.period, period) != 0); trav = &(*trav)->next)
     {
     }
 
-    if (trav == NULL)
+    if (*trav == NULL)
     {
-
-        printf(" Attendance ID not found\n");
         return false;
     }
     else
@@ -644,29 +669,27 @@ bool deleteAttendance(Dictionary *D, int ID, char period[])
         *trav = (*trav)->next;
         free(temp);
         D->count[0]--;
-        printf(" Attendance Deleted Successfully\n");
         return true;
     }
 }
 
-bool displayAttendance(Dictionary *D, int employeeID, char period[])
+void displayAttendance(Dictionary *D, int employeeID, char period[])
 {
     Schema_Attendance *emp = searchAttendance(*D, employeeID, period);
     if (emp)
     {
-        printf("\n Attendance ID:       \t%d  \n", emp->attendanceID);
+        printf(" _____________________________________________________\n\n");
+        printf(" Attendance ID:       \t\t%d  \n", emp->attendanceID);
         printf(" Employee ID:           \t%d  \n", emp->employeeID);
         printf(" Present:               \t%d  \n", emp->present);
         printf(" Absent                 \t%d  \n", emp->absent);
         printf(" Leave:                 \t%d  \n", emp->leave);
         printf(" Overtime:              \t%d  \n", emp->overtime);
         printf(" Period:                \t%s  \n", emp->period);
-        return true;
     }
     else
     {
-        printf(" \n Employee attendance for period %s does not exist.\n", period);
-        return false;
+        printf("\n Employee attendance for period %s does not exist.\n", period);
     }
 }
 
@@ -758,7 +781,7 @@ void displayAllAttendance(Dictionary D, char period[])
            "________",
            "_________",
            "_______");
-    printf(" \t\t\t\t\tATTENDANCE\n");
+    printf(" \t\t\t\t\tATTENDANCE\n\n");
     printf(" %-4s | %-14s | %-12s | %-8s | %-7s | %-8s | %-9s | %-7s\n",
            "#",
            "ATTENDANCE ID",
@@ -768,15 +791,15 @@ void displayAllAttendance(Dictionary D, char period[])
            "LEAVE",
            "OVERTIME",
            "PERIOD");
-    printf(" %4s___%14s___%12s___%8s___%7s___%8s___%9s___%7s\n",
-           "____",
-           "______________",
-           "____________",
-           "________",
-           "_______",
-           "________",
-           "_________",
-           "_______");
+    printf(" %-4s | %-14s | %-12s | %-8s | %-7s | %-8s | %-9s | %-7s\n",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "");
 
     for (i = 0; i < DICT_SIZE; i++)
     {
@@ -797,19 +820,16 @@ void displayAllAttendance(Dictionary D, char period[])
         }
     }
 
-    if (trav == NULL && i == DICT_SIZE - 1)
-    {
-        printf(" %4s___%14s___%12s___%8s___%7s___%8s___%9s___%7s\n",
-               "____",
-               "______________",
-               "____________",
-               "________",
-               "_______",
-               "________",
-               "_________",
-               "_______");
-        printf(" End of Dictionary\n");
-    }
+    printf(" %4s_|_%14s_|_%12s_|_%8s_|_%7s_|_%8s_|_%9s_|_%7s\n",
+           "____",
+           "______________",
+           "____________",
+           "________",
+           "_______",
+           "________",
+           "_________",
+           "_______");
+    printf("\n End of Dictionary\n\n");
 }
 
 void debugAttendance(Dictionary D)
@@ -863,9 +883,9 @@ Schema_Bonus createBonus(Dictionary D)
 bool insertBonus(Dictionary *D, Schema_Bonus data)
 {
     PSB *trav;
-    int hashVal = hash(data.bonusID);
+    int hashVal = hash(data.employeeID);
 
-    for (trav = &(D->BonusD[hashVal]); *trav != NULL; trav = &(*trav)->next) // strcmp(data.bonusName, (*trav)->data.bonusName) != 0
+    for (trav = &(D->BonusD[hashVal]); *trav != NULL; trav = &(*trav)->next) //&& strcmp((*trav)->data.period, data.period) != 0
     {
     }
 
@@ -930,19 +950,16 @@ Schema_Bonus *searchBonus(Dictionary D, ID employeeID, char period[])
 
     for (trav = D.BonusD[hashVal]; trav != NULL && (trav->data.employeeID != employeeID || strcmp(trav->data.period, period) != 0); trav = trav->next)
     {
-        if ((trav->data.employeeID != employeeID && strcmp(trav->data.period, period) != 0))
+        if (trav->data.employeeID == employeeID && strcmp(trav->data.period, period) == 0)
             break;
     }
 
     if (trav != NULL)
     {
-        // Schema_Bonus *data = (Schema_Bonus *)malloc(sizeof(Schema_Bonus));
-        // *data = trav->data;
         return &trav->data;
     }
     else
     {
-        printf("\n Bonus ID not found\n");
         return NULL;
     }
 }
@@ -965,7 +982,7 @@ void debugBonus(Dictionary D)
     }
 }
 
-bool displayAllBonus(Dictionary D)
+void displayAllBonus(Dictionary D)
 {
     PSB trav;
     int i;
@@ -977,8 +994,7 @@ bool displayAllBonus(Dictionary D)
            "___________",
            "_______",
            "_______");
-    printf(" BONUS\n");
-    
+    printf("\t\t\t\tBONUS\n\n");
     printf(" %-4s | %-9s | %-12s | %-11s | %-7s | %-7s\n",
            "#",
            "BONUS ID",
@@ -986,13 +1002,13 @@ bool displayAllBonus(Dictionary D)
            "BONUS NAME",
            "AMOUNT",
            "PERIOD");
-    printf(" %-4s___%-9s___%-12s___%-11s___%-7s___%-7s\n",
-           "____",
-           "_________",
-           "____________",
-           "___________",
-           "_______",
-           "_______");
+    printf(" %-4s | %-9s | %-12s | %-11s | %-7s | %-7s\n",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "");
 
     for (i = 0; i < DICT_SIZE; i++)
     {
@@ -1008,25 +1024,17 @@ bool displayAllBonus(Dictionary D)
         }
     }
 
-    if (trav == NULL && i == DICT_SIZE - 1)
-    {
-        printf(" %-4s___%-9s___%-12s___%-11s___%-7s___%-7s\n",
-               "____",
-               "_________",
-               "____________",
-               "___________",
-               "_______",
-               "_______");
-        printf(" End of Dictionary\n");
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    printf(" %-4s_|_%-9s_|_%-12s_|_%-11s_|_%-7s_|_%-7s\n",
+           "____",
+           "_________",
+           "____________",
+           "___________",
+           "_______",
+           "_______");
+    printf("\n End of Dictionary\n\n");
 }
 
-bool displayBonus(int employeeID, Dictionary *D, char period[])
+void displayBonus(int employeeID, Dictionary *D, char period[])
 {
     Schema_Bonus *emp = searchBonus(*D, employeeID, period);
     if (emp)
@@ -1036,11 +1044,10 @@ bool displayBonus(int employeeID, Dictionary *D, char period[])
         printf(" |  Bonus Name:     \t%s  |", emp->bonusName);
         printf(" |  Amount          \t%f  |", emp->amount);
         printf(" |  Period:         \t%s  |", emp->period);
-        return true;
     }
     else
     {
-        return false;
+        printf("\n Employee bonus for period %s does not exist.\n", period);
     }
 }
 
@@ -1064,7 +1071,7 @@ Schema_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balanc
 bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
 {
     PSIS *trav;
-    int hashVal = hash(data.issueID);
+    int hashVal = hash(data.employeeID);
 
     for (trav = &(D->IssueSalaryD[hashVal]); *trav != NULL; trav = &(*trav)->next)
     {
@@ -1072,7 +1079,7 @@ bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
 
     if (*trav == NULL)
     {
-        *trav = (PSIS)malloc(sizeof(Schema_User) + 1);
+        *trav = (PSIS)malloc(sizeof(Schema_IssueSalary) + 1);
         if (*trav != NULL)
         {
             (*trav)->data = data;
@@ -1115,6 +1122,7 @@ bool deleteIssueSalary(Dictionary *D, ID issueID)
     }
     else
     {
+        // TODO: Update Pagasa deposit
         temp = *trav;
         *trav = (*trav)->next;
         free(temp);
@@ -1123,21 +1131,19 @@ bool deleteIssueSalary(Dictionary *D, ID issueID)
     }
 }
 
-Schema_IssueSalary *searchIssueSalary(Dictionary D, ID userID, char period[])
+Schema_IssueSalary *searchIssueSalary(Dictionary D, ID employeeID, char period[])
 {
     PSIS trav, temp;
-    int hashVal = hash(userID);
+    int hashVal = hash(employeeID);
 
-    for (trav = D.IssueSalaryD[hashVal]; trav != NULL && (trav->data.issueID != userID || strcmp(trav->data.period, period) != 0); trav = trav->next)
+    for (trav = D.IssueSalaryD[hashVal]; trav != NULL && (trav->data.employeeID != employeeID || strcmp(trav->data.period, period) != 0); trav = trav->next)
     {
-        if (trav->data.issueID != userID && strcmp(trav->data.period, period) != 0)
+        if (trav->data.employeeID == employeeID && strcmp(trav->data.period, period) == 0)
             break;
     }
 
     if (trav != NULL)
     {
-        // Schema_IssueSalary *data = (Schema_IssueSalary *)malloc(sizeof(Schema_IssueSalary));
-        // *data = trav->data;
         return &trav->data;
     }
     else
@@ -1164,7 +1170,7 @@ void debugSalary(Dictionary D)
     }
 }
 
-bool displayAllSalary(Dictionary D, char period[])
+void displayAllSalary(Dictionary D, char period[])
 {
     PSIS trav;
     int i;
@@ -1175,21 +1181,19 @@ bool displayAllSalary(Dictionary D, char period[])
            "____________",
            "________",
            "_______");
-    printf(" SALARY\n");
-   
+    printf("\t\t\t SALARY\n\n");
     printf(" %-4s | %-9s | %-12s | %-8s | %7s \n",
            "#",
            "ISSUE ID",
            "EMPLOYEE ID",
            "BALANCE",
            "PERIOD");
-    printf(" %-4s___%-9s___%-12s___%-8s___%7s \n",
-           "____",
-           "_________",
-           "____________",
-           "________",
-           "_______");
-
+    printf(" %-4s | %-9s | %-12s | %-8s | %7s \n",
+           "",
+           "",
+           "",
+           "",
+           "");
     for (i = 0; i < DICT_SIZE; i++)
     {
         for (trav = D.IssueSalaryD[i]; trav != NULL; trav = trav->next)
@@ -1206,43 +1210,35 @@ bool displayAllSalary(Dictionary D, char period[])
         }
     }
 
-    if (trav == NULL && i == DICT_SIZE - 1)
-    {
-        printf(" %-4s___%-9s___%-12s___%-8s___%7s \n",
-               "____",
-               "_________",
-               "____________",
-               "________",
-               "_______");
-        printf(" End of Dictionary\n");
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    printf(" %-4s_|_%-9s_|_%-12s_|_%-8s_|_%7s \n",
+           "____",
+           "_________",
+           "____________",
+           "________",
+           "_______");
+    printf("\n End of Dictionary\n");
 }
 
-bool displayIssueSalary(Dictionary *D, ID empID, char period[])
+void displayIssueSalary(Dictionary *D, ID empID, char period[])
 {
     Schema_IssueSalary *emp = searchIssueSalary(*D, empID, period);
     if (emp)
     {
-        printf(" \n Issue ID:    \t%d  \n", emp->issueID);
-        printf(" Employee ID:   \t%d  \n", emp->employeeID);
-        printf(" Balance:       \t%d  \n", emp->balance);
-        printf(" Period         \t%s  ", emp->period);
-        return true;
+        printf("\n Issue ID:       \t%d  \n", emp->issueID);
+        printf(" Employee ID:       \t%d  \n", emp->employeeID);
+        printf(" Balance:           \t%d  \n", emp->balance);
+        printf(" Period:            \t%s  ", emp->period);
     }
     else
     {
-        return false;
+        printf("Salary for period %s does not exist.\n", period);
     }
 }
 
 bool issueSalary(Dictionary *D, int empID, char period[])
 {
     int temp;
+    int present;
     int leave;
     int absent;
     int overtime;
@@ -1258,13 +1254,14 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     Schema_Attendance *sa = searchAttendance(*D, empID, period);
     if (sa)
     {
+        present = sa->present;
         leave = sa->leave;
         absent = sa->absent;
         overtime = sa->overtime;
     }
     else
     {
-        printf(" \n Employee Attendance could not be found.");
+        printf("\n Employee Attendance could not be found.");
         return false;
     }
 
@@ -1276,7 +1273,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     }
     else
     {
-        printf(" \n Employee Job Information could not be found.");
+        printf("\n Employee Job Information could not be found.");
         return false;
     }
 
@@ -1306,20 +1303,23 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     if (!is)
     {
         income = ((basicSalary + additions) - deductions);
-
+        printf(" _____________________________________________________\n\n");
         printf(" Basic Income: P%.2f\n", basicSalary);
         printf(" Taxable Income: P%.2f\n", income);
         printf(" Additions: P%.2f\n", additions);
-        printf(" Dedutions: P%.2f\n", deductions);
+        printf(" Deductions: P%.2f\n", deductions);
 
         tax = calculateTax(basicSalary, income, &pagibigDeposit);
         income += tax;
 
         printf(" Tax: P%.2lf\n", tax);
-        printf(" Issue Salary: P%.2f\n\n", income);
+        printf(" Issue Salary: P%.2f\n", income);
+        printf(" _____________________________________________________\n\n");
         printf(" Add Issue Salary to the employee's record for period %s?\n\n", period);
         printf(" [1] Yes\n");
         printf(" [2] No\n");
+        printf(" _____________________________________________________\n\n");
+        printf(" Select Option: ");
         scanf("%d", &temp);
 
         if (temp == 1)
@@ -1344,7 +1344,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     }
     else
     {
-        printf(" \n Issue Salary for period %s already exists!", period);
+        printf("\n Issue Salary for period %s already exists!", period);
         return false;
     }
 }
@@ -1356,11 +1356,10 @@ double calculateTax(double basicIncome, double taxableIncome, double *pagibigDep
     // SSS (4%)
     tax += taxableIncome * 0.04;
 
-    if(debug)
+    if (debug)
     {
-        printf(" \n (debug)SSS = %.2lf", tax);
+        printf("\n (Debug) SSS = %.2lf", tax);
     }
-    
 
     // Pag-ibig (1% or 2%, max P24,300 per year)
     if (*pagibigDeposit < 24300)
@@ -1368,11 +1367,10 @@ double calculateTax(double basicIncome, double taxableIncome, double *pagibigDep
         // Calculate the Pagibig tax for current month
         double pagibigTax = taxableIncome < 1500 ? taxableIncome * 0.01 : taxableIncome * 0.02;
 
-        if(debug)
+        if (debug)
         {
-            printf(" \n (debug)Pagibig Tax = %.2lf", pagibigTax);
+            printf("\n (Debug) Pagibig Tax = %.2lf", pagibigTax);
         }
-        
 
         // Add Pagibig tax such that Pagibig deposit doesn't exceed 24300
         if (*pagibigDeposit + pagibigTax > 24300)
@@ -1386,18 +1384,18 @@ double calculateTax(double basicIncome, double taxableIncome, double *pagibigDep
             *pagibigDeposit += pagibigTax;
         }
 
-        if(debug)
+        if (debug)
         {
-            printf(" \n (debug)+Pagibig = %.2lf", tax);
+            printf("\n (Debug) +Pagibig = %.2lf", tax);
         }
     }
 
     // PHIC (1.75%)
     tax += taxableIncome * 0.0175;
 
-    if(debug)
+    if (debug)
     {
-        printf(" \n (debug)+PHIC = %.2lf", tax);
+        printf("\n (Debug) +PHIC = %.2lf", tax);
     }
 
     // WISP (P225)
@@ -1407,11 +1405,11 @@ double calculateTax(double basicIncome, double taxableIncome, double *pagibigDep
     double annualTax = 0;
     double annualSalary = basicIncome * 12;
 
-    if(debug)
+    if (debug)
     {
-        printf(" \n (debug)Annual Salary = %.2lf", annualSalary);
+        printf("\n (Debug) Annual Salary = %.2lf", annualSalary);
     }
-    
+
     if (annualSalary <= 250000)
     {
         // 0%
@@ -1446,12 +1444,12 @@ double calculateTax(double basicIncome, double taxableIncome, double *pagibigDep
     // Convert annual tax to monthly
     tax += (annualTax / 12);
 
-    if(debug)
+    if (debug)
     {
-        printf(" \n (debug)Annual Tax = %.2lf", annualTax);
-        printf(" \n (debug)Monthly Tax = %.2lf", annualTax / 12);
+        printf("\n (Debug) Annual Tax = %.2lf", annualTax);
+        printf("\n (Debug) Monthly Tax = %.2lf", annualTax / 12);
     }
-    
+
     return tax;
 }
 
@@ -1577,8 +1575,6 @@ Schema_JobInformation *searchJobInformation(Dictionary D, ID employmentID)
 
     if (trav != NULL)
     {
-        // UserSchema_JobInformation *data = (UserSchema_JobInformation *)malloc(sizeof(UserSchema_JobInformation));
-        // *data = trav->data;
         return &trav->data;
     }
     else
@@ -1605,7 +1601,7 @@ void debugJobInformation(Dictionary D)
     }
 }
 
-bool displayAllJobInformation(Dictionary D)
+void displayAllJobInformation(Dictionary D)
 {
     PSJI trav;
     int i;
@@ -1620,7 +1616,7 @@ bool displayAllJobInformation(Dictionary D)
            "__________",
            "______________",
            "_________________");
-    printf(" JOB INFORMATION\n");
+    printf(" JOB INFORMATION\n\n");
     printf(" %-4s | %-14s | %-13s | %-13s | %-10s | %-11s | %-10s | %-13s | %-16s \n",
            "#",
            "EMPLOYMENT ID",
@@ -1631,16 +1627,16 @@ bool displayAllJobInformation(Dictionary D)
            "JOB EMAIL",
            "BASIC SALARY",
            "PAGIBIG DEPOSIT");
-    printf(" %-4s___%-14s___%-13s___%-13s___%-10s___%-11s___%-10s___%-13s___%-16s \n",
-           "____",
-           "______________",
-           "_____________",
-           "_____________",
-           "__________",
-           "___________",
-           "__________",
-           "______________",
-           "_________________");
+    printf(" %-4s | %-14s | %-13s | %-13s | %-10s | %-11s | %-10s | %-13s | %-16s \n",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "");
 
     for (i = 0; i < DICT_SIZE; i++)
     {
@@ -1660,28 +1656,20 @@ bool displayAllJobInformation(Dictionary D)
         }
     }
 
-    if (trav == NULL && i == DICT_SIZE - 1)
-    {
-        printf(" %-4s___%-14s___%-13s___%-13s___%-10s___%-11s___%-10s___%-13s___%-16s \n",
-               "____",
-               "______________",
-               "_____________",
-               "_____________",
-               "__________",
-               "___________",
-               "__________",
-               "______________",
-               "_________________");
-        printf(" End of Dictionary\n");
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    printf(" %-4s_|_%-14s_|_%-13s_|_%-13s_|_%-10s_|_%-11s_|_%-10s_|_%-13s_|_%-16s \n",
+           "____",
+           "______________",
+           "_____________",
+           "_____________",
+           "__________",
+           "___________",
+           "__________",
+           "______________",
+           "_________________");
+    printf("\n End of Dictionary\n\n");
 }
 
-bool displayJobInformation(ID employeeID, Dictionary *D)
+void displayJobInformation(ID employeeID, Dictionary *D)
 {
     Schema_JobInformation *ji = searchJobInformation(*D, employeeID);
     if (ji)
@@ -1696,11 +1684,10 @@ bool displayJobInformation(ID employeeID, Dictionary *D)
         printf(" |  Department:       \t%s   |", ji->department);
         printf(" |  Basic Salary:     \t%lf  |", ji->basicSalary);
         printf(" |  Pag-ibig Deposit: \t%lf  |", ji->jobPosition);
-        return true;
     }
     else
     {
-        return false;
+        printf("Employee ID %d not found", employeeID);
     }
 }
 
@@ -1723,7 +1710,7 @@ Schema_User createUserInformation(Dictionary D)
     scanf("%s", &emp.lastName);
     fflush(stdin);
 
-    printf(" Gender (FEMALE = 1 / MALE = 0): ");
+    printf(" Gender [MALE(0) / FEMALE(1)]: ");
     scanf("%u", &emp.gender);
     fflush(stdin);
 
@@ -1731,7 +1718,7 @@ Schema_User createUserInformation(Dictionary D)
     scanf("%s", &emp.dateOfBirth);
     fflush(stdin);
 
-    printf(" Filipino Citizen (YES = 1 / NO = 0): ");
+    printf(" Filipino Citizen [NO(0) / YES(1)]: ");
     scanf("%u", &emp.filipinoCitizen);
     fflush(stdin);
 
@@ -1751,7 +1738,7 @@ Schema_User createUserInformation(Dictionary D)
     scanf("%s", &emp.address);
     fflush(stdin);
 
-    printf(" User Type (EMPLOYER = 1 / EMPLOYEE = 0): ");
+    printf(" User Type [EMPLOYEE(0) / EMPLOYER(1)]: ");
     scanf("%u", &emp.userType);
     fflush(stdin);
 
@@ -1807,7 +1794,7 @@ bool deleteUser(Dictionary *D, ID userID)
     {
     }
 
-    if (trav == NULL)
+    if (*trav == NULL)
     {
         return false;
     }
@@ -1832,8 +1819,6 @@ Schema_User *searchUser(Dictionary D, ID userID)
 
     if (trav != NULL)
     {
-        // Schema_User *data = (Schema_User *)malloc(sizeof(Schema_User));
-        // *data = trav->data;
         return &trav->data;
     }
     else
@@ -1867,7 +1852,7 @@ void debugUser(Dictionary D)
     }
 }
 
-bool displayAllUser(Dictionary D)
+void displayAllUser(Dictionary D)
 {
     PSU trav;
     int i;
@@ -1885,20 +1870,7 @@ bool displayAllUser(Dictionary D)
            "____________________",
            "____________________",
            "__________");
-    printf(" USER\n");
-    printf(" %-4s___%-8s___%-11s___%-10s___%-7s___%-14s___%-17s___%-10s___%-13s___%-20s___%-20s___%-10s \n",
-           "____",
-           "________",
-           "___________",
-           "__________",
-           "_______",
-           "______________",
-           "_________________",
-           "__________",
-           "_____________",
-           "____________________",
-           "____________________",
-           "__________");
+    printf(" USER\n\n");
     printf(" %-4s | %-8s | %-11s | %-10s | %-7s | %-14s | %-17s | %-10s | %-13s | %-20s | %-20s | %-10s \n",
            "#",
            "USER ID",
@@ -1912,19 +1884,19 @@ bool displayAllUser(Dictionary D)
            "EMAIL ADDRESS",
            "ADDRESS",
            "USER TYPE");
-    printf(" %-4s___%-8s___%-11s___%-10s___%-7s___%-14s___%-17s___%-10s___%-13s___%-20s___%-20s___%-10s \n",
-           "____",
-           "________",
-           "___________",
-           "__________",
-           "_______",
-           "______________",
-           "_________________",
-           "__________",
-           "_____________",
-           "____________________",
-           "____________________",
-           "__________");
+    printf(" %-4s | %-8s | %-11s | %-10s | %-7s | %-14s | %-17s | %-10s | %-13s | %-20s | %-20s | %-10s \n",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "",
+           "");
 
     for (i = 0; i < DICT_SIZE; i++)
     {
@@ -1979,31 +1951,23 @@ bool displayAllUser(Dictionary D)
         }
     }
 
-    if (trav == NULL && i == DICT_SIZE - 1)
-    {
-        printf(" %-4s___%-8s___%-11s___%-10s___%-7s___%-14s___%-17s___%-10s___%-13s___%-20s___%-20s___%-10s \n",
-               "____",
-               "________",
-               "___________",
-               "__________",
-               "_______",
-               "______________",
-               "_________________",
-               "__________",
-               "_____________",
-               "______________",
-               "________",
-               "__________");
-        printf(" End of Dictionary\n");
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    printf(" %-4s_|_%-8s_|_%-11s_|_%-10s_|_%-7s_|_%-14s_|_%-17s_|_%-10s_|_%-13s_|_%-20s_|_%-20s_|_%-10s \n",
+           "____",
+           "________",
+           "___________",
+           "__________",
+           "_______",
+           "______________",
+           "_________________",
+           "__________",
+           "_____________",
+           "____________________",
+           "____________________",
+           "__________");
+    printf("\n End of Dictionary\n\n");
 }
 
-bool displayUserInformation(ID userID, Dictionary *D)
+void displayUserInformation(ID userID, Dictionary *D)
 {
     Schema_User *emp = searchUser(*D, userID);
     if (emp)
@@ -2035,7 +1999,7 @@ bool displayUserInformation(ID userID, Dictionary *D)
         printf(" Home Phone:       \t%s  \n", emp->homePhone);
         printf(" Mobile Phone:     \t%s  \n", emp->mobilePhone);
         printf(" Email:            \t%s  \n", emp->emailAddress);
-        printf(" Address           \t%s  ", emp->address);
+        printf(" Address           \t%s  \n", emp->address);
         if (emp->userType == EMPLOYEE)
         {
             printf(" User Type:           \t%s  \n", "EMPLOYEE");
@@ -2044,11 +2008,10 @@ bool displayUserInformation(ID userID, Dictionary *D)
         {
             printf(" User Type:           \t%s  \n", "EMPLOYER");
         }
-        return true;
     }
     else
     {
-        return false;
+        printf(" Employee ID %d not found\n", userID);
     }
 }
 

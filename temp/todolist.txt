@@ -1,6 +1,6 @@
 ********************************************************************
 TODO
-Fix all ViewAll UI
+
 CASE 8 View/Update Bonus
 
 ********************************************************************
@@ -22,7 +22,7 @@ CASE [3] (Create monthly bonus)                         >> COMPLETED
 
 CASE [4] (Create issue salary)                        
 
-    [1] Add indention                                   >> TO CHECK
+    [1] Add indention                                   >> COMPLETED
 
     [2] Error on the ff. input                          >> COMPLETED
         existing employee input and Non
@@ -48,36 +48,36 @@ CASE [6] (View/Update/Delete Employee Profile)*
 
     [1] View                                            >> COMPLETED
 
-    [2] Update                                          >> TO CHECK
+    [2] Update                                          >> COMPLETED
 
-        [1] First Name                                  >> TO CHECK
+        [1] First Name                                  >> COMPLETED
             Fix cannot input
 
-        [2] Last Name                                   >> TO CHECK
+        [2] Last Name                                   >> COMPLETED
             Fix cannot input
 
-        [3] Gender                                      >> TO CHECK
+        [3] Gender                                      >> COMPLETED
             Fix cannot input
 
-        [4] Date of Birth                               >> TO CHECK
+        [4] Date of Birth                               >> COMPLETED
             Fix cannot input
 
-        [5] Filipino Citizenship                        >> TO CHECK
+        [5] Filipino Citizenship                        >> COMPLETED
             Fix cannot input
 
-        [6] Home Phone                                  >> TO CHECK
+        [6] Home Phone                                  >> COMPLETED
             Fix cannot input
 
-        [7] Mobile Phone                                >> TO CHECK
+        [7] Mobile Phone                                >> COMPLETED
             Fix cannot input
 
-        [8] Email                                       >> TO CHECK
+        [8] Email                                       >> COMPLETED
             Fix cannot input
 
-        [9] Address                                     >> TO CHECK
+        [9] Address                                     >> COMPLETED
             Fix cannot input
 
-        [10] Update All                                 >> TO CHECK
+        [10] Update All                                 >> COMPLETED
             Fix cannot input
 
     [3] Delete                                          >> COMPLETED
@@ -102,6 +102,8 @@ CASE [8] View/Update/Delete Bonus
 
     [3] Delete 
         Complete this shit
+
+CASE [9] Employee Salary
 
 CASE [FILE] Save and Exit
 

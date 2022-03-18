@@ -4,9 +4,13 @@
 
 int main()
 {
+    dPtr D;
     bool loginRequired = false;
 
-    // Login
+    /* Initialize Dictionary  */
+    initDictionary(&D);
+
+    /* Log in  */
     if (loginRequired)
     {
         header();
@@ -19,9 +23,7 @@ int main()
         }
     }
 
-    dPtr D;
-    initDictionary(&D);
-
+    /* Pull Data from Files */
     // if (pullDictionaries(D))
     // {
     //     printf(" Dictionaries pulled successfully\n");
@@ -31,62 +33,10 @@ int main()
     //     printf(" Dictionaries failed to pull\n");
     // }
 
-    // Insert default schemas
-    Schema_User defaultUser = {
-        1,
-        "employeefn",
-        "employeeln",
-        FEMALE,
-        "1/1/1",
-        NO,
-        "1234",
-        "1234",
-        "employee@gmail.com",
-        "employeeaddress",
-        EMPLOYER};
+    /* Insert default schemas */
+    insertDefault(D);
 
-    Schema_Bonus defaultBonus = {
-        1,
-        1,
-        "employeebonus",
-        100,
-        "03/02"};
-
-    Schema_Attendance defaultAttendance = {
-        1,
-        1,
-        0,
-        0,
-        0,
-        0,
-        "03/22",
-    };
-
-    Schema_IssueSalary defaultIssueSalary = {
-        1,
-        1,
-        100,
-        "03/22"};
-
-    Schema_JobInformation defaultJobInformation = {
-        1,
-        1,
-        "employee",
-        "employeelocation",
-        "1234",
-        "1/1/2001",
-        "employeedepartment",
-        "employee@gmail.com",
-        1000,
-        0};
-
-    insertUser(D, defaultUser);
-    insertAttendance(D, defaultAttendance);
-    insertBonus(D, defaultBonus);
-    insertJobInformation(D, defaultJobInformation);
-    insertIssueSalary(D, defaultIssueSalary);
-    // End of insert default
-
+    /* Show User Interface */
     showMenu(D);
 
     return 0;

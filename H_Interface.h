@@ -55,14 +55,49 @@ void showMenu(Dictionary *D)
         printf(" [9] Employee Salary\n");
         printf(" [0] Save and Exit\n");
         printf(" _____________________________________________________\n\n");
-        printf(" Select: ");
+        printf(" Select Option: ");
         scanf("%d", &temp);
         fflush(stdin);
 
         switch (temp)
         {
 
-        // Push to Dictionary -- Complete
+        case -5:
+            debugUser(*D);
+            printf(" _____________________________________________________\n\n");
+            printf(" *Press any key to continue...* ");
+            getch();
+            break;
+
+        case -4:
+            debugSalary(*D);
+            printf(" _____________________________________________________\n\n");
+            printf(" *Press any key to continue...* ");
+            getch();
+            break;
+
+        case -3:
+            debugJobInformation(*D);
+            printf(" _____________________________________________________\n\n");
+            printf(" *Press any key to continue...* ");
+            getch();
+            break;
+
+        case -2:
+            debugBonus(*D);
+            printf(" _____________________________________________________\n\n");
+            printf(" *Press any key to continue...* ");
+            getch();
+            break;
+
+        case -1:
+            debugAttendance(*D);
+            printf(" _____________________________________________________\n\n");
+            printf(" *Press any key to continue...* ");
+            getch();
+            break;
+
+            // Push to Dictionary -- Complete
         case 0:
         {
             if (pushUserD(*D) && pushJobInformationD(*D) && pushIssueSalaryD(*D) && pushBonusD(*D) && pushAttendanceD(*D)) // pushUserD(*D) &&
@@ -100,7 +135,7 @@ void showMenu(Dictionary *D)
             }
 
             printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             getch();
             break;
         }
@@ -134,7 +169,7 @@ void showMenu(Dictionary *D)
                 }
             }
             printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             getch();
             break;
         }
@@ -183,22 +218,21 @@ void showMenu(Dictionary *D)
 
             if (issueSalary(D, empID, period))
             {
-                printf("\nEmployee salary was successfully issued.");
+                printf("\n Employee salary was successfully issued.\n");
             }
             else
             {
-                printf("\n Failed to issue employee salary.");
+                printf("\n Failed to issue employee salary.\n");
             }
             printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             getch();
             break;
         }
 
-        // Employee Attendance -- Testing
+        // Employee Attendance -- Complete
         case 5:
         {
-
             while (In2)
             {
                 system("cls");
@@ -207,6 +241,8 @@ void showMenu(Dictionary *D)
                     displayDictionariesCount(*D);
                 }
                 header();
+
+                printf(" Employee Attendance >\n\n");
                 printf(" EMPLOYEE ATTENDANCE\n\n");
                 printf("  [1] View Employee Attendance\n");
                 printf("  [2] View All Employee Attendance\n");
@@ -242,13 +278,13 @@ void showMenu(Dictionary *D)
                     printf(" VIEW EMPLOYEE ATTENDANCE\n\n");
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
-                    printf(" Enter Period: ");
+                    printf(" Enter Period (mm/yy): ");
                     scanf("%s", &period);
                     fflush(stdin);
                     displayAttendance(D, empID, period);
 
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -263,12 +299,11 @@ void showMenu(Dictionary *D)
                     printf(" Employee Attendance > View All Employee Attendance\n\n");
 
                     printf(" VIEW ALL EMPLOYEE ATTENDANCE\n\n");
-                    printf(" Enter Period: ");
+                    printf(" Enter period (mm/yy): ");
                     scanf("%s", &period);
                     displayAllAttendance(*D, period);
 
-                    printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -286,7 +321,7 @@ void showMenu(Dictionary *D)
                     printf(" UPDATE EMPLOYEE ATTENDANCE\n\n");
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
-                    printf(" Enter Period: ");
+                    printf(" Enter Period (mm/yy): ");
                     scanf("%s", &period);
                     fflush(stdin);
 
@@ -307,7 +342,7 @@ void showMenu(Dictionary *D)
                         printf("  [2] No. of Absents\n");
                         printf("  [3] No. of Leaves\n");
                         printf("  [4] No. of Overtime Hours\n");
-                        printf("  [5] Period [MM/YY]\n");
+                        printf("  [5] Period (mm/yy)\n");
                         printf("  [6] Update All\n");
                         printf("  [0] Back\n");
                         printf(" _____________________________________________________\n\n");
@@ -332,86 +367,86 @@ void showMenu(Dictionary *D)
                         }
                         case 1:
                         {
-                            printf(" \n\nEnter new number of present days: ");
+                            printf(" \n\n Enter new number of present days: ");
                             scanf("%d", &empAttInfo->present);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 2:
                         {
-                            printf(" \n\nEnter new number of absent days: ");
+                            printf(" \n\n Enter new number of absent days: ");
                             scanf("%d", &empAttInfo->absent);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 3:
                         {
-                            printf(" \n\nEnter new number of leave days: ");
+                            printf(" \n\n Enter new number of leave days: ");
                             scanf("%d", &empAttInfo->leave);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 4:
                         {
-                            printf(" \n\nEnter new number of overtime hours: ");
+                            printf(" \n\n Enter new number of overtime hours: ");
                             scanf("%d", &empAttInfo->overtime);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 5:
                         {
-                            printf(" \n\nEnter new period: ");
+                            printf(" \n\n Enter new period (mm/yy): ");
                             scanf("%s", &empAttInfo->period);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 6:
                         {
                             Schema_Attendance att;
-                            printf(" \n\nEnter new number of present days: ");
+                            printf(" Enter new number of present days: ");
                             scanf("%d", &att.present);
                             fflush(stdin);
 
-                            printf(" \n\nEnter new number of absent days: ");
+                            printf(" Enter new number of absent days: ");
                             scanf("%d", &att.absent);
                             fflush(stdin);
 
-                            printf(" \n\nEnter new number of leave days: ");
+                            printf(" Enter new number of leave days: ");
                             scanf("%d", &att.leave);
                             fflush(stdin);
 
-                            printf(" \n\nEnter new number of overtime hours: ");
+                            printf(" Enter new number of overtime hours: ");
                             scanf("%d", &att.overtime);
                             fflush(stdin);
 
-                            printf(" \n\nEnter new period: ");
+                            printf(" Enter new period (mm/yy): ");
                             scanf("%s", &att.period);
                             fflush(stdin);
 
                             updateAttendance(D, att, empAttInfo, period);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
@@ -425,7 +460,7 @@ void showMenu(Dictionary *D)
                     }
                     In9 = true;
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -446,10 +481,17 @@ void showMenu(Dictionary *D)
                     printf(" Enter period (mm/yy): ");
                     scanf("%s", &period);
                     fflush(stdin);
-                    deleteAttendance(D, empID, period);
+                    if (deleteAttendance(D, empID, period))
+                    {
+                        printf("\n Employee Attendance was successfully deleted.\n");
+                    }
+                    else
+                    {
+                        printf("\n Employee attendance was not found.\n");
+                    }
 
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -472,7 +514,7 @@ void showMenu(Dictionary *D)
                     setPresent(empID, D, period);
 
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -495,7 +537,7 @@ void showMenu(Dictionary *D)
                     setLeave(empID, D, period);
 
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -518,7 +560,7 @@ void showMenu(Dictionary *D)
                     setAbsent(empID, D, period);
 
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -541,7 +583,7 @@ void showMenu(Dictionary *D)
                     setOvertime(empID, D, period);
 
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -550,7 +592,7 @@ void showMenu(Dictionary *D)
                     printf(" ERROR: Please enter a vaid input*\n");
 
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -573,12 +615,12 @@ void showMenu(Dictionary *D)
                 header();
                 printf(" Employee Profile\n\n");
 
-                printf(" EMPLOYEE PROFILE\n\n");
                 printf("  [1] View\n");
                 printf("  [2] View All\n");
                 printf("  [3] Update\n");
                 printf("  [4] Delete\n");
-                printf("  [0] Back\n\n");
+                printf("  [0] Back\n");
+                printf(" _____________________________________________________\n\n");
                 printf(" Select Option: ");
                 scanf("%d", &temp);
                 fflush(stdin);
@@ -600,14 +642,13 @@ void showMenu(Dictionary *D)
                     header();
                     printf(" Employee Profile > View\n\n");
 
-                    printf(" VIEW EMPLOYEE PROFILE\n\n");
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
                     fflush(stdin);
                     displayUserInformation(empID, D);
 
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -624,8 +665,7 @@ void showMenu(Dictionary *D)
                     printf(" VIEW ALL EMPLOYEE PROFILE\n\n");
                     displayAllUser(*D);
 
-                    printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -656,7 +696,6 @@ void showMenu(Dictionary *D)
                         header();
                         printf(" Employee Profile > Update\n\n");
 
-                        printf(" UPDATE JOB INFORMATION\n\n");
                         printf("  [1] First Name\n");
                         printf("  [2] Last Name \n");
                         printf("  [3] Gender\n");
@@ -666,7 +705,8 @@ void showMenu(Dictionary *D)
                         printf("  [7] Mobile Phone\n");
                         printf("  [8] Email\n");
                         printf("  [9] Address\n");
-                        printf("  [10] Update All\n");
+                        printf("  [10] User Type\n");
+                        printf("  [11] Update All\n");
                         printf("  [0] Back\n");
                         printf(" _____________________________________________________\n\n");
                         printf(" Select Option: ");
@@ -679,147 +719,173 @@ void showMenu(Dictionary *D)
                             displayDictionariesCount(*D);
                         }
                         header();
+                        printf(" Employee Profile > Update > Employee %d\n\n", empID);
                         displayUserInformation(empID, D);
 
                         switch (temp)
                         {
                         case 1:
                         {
-                            printf(" \n\nEnter new first name: ");
+                            printf(" _____________________________________________________\n\n");
+                            printf(" Enter new first name: ");
                             scanf("%s", &empInfo->firstName);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 2:
                         {
-                            printf(" \n\nEnter new last name: ");
+                            printf(" _____________________________________________________\n\n");
+                            printf(" Enter new last name: ");
                             scanf("%s", &empInfo->lastName);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 3:
                         {
-                            printf(" \n\nEnter new gender [MALE/FEMALE]: ");
-                            scanf("%s", &empInfo->gender);
+                            printf(" _____________________________________________________\n\n");
+                            printf(" Enter new gender [MALE(0) / FEMALE(1)]: ");
+                            scanf("%u", &empInfo->gender);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 4:
                         {
-                            printf(" \n\nEnter new date of birth: ");
+                            printf(" _____________________________________________________\n\n");
+                            printf(" Enter new date of birth: ");
                             scanf("%s", &empInfo->dateOfBirth);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 5:
                         {
-                            printf(" \n\nIs a Filipino citizen? [YES/NO]: ");
-                            scanf("%s", &empInfo->filipinoCitizen);
+                            printf(" _____________________________________________________\n\n");
+                            printf(" Is a Filipino citizen? [NO(0) / YES(1)]: ");
+                            scanf("%u", &empInfo->filipinoCitizen);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 6:
                         {
-                            printf(" \n\nEnter new home phone: ");
+                            printf(" _____________________________________________________\n\n");
+                            printf(" Enter new home phone: ");
                             scanf("%s", &empInfo->homePhone);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 7:
                         {
-                            printf(" \n\nEnter new mobile phone: ");
-                            scanf("%lf", &empInfo->mobilePhone);
+                            printf(" _____________________________________________________\n\n");
+                            printf(" Enter new mobile phone: ");
+                            scanf("%s", &empInfo->mobilePhone);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 8:
                         {
-                            printf(" \n\nEnter new email address: ");
-                            scanf("%lf", &empInfo->emailAddress);
+                            printf(" _____________________________________________________\n\n");
+                            printf(" Enter new email address: ");
+                            scanf("%s", &empInfo->emailAddress);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 9:
                         {
-                            printf(" \n\nEnter new address: ");
-                            scanf("%lf", &empInfo->address);
+                            printf(" _____________________________________________________\n\n");
+                            printf(" Enter new address: ");
+                            scanf("%s", &empInfo->address);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 10:
                         {
-                            Schema_User data;
+                            printf(" _____________________________________________________\n\n");
+                            printf(" Enter new user type [EMPLOYEE(0) / EMPLOYER(1)]: ");
+                            scanf("%u", &empInfo->userType);
+                            fflush(stdin);
 
-                            printf(" \n\nEnter new first name: ");
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
+                            break;
+                        }
+                        case 11:
+                        {
+                            Schema_User data;
+                            printf(" _____________________________________________________\n\n");
+                            printf(" Enter new first name: ");
                             scanf("%s", &data.firstName);
                             fflush(stdin);
 
-                            printf(" \nEnter new last name: ");
+                            printf(" Enter new last name: ");
                             scanf("%s", &data.lastName);
                             fflush(stdin);
 
-                            printf(" \nEnter new gender [MALE/FEMALE]: ");
-                            scanf("%d", &data.gender);
+                            printf(" Enter new gender [MALE(0) / FEMALE(1)]: ");
+                            scanf("%u", &data.gender);
                             fflush(stdin);
 
-                            printf(" \nEnter new start date: ");
+                            printf(" Enter new date of birth: ");
                             scanf("%s", &data.dateOfBirth);
                             fflush(stdin);
 
-                            printf(" \nFilipino Citizen? [YES/NO]: ");
-                            scanf("%d", &data.filipinoCitizen);
+                            printf(" Filipino Citizen? [NO(0) / YES(1)]: ");
+                            scanf("%u", &data.filipinoCitizen);
                             fflush(stdin);
 
-                            printf(" \nEnter new home phone: ");
+                            printf(" Enter new home phone: ");
                             scanf("%s", &data.homePhone);
                             fflush(stdin);
 
-                            printf(" \nEnter new mobile phone: ");
+                            printf(" Enter new mobile phone: ");
                             scanf("%s", &data.mobilePhone);
                             fflush(stdin);
 
-                            printf(" \nEnter new email address: ");
+                            printf(" Enter new email address: ");
                             scanf("%s", &data.emailAddress);
                             fflush(stdin);
 
-                            printf(" \nEnter new address: ");
+                            printf(" Enter new address: ");
                             scanf("%s", &data.address);
+                            fflush(stdin);
+
+                            printf(" Enter new user type [EMPLOYEE(0) / EMPLOYER(1)]: ");
+                            scanf("%u", &data.userType);
                             fflush(stdin);
 
                             updateUser(D, data, empInfo);
@@ -839,7 +905,7 @@ void showMenu(Dictionary *D)
                     }
                     In6 = true;
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -853,14 +919,21 @@ void showMenu(Dictionary *D)
                     header();
                     printf(" Employee Profile > Delete\n\n");
 
-                    printf(" DELETE EMPLOYEE PROFILE\n\n");
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
                     fflush(stdin);
-                    bool b = deleteUser(D, empID);
+
+                    if (deleteUser(D, empID))
+                    {
+                        printf("\n Employee profile was successfully deleted.\n");
+                    }
+                    else
+                    {
+                        printf("\n Employee profile was not found.\n");
+                    }
 
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -893,7 +966,7 @@ void showMenu(Dictionary *D)
             //     printf("  [2] Update\n");
             //     printf("  [3] Delete\n");
             //     printf("  [0] Back\n");
-            // printf(" _____________________________________________________\n\n");
+            //     printf(" _____________________________________________________\n\n");
             //     printf(" Select Option: ");
 
             //     scanf("%d", &temp);
@@ -921,7 +994,7 @@ void showMenu(Dictionary *D)
             //         displayJobInformation(empID, D);
 
             //         printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             //         getch();
             //         break;
             //     }
@@ -959,7 +1032,7 @@ void showMenu(Dictionary *D)
             //             printf("  [8] Pagibig Deposit\n");
             //             printf("  [9] Update All\n");
             //             printf("  [0] Back\n");
-            // printf(" _____________________________________________________\n\n");
+            //             printf(" _____________________________________________________\n\n");
             //             printf("  Select Option: ");
             //             scanf("%d", temp);
             //             fflush(stdin);
@@ -981,7 +1054,7 @@ void showMenu(Dictionary *D)
             //                 fflush(stdin);
 
             //                 printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             //                 getch();
             //                 break;
             //             }
@@ -992,7 +1065,7 @@ void showMenu(Dictionary *D)
             //                 fflush(stdin);
 
             //                 printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             //                 getch();
             //                 break;
             //             }
@@ -1003,7 +1076,7 @@ void showMenu(Dictionary *D)
             //                 fflush(stdin);
 
             //                 printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             //                 getch();
             //                 break;
             //             }
@@ -1014,7 +1087,7 @@ void showMenu(Dictionary *D)
             //                 fflush(stdin);
 
             //                 printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             //                 getch();
             //                 break;
             //             }
@@ -1025,7 +1098,7 @@ void showMenu(Dictionary *D)
             //                 fflush(stdin);
 
             //                 printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             //                 getch();
             //                 break;
             //             }
@@ -1036,7 +1109,7 @@ void showMenu(Dictionary *D)
             //                 fflush(stdin);
 
             //                 printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             //                 getch();
             //                 break;
             //             }
@@ -1047,7 +1120,7 @@ void showMenu(Dictionary *D)
             //                 fflush(stdin);
 
             //                 printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             //                 getch();
             //                 break;
             //             }
@@ -1058,7 +1131,7 @@ void showMenu(Dictionary *D)
             //                 fflush(stdin);
 
             //                 printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             //                 getch();
             //                 break;
             //             }
@@ -1131,7 +1204,7 @@ void showMenu(Dictionary *D)
             //         deleteJobInformation(D, empID);
 
             //         printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
+            printf(" *Press any key to continue...* ");
             //         getch();
             //         break;
             //     }
@@ -1191,19 +1264,12 @@ void showMenu(Dictionary *D)
                     printf(" VIEW BONUS INFORMATION\n\n");
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
-                    printf(" \nEnter Period: ");
+                    printf(" \nEnter Period (mm/yy): ");
                     scanf("%s", &period);
                     fflush(stdin);
-                    if (displayBonus(empID, D, period))
-                    {
-                    }
-                    else
-                    {
-                        printf(" Database Error!");
-                    }
 
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -1220,7 +1286,7 @@ void showMenu(Dictionary *D)
                     printf(" UPDATE BONUS INFORMATION\n\n");
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
-                    printf(" \nEnter Period: ");
+                    printf(" \nEnter Period (mm/yy): ");
                     scanf("%s", &period);
                     fflush(stdin);
 
@@ -1267,7 +1333,7 @@ void showMenu(Dictionary *D)
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
@@ -1278,18 +1344,18 @@ void showMenu(Dictionary *D)
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
                         case 3:
                         {
-                            printf(" \n\nEnter new period [mm/yy]: ");
+                            printf(" \n\nEnter new period (mm/yy): ");
                             scanf("%s", &bonusInfo->period);
                             fflush(stdin);
 
                             printf(" _____________________________________________________\n\n");
-                            printf(" \n *Press any key to continue...* ");
+                            printf(" *Press any key to continue...* ");
                             getch();
                             break;
                         }
@@ -1305,7 +1371,7 @@ void showMenu(Dictionary *D)
                             scanf("%lf", &data.amount);
                             fflush(stdin);
 
-                            printf(" \n\nEnter new period [mm/yy]: ");
+                            printf(" \n\nEnter new period (mm/yy): ");
                             scanf("%s", &data.period);
                             fflush(stdin);
 
@@ -1339,7 +1405,7 @@ void showMenu(Dictionary *D)
                     bool b = deleteBonus(D, bonusID);
 
                     printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -1353,6 +1419,8 @@ void showMenu(Dictionary *D)
             In7 = true;
             break;
         }
+
+        // View/Delete Salary -- Incomplete
         case 9:
         {
             while (In10)
@@ -1367,7 +1435,7 @@ void showMenu(Dictionary *D)
 
                 printf(" EMPLOYEE SALARY\n\n");
                 printf("  [1] View All\n");
-                printf("  [2] View Employee\n");
+                printf("  [2] View One\n");
                 printf("  [3] Delete\n");
                 printf("  [0] Back\n");
                 printf(" _____________________________________________________\n\n");
@@ -1377,87 +1445,82 @@ void showMenu(Dictionary *D)
                 switch (temp)
                 {
                 case 0:
+                    printf("case 0");
                     In10 = false;
                     break;
                 case 1:
                     system("cls");
-                    printf(" Enter Period: ");
+                    header();
+                    printf(" Enter Period (mm/yy): ");
                     scanf("%s", &period);
                     fflush(stdin);
                     displayAllSalary(*D, period);
 
-                    printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" \n _____________________________________________________\n\n");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 case 2:
                     system("cls");
+                    header();
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
-                    printf(" \nEnter Period: ");
+                    printf(" Enter Period (mm/yy): ");
                     scanf("%s", &period);
                     fflush(stdin);
                     displayIssueSalary(D, empID, period);
 
-                    printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" \n _____________________________________________________\n\n");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 case 3:
                     system("cls");
+                    header();
                     printf(" DELETE SALARY INFORMATION\n\n");
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
-                    printf(" \nEnter Period: ");
+                    printf(" Enter Period (mm/yy): ");
                     scanf("%s", &period);
 
                     Schema_IssueSalary *salaryInfo2 = searchIssueSalary(*D, empID, period);
+                    if (salaryInfo2)
+                    {
+                        if (deleteIssueSalary(D, salaryInfo2->issueID))
+                        {
+                            printf("\n Salary was deleted successfully.");
+                        }
+                        else
+                        {
+                            printf("\n Failed to delete salary.");
+                        }
+                    }
+                    else
+                    {
+                        printf("\n Salary was not found.");
+                    }
 
-                    deleteIssueSalary(D, salaryInfo2->issueID);
-
-                    printf(" _____________________________________________________\n\n");
-                    printf(" \n *Press any key to continue...* ");
+                    printf(" \n _____________________________________________________\n\n");
+                    printf(" *Press any key to continue...* ");
+                    getch();
+                    break;
+                default:
+                {
+                    printf("\n ERROR: Please enter a vaid input* ");
                     getch();
                     break;
                 }
+                }
             }
             In10 = true;
+            break;
         }
 
-        case -1:
-            debugAttendance(*D);
-            printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
-            getch();
-            break;
-        case -2:
-            debugBonus(*D);
-            printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
-            getch();
-            break;
-        case -3:
-            debugJobInformation(*D);
-            printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
-            getch();
-            break;
-        case -4:
-            debugSalary(*D);
-            printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
-            getch();
-            break;
-        case -5:
-            debugUser(*D);
-            printf(" _____________________________________________________\n\n");
-            printf(" \n *Press any key to continue...* ");
-            getch();
-            break;
-
+        // Default
         default:
         {
-            printf(" ERROR: Please enter a vaid input*\n");
+            printf("\n ERROR: Please enter a vaid input* ");
+            getch();
             break;
         }
         }
