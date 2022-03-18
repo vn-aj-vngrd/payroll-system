@@ -62,40 +62,55 @@ void showMenu(Dictionary *D)
         switch (temp)
         {
 
+        // Debug Attendance -- Complete
         case -5:
+        {
             debugAttendance(*D);
             printf(" _____________________________________________________\n\n");
             printf(" *Press any key to continue...* ");
             getch();
             break;
+        }
 
+        // Debug Bonus -- Complete
         case -4:
+        {
             debugBonus(*D);
             printf(" _____________________________________________________\n\n");
             printf(" *Press any key to continue...* ");
             getch();
             break;
+        }
 
+        // Debug Job Information -- Complete
         case -3:
+        {
             debugJobInformation(*D);
             printf(" _____________________________________________________\n\n");
             printf(" *Press any key to continue...* ");
             getch();
             break;
+        }
 
+        // Debug Salary -- Complete
         case -2:
+        {
             debugSalary(*D);
             printf(" _____________________________________________________\n\n");
             printf(" *Press any key to continue...* ");
             getch();
             break;
+        }
 
+        // Debug User -- Complete
         case -1:
+        {
             debugUser(*D);
             printf(" _____________________________________________________\n\n");
             printf(" *Press any key to continue...* ");
             getch();
             break;
+        }
 
         // Push to Dictionary -- Complete
         case 0:
