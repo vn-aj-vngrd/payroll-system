@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "H_Interface.h"
+#include "H_View.h"
 
 int main()
 {

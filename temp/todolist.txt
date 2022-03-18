@@ -1,15 +1,15 @@
 ********************************************************************
 TODO
 
-CASE 8 View/Update Bonus
+(Global search "TODO")
 
 ********************************************************************
-CASE [1] (Create employee)*                             >> COMPLETED
+CASE [1] (Create employee)                              >> COMPLETED
 
     [1] Create employee
         Create initial attendance
 
-CASE [2] (Create monthly attendance)*             
+CASE [2] (Create monthly attendance)             
 
     [1] Existing attendance wont return                 >> COMPLETED
         false bool value
@@ -28,7 +28,7 @@ CASE [4] (Create issue salary)
         existing employee input and Non
         existing period
 
-CASE [5] (View update/delete employee attendance)*
+CASE [5] (View update/delete employee attendance)
 
     [1] View employee attendance
         (displays garbage values)                       >> COMPLETED
@@ -44,7 +44,7 @@ CASE [5] (View update/delete employee attendance)*
 
     [6] Set employee overtime hours                     >> COMPLETED
 
-CASE [6] (View/Update/Delete Employee Profile)*
+CASE [6] (View/Update/Delete Employee Profile)
 
     [1] View                                            >> COMPLETED
 
@@ -94,14 +94,11 @@ CASE [7] View/Update/Delete Employee Job Information
         
 CASE [8] View/Update/Delete Bonus           
 
-    [1] View 
-        Complete this shit                              >> PENDING
+    [1] View                                            >> COMPLETED
 
-    [2] Update 
-        Complete this shit                              >> PENDING
+    [2] Update                                          >> COMPLETED
 
-    [3] Delete 
-        Complete this shit
+    [3] Delete                                          >> COMPLETED
 
 CASE [9] Employee Salary
 

@@ -6,6 +6,7 @@
         "stdlib.h": "c",
         "conio.h": "c",
         "stdbool.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "h_model.h": "c"
     }
 }

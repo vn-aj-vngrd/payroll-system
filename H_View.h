@@ -1,8 +1,8 @@
-#ifndef INTERFACE_H
-#define INTERFACE_H
+#ifndef VIEW_H
+#define VIEW_H
 
 #include "H_Dictionary.h"
-#include "H_Schema.h"
+#include "H_Model.h"
 #include "C_Controller.c"
 #include <conio.h>
 #include <stdlib.h>
@@ -70,7 +70,7 @@ void showMenu(Dictionary *D)
             break;
 
         case -4:
-            debugSalary(*D);
+            debugBonus(*D);
             printf(" _____________________________________________________\n\n");
             printf(" *Press any key to continue...* ");
             getch();
@@ -84,7 +84,7 @@ void showMenu(Dictionary *D)
             break;
 
         case -2:
-            debugBonus(*D);
+            debugSalary(*D);
             printf(" _____________________________________________________\n\n");
             printf(" *Press any key to continue...* ");
             getch();
@@ -97,7 +97,7 @@ void showMenu(Dictionary *D)
             getch();
             break;
 
-            // Push to Dictionary -- Complete
+        // Push to Dictionary -- Complete
         case 0:
         {
             if (pushUserD(*D) && pushJobInformationD(*D) && pushIssueSalaryD(*D) && pushBonusD(*D) && pushAttendanceD(*D)) // pushUserD(*D) &&
@@ -185,14 +185,13 @@ void showMenu(Dictionary *D)
             header();
             printf(" CREATE MONTHLY BONUS\n\n");
             Schema_Bonus empBonus = createBonus(*D);
-            bool b = insertBonus(D, empBonus);
-            if (b)
+            if (insertBonus(D, empBonus))
             {
                 printf("\n Employee monthly bonus was successfully created.\n");
             }
             else
             {
-                printf("\n Failed to create employee monthly bonus.\n");
+                printf("\n Employee monthly bonus already exists.\n");
             }
 
             printf("\n *Press any key to continue...* ");
@@ -200,7 +199,7 @@ void showMenu(Dictionary *D)
             break;
         }
 
-        // Issue Employee Salary & Tax -- Testing
+        // Issue Employee Salary & Tax -- TODO (after case 7)
         case 4:
         {
             system("cls");
@@ -948,7 +947,7 @@ void showMenu(Dictionary *D)
             break;
         }
 
-        // View/Update Employee Job Information -- Incomplete
+        // TODO: View/Update Employee Job Information -- To Do
         case 7:
         {
             // while (In4)
@@ -1219,7 +1218,7 @@ void showMenu(Dictionary *D)
             break;
         }
 
-        // View/Update Bonus -- Incomplete
+        // View/Update Bonus -- Complete
         case 8:
         {
             char period[20];
@@ -1232,9 +1231,7 @@ void showMenu(Dictionary *D)
                     displayDictionariesCount(*D);
                 }
                 header();
-                printf(" Employee Bonus\n\n");
-
-                printf(" BONUS\n\n");
+                printf(" EMPLOYEE BONUS\n\n");
                 printf("  [1] View\n");
                 printf("  [2] Update\n");
                 printf("  [3] Delete\n");
@@ -1264,11 +1261,13 @@ void showMenu(Dictionary *D)
                     printf(" VIEW BONUS INFORMATION\n\n");
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
-                    printf(" \nEnter Period (mm/yy): ");
+                    printf(" Enter Period (mm/yy): ");
                     scanf("%s", &period);
                     fflush(stdin);
 
-                    printf(" _____________________________________________________\n\n");
+                    displayBonus(empID, D, period);
+
+                    printf("\n _____________________________________________________\n\n");
                     printf(" *Press any key to continue...* ");
                     getch();
                     break;
@@ -1286,104 +1285,118 @@ void showMenu(Dictionary *D)
                     printf(" UPDATE BONUS INFORMATION\n\n");
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
-                    printf(" \nEnter Period (mm/yy): ");
+                    printf(" Enter Period (mm/yy): ");
                     scanf("%s", &period);
                     fflush(stdin);
 
                     Schema_Bonus *bonusInfo = searchBonus(*D, empID, period);
-
-                    while (In8)
+                    if (bonusInfo)
                     {
-                        system("cls");
-                        if (debug == true)
+                        while (In8)
                         {
-                            displayDictionariesCount(*D);
-                        }
-                        header();
-                        printf(" Employee Bonus > View\n\n");
+                            system("cls");
 
-                        printf(" UPDATE BONUS INFORMATION\n\n");
-                        printf("  [1] Bonus Name\n");
-                        printf("  [2] Amount\n");
-                        printf("  [3] Period\n");
-                        printf("  [4] Update All\n");
-                        printf("  [0] Back\n");
-                        printf(" _____________________________________________________\n\n");
-                        printf(" Select Option: ");
-                        scanf("%d", temp);
-                        fflush(stdin);
+                            if (debug == true)
+                            {
+                                displayDictionariesCount(*D);
+                            }
+                            header();
+                            printf(" Employee Bonus > View\n\n");
 
-                        system("cls");
-                        if (debug == true)
-                        {
-                            displayDictionariesCount(*D);
-                        }
-                        header();
-                        displayBonus(empID, D, period);
-
-                        switch (temp)
-                        {
-                        case 0:
-                            In8 = false;
-                            break;
-                        case 1:
-                        {
-                            printf(" \n\nEnter new bonus name: ");
-                            scanf("%s", &bonusInfo->bonusName);
-                            fflush(stdin);
-
+                            printf(" UPDATE BONUS INFORMATION\n\n");
+                            printf("  [1] Bonus Name\n");
+                            printf("  [2] Amount\n");
+                            printf("  [3] Period\n");
+                            printf("  [4] Update All\n");
+                            printf("  [0] Back\n");
                             printf(" _____________________________________________________\n\n");
-                            printf(" *Press any key to continue...* ");
-                            getch();
-                            break;
-                        }
-                        case 2:
-                        {
-                            printf(" \n\nEnter new amount: ");
-                            scanf("%lf", &bonusInfo->amount);
+                            printf(" Select Option: ");
+                            scanf("%d", &temp);
                             fflush(stdin);
 
-                            printf(" _____________________________________________________\n\n");
-                            printf(" *Press any key to continue...* ");
-                            getch();
-                            break;
-                        }
-                        case 3:
-                        {
-                            printf(" \n\nEnter new period (mm/yy): ");
-                            scanf("%s", &bonusInfo->period);
-                            fflush(stdin);
+                            system("cls");
+                            if (debug == true)
+                            {
+                                displayDictionariesCount(*D);
+                            }
+                            header();
+                            displayBonus(empID, D, period);
 
-                            printf(" _____________________________________________________\n\n");
-                            printf(" *Press any key to continue...* ");
-                            getch();
-                            break;
-                        }
-                        case 4:
-                        {
-                            Schema_Bonus data;
+                            switch (temp)
+                            {
+                            case 0:
+                                In8 = false;
+                                break;
+                            case 1:
+                            {
+                                printf("\n\n Enter new bonus name: ");
+                                scanf("%s", &bonusInfo->bonusName);
+                                fflush(stdin);
 
-                            printf(" \n\nEnter new bonus name: ");
-                            scanf("%s", &data.bonusName);
-                            fflush(stdin);
+                                printf(" _____________________________________________________\n\n");
+                                printf(" *Press any key to continue...* ");
+                                getch();
+                                break;
+                            }
+                            case 2:
+                            {
+                                printf("\n\n Enter new amount: ");
+                                scanf("%lf", &bonusInfo->amount);
+                                fflush(stdin);
 
-                            printf(" \n\nEnter new amount: ");
-                            scanf("%lf", &data.amount);
-                            fflush(stdin);
+                                printf(" _____________________________________________________\n\n");
+                                printf(" *Press any key to continue...* ");
+                                getch();
+                                break;
+                            }
+                            case 3:
+                            {
+                                printf("\n\n Enter new period (mm/yy): ");
+                                scanf("%s", &bonusInfo->period);
+                                fflush(stdin);
+                                strcpy(period, bonusInfo->period);
 
-                            printf(" \n\nEnter new period (mm/yy): ");
-                            scanf("%s", &data.period);
-                            fflush(stdin);
+                                printf(" _____________________________________________________\n\n");
+                                printf(" *Press any key to continue...* ");
+                                getch();
+                                break;
+                            }
+                            case 4:
+                            {
+                                Schema_Bonus data;
 
-                            updateBonus(D, data, bonusInfo);
-                            break;
-                        }
-                        default:
-                        {
-                            printf(" ERROR: Please enter a vaid input*\n");
-                        }
+                                printf("\n\n Enter new bonus name: ");
+                                scanf("%s", &data.bonusName);
+                                fflush(stdin);
+
+                                printf(" Enter new amount: ");
+                                scanf("%lf", &data.amount);
+                                fflush(stdin);
+
+                                printf(" Enter new period (mm/yy): ");
+                                scanf("%s", &data.period);
+                                strcpy(period, data.period);
+                                fflush(stdin);
+
+                                updateBonus(D, data, bonusInfo);
+                                break;
+                            }
+                            default:
+                            {
+                                printf(" ERROR: Please enter a vaid input*\n");
+                                break;
+                            }
+                            }
                         }
                     }
+                    else
+                    {
+                        printf("\n Employee Bonus was not found.\n");
+                        printf(" _____________________________________________________\n\n");
+                        printf(" *Press any key to continue...* ");
+                        getch();
+                    }
+
                     In8 = true;
                     break;
                 }
@@ -1402,7 +1415,14 @@ void showMenu(Dictionary *D)
                     scanf("%d", &bonusID);
                     fflush(stdin);
 
-                    bool b = deleteBonus(D, bonusID);
+                    if (deleteBonus(D, bonusID))
+                    {
+                        printf("\n Employee Bonus was sucessfully deleted.\n");
+                    }
+                    else
+                    {
+                        printf("\n Employee Bonus was not found.\n");
+                    }
 
                     printf(" _____________________________________________________\n\n");
                     printf(" *Press any key to continue...* ");
@@ -1411,7 +1431,8 @@ void showMenu(Dictionary *D)
                 }
                 default:
                 {
-                    printf(" ERROR: Please enter a vaid input*\n");
+                    printf("\n ERROR: Please enter a vaid input* ");
+                    getch();
                     break;
                 }
                 }
@@ -1420,7 +1441,7 @@ void showMenu(Dictionary *D)
             break;
         }
 
-        // View/Delete Salary -- Incomplete
+        // View/Delete Salary -- To Do
         case 9:
         {
             while (In10)
