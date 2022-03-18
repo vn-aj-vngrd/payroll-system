@@ -40,7 +40,7 @@ typedef struct bonus
     char bonusName[SM_MAX];
     double amount;
     char period[MONTH];
-} Schema_Bonus;
+} Model_Bonus;
 
 typedef struct issueSalary
 {
@@ -48,7 +48,7 @@ typedef struct issueSalary
     int employeeID;
     double balance;
     char period[MONTH];
-} Schema_IssueSalary;
+} Model_IssueSalary;
 
 typedef struct jobInformation
 {
@@ -62,7 +62,7 @@ typedef struct jobInformation
     char jobEmail[SM_MAX];
     double basicSalary;
     double pagibigDeposit;
-} Schema_JobInformation;
+} Model_JobInformation;
 
 typedef struct user
 {
@@ -77,7 +77,7 @@ typedef struct user
     char emailAddress[MD_MAX];
     char address[MD_MAX];
     UserType userType;
-} Schema_User;
+} Model_User;
 
 typedef struct attendance
 {
@@ -88,6 +88,6 @@ typedef struct attendance
     int leave;
     int overtime;
     char period[MONTH];
-} Schema_Attendance;
+} Model_Attendance;
 
 #endif

@@ -24,7 +24,7 @@ void showMenu(Dictionary *D)
          In9 = true,
          In10 = true,
          In11 = true;
-    Schema_JobInformation *jiPtr;
+    Model_JobInformation *jiPtr;
 
     while (In)
     {
@@ -122,8 +122,8 @@ void showMenu(Dictionary *D)
             }
             header();
             printf(" CREATE EMPLOYEE INFORMATION\n\n");
-            Schema_User employeeInfo = createUserInformation(*D);
-            Schema_JobInformation jobInfo = createJobInformation(*D, employeeInfo.userID);
+            Model_User employeeInfo = createUserInformation(*D);
+            Model_JobInformation jobInfo = createJobInformation(*D, employeeInfo.userID);
 
             if (insertUser(D, employeeInfo) && insertJobInformation(D, jobInfo))
             {
@@ -150,7 +150,7 @@ void showMenu(Dictionary *D)
             }
             header();
             printf(" CREATE MONTHLY ATTENDANCE\n\n");
-            Schema_Attendance sa = createAttendance(*D);
+            Model_Attendance sa = createAttendance(*D);
             if (sa.attendanceID == -1)
             {
                 printf(" \n Employee ID not found.");
@@ -184,7 +184,7 @@ void showMenu(Dictionary *D)
             }
             header();
             printf(" CREATE MONTHLY BONUS\n\n");
-            Schema_Bonus empBonus = createBonus(*D);
+            Model_Bonus empBonus = createBonus(*D);
             if (insertBonus(D, empBonus))
             {
                 printf("\n Employee monthly bonus was successfully created.\n");
@@ -324,7 +324,7 @@ void showMenu(Dictionary *D)
                     scanf("%s", &period);
                     fflush(stdin);
 
-                    Schema_Attendance *empAttInfo = searchAttendance(*D, empID, period);
+                    Model_Attendance *empAttInfo = searchAttendance(*D, empID, period);
 
                     while (In9)
                     {
@@ -421,7 +421,7 @@ void showMenu(Dictionary *D)
                         }
                         case 6:
                         {
-                            Schema_Attendance att;
+                            Model_Attendance att;
                             printf(" Enter new number of present days: ");
                             scanf("%d", &att.present);
                             fflush(stdin);
@@ -683,7 +683,7 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     fflush(stdin);
 
-                    Schema_User *empInfo = searchUser(*D, empID);
+                    Model_User *empInfo = searchUser(*D, empID);
 
                     while (In6)
                     {
@@ -845,7 +845,7 @@ void showMenu(Dictionary *D)
                         }
                         case 11:
                         {
-                            Schema_User data;
+                            Model_User data;
                             printf(" _____________________________________________________\n\n");
                             printf(" Enter new first name: ");
                             scanf("%s", &data.firstName);
@@ -1010,7 +1010,7 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     fflush(stdin);
 
-                    Schema_JobInformation *jobInfo = searchJobInformation(*D, empID);
+                    Model_JobInformation *jobInfo = searchJobInformation(*D, empID);
 
                     while (In5)
                     {
@@ -1136,7 +1136,7 @@ void showMenu(Dictionary *D)
                         }
                         case 9:
                         {
-                            Schema_JobInformation data;
+                            Model_JobInformation data;
 
                             printf(" \n\nEnter new job position: ");
                             scanf("%s", &data.jobPosition);
@@ -1289,7 +1289,7 @@ void showMenu(Dictionary *D)
                     scanf("%s", &period);
                     fflush(stdin);
 
-                    Schema_Bonus *bonusInfo = searchBonus(*D, empID, period);
+                    Model_Bonus *bonusInfo = searchBonus(*D, empID, period);
                     if (bonusInfo)
                     {
                         while (In8)
@@ -1363,7 +1363,7 @@ void showMenu(Dictionary *D)
                             }
                             case 4:
                             {
-                                Schema_Bonus data;
+                                Model_Bonus data;
 
                                 printf("\n\n Enter new bonus name: ");
                                 scanf("%s", &data.bonusName);
@@ -1517,7 +1517,7 @@ void showMenu(Dictionary *D)
                     printf(" Enter Period (mm/yy): ");
                     scanf("%s", &period);
 
-                    Schema_IssueSalary *salaryInfo2 = searchIssueSalary(*D, empID, period);
+                    Model_IssueSalary *salaryInfo2 = searchIssueSalary(*D, empID, period);
                     if (salaryInfo2)
                     {
                         if (deleteIssueSalary(D, salaryInfo2->issueID))

@@ -24,10 +24,10 @@ bool pushDictionaries(Dictionary D);
 
 /*---------------------------------- Attendance Function Headers ----------------------------------*/
 
-Schema_Attendance *searchAttendance(Dictionary D, ID employeeID, char period[]);
-Schema_Attendance createAttendance(Dictionary D);
-bool insertAttendance(Dictionary *D, Schema_Attendance data);
-bool updateAttendance(Dictionary *D, Schema_Attendance data, Schema_Attendance *pointer, char period[]);
+Model_Attendance *searchAttendance(Dictionary D, ID employeeID, char period[]);
+Model_Attendance createAttendance(Dictionary D);
+bool insertAttendance(Dictionary *D, Model_Attendance data);
+bool updateAttendance(Dictionary *D, Model_Attendance data, Model_Attendance *pointer, char period[]);
 bool deleteAttendance(Dictionary *D, int ID, char period[]);
 bool setPresent(int employeeID, Dictionary *D, char period[]);
 bool setLeave(int employeeID, Dictionary *D, char period[]);
@@ -38,20 +38,20 @@ void displayAllAttendance(Dictionary D, char period[]);
 
 /*----------------------------------- Bonus Function Headers --------------------------------------*/
 
-Schema_Bonus *searchBonus(Dictionary D, ID bonusID, char period[]);
-Schema_Bonus createBonus(Dictionary D);
-bool insertBonus(Dictionary *D, Schema_Bonus data);
-bool updateBonus(Dictionary *D, Schema_Bonus data, Schema_Bonus *pointer);
+Model_Bonus *searchBonus(Dictionary D, ID bonusID, char period[]);
+Model_Bonus createBonus(Dictionary D);
+bool insertBonus(Dictionary *D, Model_Bonus data);
+bool updateBonus(Dictionary *D, Model_Bonus data, Model_Bonus *pointer);
 bool deleteBonus(Dictionary *D, ID bonusID);
 void displayBonus(int bonusID, Dictionary *D, char period[]);
 void displayAllBonus(Dictionary D);
 
 /*-------------------------------- Issue Salary Function Headers ----------------------------------*/
 
-Schema_IssueSalary *searchIssueSalary(Dictionary D, ID userID, char period[]);
-Schema_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[]);
-bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data);
-bool updateIssueSalary(Dictionary *D, Schema_IssueSalary data, Schema_IssueSalary *pointer);
+Model_IssueSalary *searchIssueSalary(Dictionary D, ID userID, char period[]);
+Model_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[]);
+bool insertIssueSalary(Dictionary *D, Model_IssueSalary data);
+bool updateIssueSalary(Dictionary *D, Model_IssueSalary data, Model_IssueSalary *pointer);
 bool deleteIssueSalary(Dictionary *D, ID issueID);
 bool issueSalary(Dictionary *D, int empID, char period[]);
 double calculateTax(double basicIncome, double taxableIncome, double *pagibigDeposit);
@@ -60,20 +60,20 @@ void displayAllSalary(Dictionary D, char period[]);
 
 /*-------------------------------- Job Information Function Headers -------------------------------*/
 
-Schema_JobInformation *searchJobInformation(Dictionary D, ID employmentID);
-Schema_JobInformation createJobInformation(Dictionary D, ID employeeID);
-bool insertJobInformation(Dictionary *D, Schema_JobInformation data);
-bool updateJobInformation(Dictionary *D, Schema_JobInformation data, Schema_JobInformation *pointer);
+Model_JobInformation *searchJobInformation(Dictionary D, ID employmentID);
+Model_JobInformation createJobInformation(Dictionary D, ID employeeID);
+bool insertJobInformation(Dictionary *D, Model_JobInformation data);
+bool updateJobInformation(Dictionary *D, Model_JobInformation data, Model_JobInformation *pointer);
 bool deleteJobInformation(Dictionary *D, ID employmentID);
 void displayJobInformation(ID employeeID, Dictionary *D);
 void displayAllJobInformation(Dictionary D);
 
 /*------------------------------------- User Function Headers -------------------------------------*/
 
-Schema_User *searchUser(Dictionary D, ID userID);
-Schema_User createUserInformation(Dictionary D);
-bool insertUser(Dictionary *D, Schema_User data);
-bool updateUser(Dictionary *D, Schema_User data, Schema_User *pointer);
+Model_User *searchUser(Dictionary D, ID userID);
+Model_User createUserInformation(Dictionary D);
+bool insertUser(Dictionary *D, Model_User data);
+bool updateUser(Dictionary *D, Model_User data, Model_User *pointer);
 bool deleteUser(Dictionary *D, ID userID);
 void displayUserInformation(ID userID, Dictionary *D);
 void displayAllUser(Dictionary D);
@@ -193,11 +193,11 @@ bool pullDictionaries(Dictionary *D)
 {
     // Attendance Information
     FILE *fp = fopen("Emp_Attendance.bin", "rb");
-    Schema_Attendance attendance;
+    Model_Attendance attendance;
 
     if (fp)
     {
-        while (fread(&attendance, sizeof(Schema_Attendance), 1, fp))
+        while (fread(&attendance, sizeof(Model_Attendance), 1, fp))
         {
             printf(" Attendance inserting to dictionary...\n");
             insertAttendance(D, attendance);
@@ -212,11 +212,11 @@ bool pullDictionaries(Dictionary *D)
 
     // Bonus Information
     fp = fopen("Emp_Bonus.bin", "rb");
-    Schema_Bonus bonus;
+    Model_Bonus bonus;
 
     if (fp)
     {
-        while (fread(&bonus, sizeof(Schema_Bonus), 1, fp))
+        while (fread(&bonus, sizeof(Model_Bonus), 1, fp))
         {
             insertBonus(D, bonus);
         }
@@ -229,11 +229,11 @@ bool pullDictionaries(Dictionary *D)
 
     // Salary Information
     fp = fopen("Emp_IssueSalary.bin", "rb");
-    Schema_IssueSalary salary;
+    Model_IssueSalary salary;
 
     if (fp)
     {
-        while (fread(&salary, sizeof(Schema_IssueSalary), 1, fp))
+        while (fread(&salary, sizeof(Model_IssueSalary), 1, fp))
         {
             insertIssueSalary(D, salary);
         }
@@ -246,11 +246,11 @@ bool pullDictionaries(Dictionary *D)
 
     // Job Information
     fp = fopen("Emp_JobInformation.bin", "rb");
-    Schema_JobInformation jobinfo;
+    Model_JobInformation jobinfo;
 
     if (fp)
     {
-        while (fread(&jobinfo, sizeof(Schema_JobInformation), 1, fp))
+        while (fread(&jobinfo, sizeof(Model_JobInformation), 1, fp))
         {
             insertJobInformation(D, jobinfo);
         }
@@ -263,11 +263,11 @@ bool pullDictionaries(Dictionary *D)
 
     // Emp Information
     fp = fopen("Emp_Information.bin", "rb");
-    Schema_User employee;
+    Model_User employee;
 
     if (fp)
     {
-        while (fread(&employee, sizeof(Schema_User), 1, fp))
+        while (fread(&employee, sizeof(Model_User), 1, fp))
         {
             insertUser(D, employee);
         }
@@ -295,7 +295,7 @@ bool pushUserD(Dictionary D)
         {
             for (UTrav = D.UserD[i]; UTrav != NULL; UTrav = UTrav->next)
             {
-                fwrite(&UTrav->data, sizeof(Schema_User), 1, fp);
+                fwrite(&UTrav->data, sizeof(Model_User), 1, fp);
             }
         }
 
@@ -306,7 +306,7 @@ bool pushUserD(Dictionary D)
         // }
         // else
         // {
-        //     count = ftell(fp) / sizeof(Schema_User);
+        //     count = ftell(fp) / sizeof(Model_User);
         // }
 
         // if (count != D.count[4])
@@ -339,7 +339,7 @@ bool pushJobInformationD(Dictionary D)
         {
             for (JITrav = D.JobInformationD[i]; JITrav != NULL; JITrav = JITrav->next)
             {
-                fwrite(&JITrav->data, sizeof(Schema_JobInformation), 1, fp);
+                fwrite(&JITrav->data, sizeof(Model_JobInformation), 1, fp);
             }
         }
 
@@ -350,7 +350,7 @@ bool pushJobInformationD(Dictionary D)
         // }
         // else
         // {
-        //     count = ftell(fp) / sizeof(Schema_JobInformation);
+        //     count = ftell(fp) / sizeof(Model_JobInformation);
         // }
 
         // if (count != D.count[3])
@@ -382,7 +382,7 @@ bool pushIssueSalaryD(Dictionary D)
         {
             for (STrav = D.IssueSalaryD[i]; STrav != NULL; STrav = STrav->next)
             {
-                fwrite(&STrav->data, sizeof(Schema_IssueSalary), 1, fp);
+                fwrite(&STrav->data, sizeof(Model_IssueSalary), 1, fp);
             }
         }
 
@@ -393,7 +393,7 @@ bool pushIssueSalaryD(Dictionary D)
         // }
         // else
         // {
-        //     count = ftell(fp) / sizeof(Schema_IssueSalary);
+        //     count = ftell(fp) / sizeof(Model_IssueSalary);
         // }
 
         // if (count != D.count[2])
@@ -425,7 +425,7 @@ bool pushBonusD(Dictionary D)
         {
             for (BTrav = D.BonusD[i]; BTrav != NULL; BTrav = BTrav->next)
             {
-                fwrite(&BTrav->data, sizeof(Schema_Bonus), 1, fp);
+                fwrite(&BTrav->data, sizeof(Model_Bonus), 1, fp);
             }
         }
 
@@ -436,7 +436,7 @@ bool pushBonusD(Dictionary D)
         // }
         // else
         // {
-        //     count = ftell(fp) / sizeof(Schema_Bonus);
+        //     count = ftell(fp) / sizeof(Model_Bonus);
         // }
 
         // if (count != D.count[1])
@@ -469,7 +469,7 @@ bool pushAttendanceD(Dictionary D)
         {
             for (ATrav = D.AttendanceD[i]; ATrav != NULL; ATrav = ATrav->next)
             {
-                fwrite(&ATrav->data, sizeof(Schema_Attendance), 1, fp);
+                fwrite(&ATrav->data, sizeof(Model_Attendance), 1, fp);
             }
         }
 
@@ -480,7 +480,7 @@ bool pushAttendanceD(Dictionary D)
         // }
         // else
         // {
-        //     count = ftell(fp) / sizeof(Schema_Attendance);
+        //     count = ftell(fp) / sizeof(Model_Attendance);
         // }
 
         // if (count != D.count[0])
@@ -500,7 +500,7 @@ bool pushAttendanceD(Dictionary D)
 
 void insertDefault(Dictionary *D)
 {
-    Schema_User defaultUser = {
+    Model_User defaultUser = {
         1,
         "employeefn",
         "employeeln",
@@ -513,14 +513,14 @@ void insertDefault(Dictionary *D)
         "employeeaddress",
         EMPLOYER};
 
-    Schema_Bonus defaultBonus = {
+    Model_Bonus defaultBonus = {
         1,
         1,
         "employeebonus",
         100,
         "03/02"};
 
-    Schema_Attendance defaultAttendance = {
+    Model_Attendance defaultAttendance = {
         1,
         1,
         0,
@@ -530,13 +530,13 @@ void insertDefault(Dictionary *D)
         "03/22",
     };
 
-    Schema_IssueSalary defaultIssueSalary = {
+    Model_IssueSalary defaultIssueSalary = {
         1,
         1,
         100,
         "03/22"};
 
-    Schema_JobInformation defaultJobInformation = {
+    Model_JobInformation defaultJobInformation = {
         1,
         1,
         "employee",
@@ -559,7 +559,7 @@ void insertDefault(Dictionary *D)
 
 /*-------------------------------- Start of Attendance Controller ---------------------------------*/
 
-Schema_Attendance *searchAttendance(Dictionary D, ID employeeID, char period[])
+Model_Attendance *searchAttendance(Dictionary D, ID employeeID, char period[])
 {
     PSA trav, temp;
     int hashVal = hash(employeeID);
@@ -580,9 +580,9 @@ Schema_Attendance *searchAttendance(Dictionary D, ID employeeID, char period[])
     }
 }
 
-Schema_Attendance createAttendance(Dictionary D)
+Model_Attendance createAttendance(Dictionary D)
 {
-    Schema_Attendance sa;
+    Model_Attendance sa;
     int empID;
     char period[20];
 
@@ -611,7 +611,7 @@ Schema_Attendance createAttendance(Dictionary D)
     return sa;
 }
 
-bool insertAttendance(Dictionary *D, Schema_Attendance data)
+bool insertAttendance(Dictionary *D, Model_Attendance data)
 {
     PSA *trav;
     int hashVal = hash(data.employeeID);
@@ -622,7 +622,7 @@ bool insertAttendance(Dictionary *D, Schema_Attendance data)
 
     if (*trav == NULL)
     {
-        *trav = (PSA)malloc(sizeof(Schema_Attendance) + 1);
+        *trav = (PSA)malloc(sizeof(Model_Attendance) + 1);
         if (trav != NULL)
         {
             (*trav)->data = data;
@@ -637,7 +637,7 @@ bool insertAttendance(Dictionary *D, Schema_Attendance data)
     }
 }
 
-bool updateAttendance(Dictionary *D, Schema_Attendance data, Schema_Attendance *pointer, char period[])
+bool updateAttendance(Dictionary *D, Model_Attendance data, Model_Attendance *pointer, char period[])
 {
     if (data.attendanceID != pointer->attendanceID)
     {
@@ -675,7 +675,7 @@ bool deleteAttendance(Dictionary *D, int ID, char period[])
 
 void displayAttendance(Dictionary *D, int employeeID, char period[])
 {
-    Schema_Attendance *emp = searchAttendance(*D, employeeID, period);
+    Model_Attendance *emp = searchAttendance(*D, employeeID, period);
     if (emp)
     {
         printf(" _____________________________________________________\n\n");
@@ -696,7 +696,7 @@ void displayAttendance(Dictionary *D, int employeeID, char period[])
 bool setPresent(int employeeID, Dictionary *D, char period[])
 {
     int presentNum;
-    Schema_Attendance *sa = searchAttendance(*D, employeeID, period);
+    Model_Attendance *sa = searchAttendance(*D, employeeID, period);
     if (sa)
     {
         printf(" Enter No. of Present Days: ");
@@ -714,7 +714,7 @@ bool setPresent(int employeeID, Dictionary *D, char period[])
 bool setLeave(int employeeID, Dictionary *D, char period[])
 {
     int leaveNum;
-    Schema_Attendance *sa = searchAttendance(*D, employeeID, period);
+    Model_Attendance *sa = searchAttendance(*D, employeeID, period);
     if (sa)
     {
         printf(" Enter No. of Leave Days: ");
@@ -732,7 +732,7 @@ bool setLeave(int employeeID, Dictionary *D, char period[])
 bool setAbsent(int employeeID, Dictionary *D, char period[])
 {
     int absentNum;
-    Schema_Attendance *sa = searchAttendance(*D, employeeID, period);
+    Model_Attendance *sa = searchAttendance(*D, employeeID, period);
     if (sa)
     {
         printf(" Enter No. of Absent Days: ");
@@ -751,7 +751,7 @@ bool setAbsent(int employeeID, Dictionary *D, char period[])
 bool setOvertime(int employeeID, Dictionary *D, char period[])
 {
     int otHours;
-    Schema_Attendance *sa = searchAttendance(*D, employeeID, period);
+    Model_Attendance *sa = searchAttendance(*D, employeeID, period);
     if (sa)
     {
         printf(" Enter No. of Overtime Hours: ");
@@ -854,9 +854,9 @@ void debugAttendance(Dictionary D)
 
 /*---------------------------------- Start of Bonus Controller ------------------------------------*/
 
-Schema_Bonus createBonus(Dictionary D)
+Model_Bonus createBonus(Dictionary D)
 {
-    Schema_Bonus bonus;
+    Model_Bonus bonus;
 
     char dType[10] = "Bonus";
     bonus.bonusID = getNewID(dType, D);
@@ -880,7 +880,7 @@ Schema_Bonus createBonus(Dictionary D)
     return bonus;
 }
 
-bool insertBonus(Dictionary *D, Schema_Bonus data)
+bool insertBonus(Dictionary *D, Model_Bonus data)
 {
     PSB *trav;
     int hashVal = hash(data.employeeID);
@@ -891,7 +891,7 @@ bool insertBonus(Dictionary *D, Schema_Bonus data)
 
     if (*trav == NULL)
     {
-        *trav = (PSB)malloc(sizeof(Schema_Bonus) + 1);
+        *trav = (PSB)malloc(sizeof(Model_Bonus) + 1);
         if (*trav != NULL)
         {
             (*trav)->data = data;
@@ -907,7 +907,7 @@ bool insertBonus(Dictionary *D, Schema_Bonus data)
     }
 }
 
-bool updateBonus(Dictionary *D, Schema_Bonus data, Schema_Bonus *pointer)
+bool updateBonus(Dictionary *D, Model_Bonus data, Model_Bonus *pointer)
 {
     if (data.bonusID != pointer->bonusID)
     {
@@ -943,7 +943,7 @@ bool deleteBonus(Dictionary *D, ID bonusID)
     }
 }
 
-Schema_Bonus *searchBonus(Dictionary D, ID employeeID, char period[])
+Model_Bonus *searchBonus(Dictionary D, ID employeeID, char period[])
 {
     PSB trav, temp;
     int hashVal = hash(employeeID);
@@ -1036,7 +1036,7 @@ void displayAllBonus(Dictionary D)
 
 void displayBonus(int employeeID, Dictionary *D, char period[])
 {
-    Schema_Bonus *emp = searchBonus(*D, employeeID, period);
+    Model_Bonus *emp = searchBonus(*D, employeeID, period);
     if (emp)
     {
         printf(" _____________________________________________________\n");
@@ -1056,9 +1056,9 @@ void displayBonus(int employeeID, Dictionary *D, char period[])
 
 /*------------------------------- Start of Issue Salary Controller --------------------------------*/
 
-Schema_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[])
+Model_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[])
 {
-    Schema_IssueSalary is;
+    Model_IssueSalary is;
 
     char dType[15] = "IssueSalary";
     is.issueID = getNewID(dType, D);
@@ -1069,7 +1069,7 @@ Schema_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balanc
     return is;
 }
 
-bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
+bool insertIssueSalary(Dictionary *D, Model_IssueSalary data)
 {
     PSIS *trav;
     int hashVal = hash(data.employeeID);
@@ -1080,7 +1080,7 @@ bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
 
     if (*trav == NULL)
     {
-        *trav = (PSIS)malloc(sizeof(Schema_IssueSalary) + 1);
+        *trav = (PSIS)malloc(sizeof(Model_IssueSalary) + 1);
         if (*trav != NULL)
         {
             (*trav)->data = data;
@@ -1095,7 +1095,7 @@ bool insertIssueSalary(Dictionary *D, Schema_IssueSalary data)
     }
 }
 
-bool updateIssueSalary(Dictionary *D, Schema_IssueSalary data, Schema_IssueSalary *pointer)
+bool updateIssueSalary(Dictionary *D, Model_IssueSalary data, Model_IssueSalary *pointer)
 {
     if (data.issueID != pointer->issueID)
     {
@@ -1132,7 +1132,7 @@ bool deleteIssueSalary(Dictionary *D, ID issueID)
     }
 }
 
-Schema_IssueSalary *searchIssueSalary(Dictionary D, ID employeeID, char period[])
+Model_IssueSalary *searchIssueSalary(Dictionary D, ID employeeID, char period[])
 {
     PSIS trav, temp;
     int hashVal = hash(employeeID);
@@ -1222,7 +1222,7 @@ void displayAllSalary(Dictionary D, char period[])
 
 void displayIssueSalary(Dictionary *D, ID empID, char period[])
 {
-    Schema_IssueSalary *emp = searchIssueSalary(*D, empID, period);
+    Model_IssueSalary *emp = searchIssueSalary(*D, empID, period);
     if (emp)
     {
         printf("\n Issue ID:       \t%d  \n", emp->issueID);
@@ -1252,7 +1252,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     double income;
     double tax;
 
-    Schema_Attendance *sa = searchAttendance(*D, empID, period);
+    Model_Attendance *sa = searchAttendance(*D, empID, period);
     if (sa)
     {
         present = sa->present;
@@ -1266,7 +1266,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
         return false;
     }
 
-    Schema_JobInformation *ji = searchJobInformation(*D, empID);
+    Model_JobInformation *ji = searchJobInformation(*D, empID);
     if (ji)
     {
         basicSalary = ji->basicSalary;
@@ -1278,7 +1278,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
         return false;
     }
 
-    Schema_Bonus *b = searchBonus(*D, empID, period);
+    Model_Bonus *b = searchBonus(*D, empID, period);
     // check is employee has bonus
     if (b)
         additions += b->amount;
@@ -1294,7 +1294,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     if (overtime > 0)
         additions += ((hourlyRate * 1.25) * overtime);
 
-    Schema_IssueSalary *is = searchIssueSalary(*D, empID, period);
+    Model_IssueSalary *is = searchIssueSalary(*D, empID, period);
     if (!is)
     {
         income = ((basicSalary + additions) - deductions);
@@ -1322,10 +1322,10 @@ bool issueSalary(Dictionary *D, int empID, char period[])
         if (temp == 1)
         {
             // Create new issue salary
-            Schema_IssueSalary is2 = createIssueSalary(*D, empID, income, period);
+            Model_IssueSalary is2 = createIssueSalary(*D, empID, income, period);
             insertIssueSalary(D, is2);
             // Update pagibig deposit
-            Schema_JobInformation *ji2 = searchJobInformation(*D, empID);
+            Model_JobInformation *ji2 = searchJobInformation(*D, empID);
             ji2->pagibigDeposit = pagibigDeposit;
             return true;
         }
@@ -1454,9 +1454,9 @@ double calculateTax(double basicIncome, double taxableIncome, double *pagibigDep
 
 /*------------------------------ Start of Job Information Controller ------------------------------*/
 
-Schema_JobInformation createJobInformation(Dictionary D, ID employeeID)
+Model_JobInformation createJobInformation(Dictionary D, ID employeeID)
 {
-    Schema_JobInformation jobInfo;
+    Model_JobInformation jobInfo;
 
     printf("\n CREATE EMPLOYEE JOB INFORMATION\n\n");
 
@@ -1499,7 +1499,7 @@ Schema_JobInformation createJobInformation(Dictionary D, ID employeeID)
     return jobInfo;
 }
 
-bool insertJobInformation(Dictionary *D, Schema_JobInformation data)
+bool insertJobInformation(Dictionary *D, Model_JobInformation data)
 {
     PSJI *trav;
     int hashVal = hash(data.employmentID);
@@ -1510,7 +1510,7 @@ bool insertJobInformation(Dictionary *D, Schema_JobInformation data)
 
     if (*trav == NULL)
     {
-        *trav = (PSJI)malloc(sizeof(Schema_JobInformation) + 1);
+        *trav = (PSJI)malloc(sizeof(Model_JobInformation) + 1);
         if (*trav != NULL)
         {
             (*trav)->data = data;
@@ -1525,7 +1525,7 @@ bool insertJobInformation(Dictionary *D, Schema_JobInformation data)
     }
 }
 
-bool updateJobInformation(Dictionary *D, Schema_JobInformation data, Schema_JobInformation *pointer)
+bool updateJobInformation(Dictionary *D, Model_JobInformation data, Model_JobInformation *pointer)
 {
     if (data.employmentID != pointer->employmentID)
     {
@@ -1561,7 +1561,7 @@ bool deleteJobInformation(Dictionary *D, ID employmentID)
     }
 }
 
-Schema_JobInformation *searchJobInformation(Dictionary D, ID employmentID)
+Model_JobInformation *searchJobInformation(Dictionary D, ID employmentID)
 {
     PSJI trav, temp;
     int hashVal = hash(employmentID);
@@ -1668,7 +1668,7 @@ void displayAllJobInformation(Dictionary D)
 
 void displayJobInformation(ID employeeID, Dictionary *D)
 {
-    Schema_JobInformation *ji = searchJobInformation(*D, employeeID);
+    Model_JobInformation *ji = searchJobInformation(*D, employeeID);
     if (ji)
     {
         printf(" |  Employee ID:      \t%d   |", ji->employeeID);
@@ -1692,9 +1692,9 @@ void displayJobInformation(ID employeeID, Dictionary *D)
 
 /*---------------------------------- Start of User Controller -------------------------------------*/
 
-Schema_User createUserInformation(Dictionary D)
+Model_User createUserInformation(Dictionary D)
 {
-    Schema_User emp;
+    Model_User emp;
 
     char dType[10] = "User";
     emp.userID = getNewID(dType, D);
@@ -1742,7 +1742,7 @@ Schema_User createUserInformation(Dictionary D)
     return emp;
 }
 
-bool insertUser(Dictionary *D, Schema_User data)
+bool insertUser(Dictionary *D, Model_User data)
 {
     PSU *trav;
     int hashVal = hash(data.userID);
@@ -1753,7 +1753,7 @@ bool insertUser(Dictionary *D, Schema_User data)
 
     if (*trav == NULL)
     {
-        *trav = (PSU)malloc(sizeof(Schema_User) + 1);
+        *trav = (PSU)malloc(sizeof(Model_User) + 1);
         if (*trav != NULL)
         {
             (*trav)->data = data;
@@ -1769,7 +1769,7 @@ bool insertUser(Dictionary *D, Schema_User data)
     }
 }
 
-bool updateUser(Dictionary *D, Schema_User data, Schema_User *pointer)
+bool updateUser(Dictionary *D, Model_User data, Model_User *pointer)
 {
     if (data.userID != pointer->userID)
     {
@@ -1805,7 +1805,7 @@ bool deleteUser(Dictionary *D, ID userID)
     }
 }
 
-Schema_User *searchUser(Dictionary D, ID userID)
+Model_User *searchUser(Dictionary D, ID userID)
 {
     PSU trav, temp;
     int hashVal = hash(userID);
@@ -1966,7 +1966,7 @@ void displayAllUser(Dictionary D)
 
 void displayUserInformation(ID userID, Dictionary *D)
 {
-    Schema_User *emp = searchUser(*D, userID);
+    Model_User *emp = searchUser(*D, userID);
     if (emp)
     {
         printf(" Employee ID:      \t%d  \n", emp->userID);

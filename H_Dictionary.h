@@ -10,37 +10,37 @@ typedef int ElemPos;
 
 // Linked List Node
 // Datatype Format:
-//      PSU = Pointer Schema User
-//      PSA = Pointer Schema Attendance
+//      PSU = Pointer Model User
+//      PSA = Pointer Model Attendance
 //      etc
 
 typedef struct node1
 {
-    Schema_Attendance data;
+    Model_Attendance data;
     struct node1 *next;
 } NodeAttendance, *PSA;
 
 typedef struct node2
 {
-    Schema_Bonus data;
+    Model_Bonus data;
     struct node2 *next;
 } NodeBonus, *PSB;
 
 typedef struct node3
 {
-    Schema_IssueSalary data;
+    Model_IssueSalary data;
     struct node3 *next;
 } NodeIssueSalary, *PSIS;
 
 typedef struct node4
 {
-    Schema_JobInformation data;
+    Model_JobInformation data;
     struct node4 *next;
 } NodeJobInformation, *PSJI;
 
 typedef struct node5
 {
-    Schema_User data;
+    Model_User data;
     struct node5 *next;
 } NodeUser, *PSU;
 
