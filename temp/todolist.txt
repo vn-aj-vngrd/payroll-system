@@ -1,6 +1,7 @@
 ********************************************************************
 TODO
-
+case 7 no breadcrumbs
+case 7 nmo debug
 (Global search "TODO")
 
 ********************************************************************
@@ -43,6 +44,8 @@ CASE [5] (View update/delete employee attendance)
     [5] Set employee absent                             >> COMPLETED
 
     [6] Set employee overtime hours                     >> COMPLETED
+
+    [7] Update all                                      >> PENDING
 
 CASE [6] (View/Update/Delete Employee Profile)
 
@@ -89,6 +92,33 @@ CASE [7] View/Update/Delete Employee Job Information
 
     [2] Update 
         Fix all cannot input                            >> PENDING
+       
+        [1] Job Position
+
+
+        [2] Job Location
+
+
+        [3] Job Phone
+
+
+        [4] Start Date
+
+
+        [5] Department
+
+
+        [6] Email
+
+
+        [7] Basic Salary
+
+
+        [8] Pagibig Deposit
+
+
+        [9] Update All 
+            Console exits
 
     [3] Delete                                          >> COMPLETED
         

@@ -5,22 +5,27 @@
 int main()
 {
     dPtr D;
-    bool loginRequired = true;
+    bool loginRequired = false, loginRet;
 
-    /* Initialize Dictionary  */
+    /* Initialize Dictionary */
     initDictionary(&D);
 
-    /* Log in  */
+    /* Log in */
     if (loginRequired)
     {
         header();
-        if (!login())
+        do 
         {
-            printf("\n ERROR: The username or password is incorrect*\n");
-            printf("\n *Press any key to continue...* ");
-            getch();
-            return 0;
-        }
+            system("cls");
+            header();
+            if (!(loginRet = login()))
+            {
+                printf("\n ERROR: The username or password is incorrect*\n");
+                printf(" _____________________________________________________\n\n");
+                printf(" *Press any key to continue...* ");
+                getch();
+            }
+        } while (!loginRet);
     }
 
     /* Pull Data from Files */
