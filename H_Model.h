@@ -3,7 +3,7 @@
 
 // Change to true to enable debug mode
 #define debugMenu false
-#define debug true
+#define debug false
 
 #define MD_MAX 50       // medium MAX
 #define SM_MAX 50       // small MAX 50

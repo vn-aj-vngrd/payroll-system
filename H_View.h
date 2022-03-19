@@ -37,13 +37,13 @@ void showEmployerMenu(Dictionary *D)
             printf(" [-1] (Debug) User\n\n");
         }
 
-        printf(" CREATE\n");
+        printf(" CREATE\n\n");
         printf(" [1] Create Employee\n");
         printf(" [2] Create Monthly Attendance\n");
         printf(" [3] Create Monthly Bonus\n");
         printf(" [4] Issue Employee Salary\n\n");
 
-        printf(" VIEW / UPDATE / DELETE\n");
+        printf(" VIEW / UPDATE / DELETE\n\n");
         printf(" [5] Employee Attendance\n");
         printf(" [6] Employee Profile\n");
         printf(" [7] Employee Job Information\n");
@@ -268,7 +268,7 @@ void showEmployerMenu(Dictionary *D)
             }
             else
             {
-                printf("\n ERROR: Failed to issue employee #%d salary for period #s.\n", empID, period);
+                printf("\n ERROR: Failed to issue employee #%d salary for period #%s.\n", empID, period);
             }
             printf(
                 " _____________________________________________________"

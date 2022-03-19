@@ -21,7 +21,7 @@ int main()
     }
 
     /* Insert default schemas */
-    // insertDefault(D);
+    insertDefault(D);
 
     /* systemType 0 == Employer */
     /* systemType 1 == Employee */

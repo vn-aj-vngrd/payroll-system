@@ -58,10 +58,10 @@ void displayAllSalary(Dictionary D, char period[]);
 
 /*-------------------------------- Job Information Function Headers -------------------------------*/
 
-Model_JobInformation *searchJobInformation(Dictionary D, ID employmentID);
+Model_JobInformation *searchJobInformation(Dictionary D, ID employeeID);
 Model_JobInformation createJobInformation(Dictionary D, ID employeeID);
 bool insertJobInformation(Dictionary *D, Model_JobInformation data);
-bool deleteJobInformation(Dictionary *D, ID employmentID);
+bool deleteJobInformation(Dictionary *D, ID employeeID);
 void displayJobInformation(ID employeeID, Dictionary *D);
 void displayAllJobInformation(Dictionary D);
 
@@ -501,8 +501,8 @@ void insertDefault(Dictionary *D)
         "employeefn",
         "employeeln",
         FEMALE,
-        "1/1/1",
-        NO,
+        "03/19/22",
+        YES,
         "1234",
         "1234",
         "employee@gmail.com",
@@ -523,7 +523,7 @@ void insertDefault(Dictionary *D)
         0,
         0,
         0,
-        "04/22",
+        "03/22",
     };
 
     Model_IssueSalary defaultIssueSalary = {
@@ -539,10 +539,10 @@ void insertDefault(Dictionary *D)
         "employee",
         "employeelocation",
         "1234",
-        "1/1/2001",
+        "03/19/2022",
         "employeedepartment",
         "employee@gmail.com",
-        1000,
+        2500,
         0};
 
     insertUser(D, defaultUser);
@@ -965,22 +965,22 @@ void displayAllBonus(Dictionary D, char period[])
     PSB trav;
     int i;
 
-    printf(" %-4s___%-9s___%-12s___%-20s___%-7s___%-7s\n",
+    printf(" %-4s___%-9s___%-12s___%-20s___%-12s___%-7s\n",
            "____",
            "_________",
            "____________",
            "____________________",
-           "_______",
+           "____________",
            "_______");
     printf("\t\t\t\tBONUS\n\n");
-    printf(" %-4s | %-9s | %-12s | %-20s | %-7s | %-7s\n",
+    printf(" %-4s | %-9s | %-12s | %-20s | %-12s | %-7s\n",
            "#",
            "BONUS ID",
            "EMPLOYEE ID",
            "BONUS NAME",
            "AMOUNT",
            "PERIOD");
-    printf(" %-4s | %-9s | %-12s | %-20s | %-7s | %-7s\n",
+    printf(" %-4s | %-9s | %-12s | %-20s | %-12s | %-7s\n",
            "",
            "",
            "",
@@ -994,7 +994,7 @@ void displayAllBonus(Dictionary D, char period[])
         {
             if (strcmp(trav->data.period, period) == 0)
             {
-                printf(" %-4d | %-9d | %-12d | %-20s | %-7.2lf | %-7s \n",
+                printf(" %-4d | %-9d | %-12d | %-20s | %-12.2lf | %-7s \n",
                        i,
                        trav->data.bonusID,
                        trav->data.employeeID,
@@ -1005,12 +1005,12 @@ void displayAllBonus(Dictionary D, char period[])
         }
     }
 
-    printf(" %-4s_|_%-9s_|_%-12s_|_%-20s_|_%-7s_|_%-7s\n",
+    printf(" %-4s_|_%-9s_|_%-12s_|_%-20s_|_%-12s_|_%-7s\n",
            "____",
            "_________",
            "____________",
            "____________________",
-           "_______",
+           "____________",
            "_______");
     printf("\n End of Dictionary\n\n");
 }
@@ -1306,7 +1306,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
         printf(" Deductions: P%.2f\n", deductions);
 
         tax = calculateTax(basicSalary, income, &pagibigDeposit, &pagibig);
-        income += tax;
+        income -= (tax * -1);
 
         printf(" Tax: P%.2f\n", tax);
         printf(" Issue Salary: P%.2f\n", income);
@@ -1511,7 +1511,7 @@ Model_JobInformation createJobInformation(Dictionary D, ID employeeID)
 bool insertJobInformation(Dictionary *D, Model_JobInformation data)
 {
     PSJI *trav;
-    int hashVal = hash(data.employmentID);
+    int hashVal = hash(data.employeeID);
 
     for (trav = &(D->JobInformationD[hashVal]); *trav != NULL && (*trav)->data.employmentID != data.employmentID; trav = &(*trav)->next)
     {
@@ -1534,12 +1534,12 @@ bool insertJobInformation(Dictionary *D, Model_JobInformation data)
     }
 }
 
-bool deleteJobInformation(Dictionary *D, ID employmentID)
+bool deleteJobInformation(Dictionary *D, ID employeeID)
 {
     PSJI *trav, temp;
-    int hashVal = hash(employmentID);
+    int hashVal = hash(employeeID);
 
-    for (trav = &(D->JobInformationD[hashVal]); *trav != NULL && (*trav)->data.employmentID != employmentID; trav = &(*trav)->next)
+    for (trav = &(D->JobInformationD[hashVal]); *trav != NULL && (*trav)->data.employeeID != employeeID; trav = &(*trav)->next)
     {
     }
 
