@@ -5,7 +5,7 @@
 int main()
 {
     dPtr D;
-    bool loginRequired = false;
+    bool loginRequired = true;
 
     /* Initialize Dictionary  */
     initDictionary(&D);
@@ -16,8 +16,8 @@ int main()
         header();
         if (!login())
         {
-            printf(" ERROR: The username or password is incorrect*\n");
-            printf(" \n*Press any key to continue...* ");
+            printf("\n ERROR: The username or password is incorrect*\n");
+            printf("\n *Press any key to continue...* ");
             getch();
             return 0;
         }
