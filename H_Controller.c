@@ -516,7 +516,7 @@ void insertDefault(Dictionary *D)
         1,
         "employeebonus",
         100,
-        "03/02"
+        "03/22"
     };
 
     Model_Attendance defaultAttendance = {
@@ -679,6 +679,10 @@ void displayAttendance(Dictionary *D, ID employeeID, char period[])
         printf(" Leave:                 \t%d  \n", emp->leave);
         printf(" Overtime:              \t%d  \n", emp->overtime);
         printf(" Period:                \t%s  \n", emp->period);
+        printf(" _____________________________________________________\n\n");
+    } else 
+    {
+        printf("\n ERROR: Employee #%d attendance for period %s does not exist.\n", employeeID, period);
         printf(" _____________________________________________________\n\n");
     }
     
@@ -1207,7 +1211,7 @@ void displayAllSalary(Dictionary D, char period[])
         }
     }
 
-    printf(" %-4s_|_%-9s_|_%-12s_|_%-8s_|_%-8.2lf_|_%-7s \n",
+    printf(" %-4s_|_%-9s_|_%-12s_|_%-8s_|_%-8s_|_%-7s \n",
            "____",
            "_________",
            "____________",
@@ -1234,7 +1238,7 @@ void displayIssueSalary(Dictionary *D, ID empID, char period[])
     }
     else
     {
-        printf(" \n ERROR: Employee #%d salary for period %s does not exist.\n", emp, period);
+        printf(" \n ERROR: Employee #%d salary for period %s does not exist.\n", empID, period);
     }
 }
 

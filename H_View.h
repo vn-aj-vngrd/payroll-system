@@ -25,7 +25,7 @@ void showMenu(Dictionary *D) {
         header();
 
         if (debug) {
-            printf("DEBUG\n");
+            printf(" DEBUG MODE\n");
             printf(" [-6] (Debug) Debug All\n");
             printf(" [-5] (Debug) Attendance\n");
             printf(" [-4] (Debug) Bonus\n");
@@ -34,13 +34,13 @@ void showMenu(Dictionary *D) {
             printf(" [-1] (Debug) User\n\n");
         }
 
-        printf("CREATE\n");
+        printf(" CREATE\n");
         printf(" [1] Create Employee\n");
         printf(" [2] Create Monthly Attendance\n");
         printf(" [3] Create Monthly Bonus\n");
         printf(" [4] Issue Employee Salary\n\n");
 
-        printf("VIEW\n");
+        printf(" VIEW / UPDATE / DELETE\n");
         printf(" [5] Employee Attendance\n");
         printf(" [6] Employee Profile\n");
         printf(" [7] Employee Job Information\n");
@@ -157,7 +157,7 @@ void showMenu(Dictionary *D) {
                 if (insertUser(D, employeeInfo) &&
                     insertJobInformation(D, jobInfo)) {
                     printf(
-                        " \n Employee information was successfully created.\n");
+                        " \n Employee information successfully created.\n");
                 } else {
                     printf(
                         " \n ERROR: Failed to create employee information.\n");
@@ -216,7 +216,7 @@ void showMenu(Dictionary *D) {
                 Model_Bonus empBonus = createBonus(*D);
                 if (insertBonus(D, empBonus)) {
                     printf(
-                        "\n Employee monthly bonus was successfully "
+                        "\n Employee monthly bonus successfully "
                         "created.\n");
                 } else {
                     printf(
@@ -247,7 +247,7 @@ void showMenu(Dictionary *D) {
                 fflush(stdin);
 
                 if (issueSalary(D, empID, period)) {
-                    printf("\n Employee salary was successfully issued.\n");
+                    printf("\n Employee salary successfully issued.\n");
                 } else {
                     printf("\n ERROR: Failed to issue employee salary.\n");
                 }
@@ -386,14 +386,13 @@ void showMenu(Dictionary *D) {
                                 printf("  [5] Period (mm/yy)\n");
                                 printf("  [6] Update All\n");
                                 printf("  [0] Back\n");
-                                printf(
-                                    " _________________________________________"
-                                    "____________\n\n");
+                                printf(" _____________________________________________________\n\n");
                                 printf(" Select Option: ");
                                 scanf("%d", &temp);
                                 fflush(stdin);
 
-                                switch (temp) {
+                                switch (temp) 
+                                {
                                     case 0:  // C530
                                     {
                                         In9 = false;
@@ -619,11 +618,11 @@ void showMenu(Dictionary *D) {
                                         invalidInput();
                                         break;
                                     }
+                                    printf(" *Press any key to continue...* ");
+                                    getch();
                                 }
                             }
                             In9 = true;
-                            printf(" *Press any key to continue...* ");
-                            getch();
                             break;
                         }
 
@@ -1455,7 +1454,7 @@ void showMenu(Dictionary *D) {
 
                             if (deleteJobInformation(D, empID)) {
                                 printf(
-                                    "\n Employee job information was "
+                                    "\n Employee job information "
                                     "sucessfully deleted.\n");
                             } else {
                                 printf(
@@ -1701,7 +1700,7 @@ void showMenu(Dictionary *D) {
 
                             if (deleteBonus(D, employeeID, period)) {
                                 printf(
-                                    "\n Employee Bonus was sucessfully "
+                                    "\n Employee Bonus sucessfully "
                                     "deleted.\n");
                             } else {
                                 printf("\n ERROR: Employee #%d Bonus not found.\n", employeeID);
@@ -1746,7 +1745,6 @@ void showMenu(Dictionary *D) {
                     switch (temp) {
                         case 0:  // C90
                         {
-                            printf("case 0");
                             In10 = false;
                             break;
                         }
@@ -1802,7 +1800,7 @@ void showMenu(Dictionary *D) {
                             printf(" Enter Period (mm/yy): ");
                             scanf("%s", &period);
                             if (deleteIssueSalary(D, empID, period)) {
-                                printf("\n Salary was deleted successfully.");
+                                printf("\n Salary deleted successfully.");
                             } else {
                                 printf("\n ERROR: Failed to delete salary.");
                             }
