@@ -5,11 +5,15 @@ NOTIFICATION
 Naay gi usab si Ed sa schema Issue Salary
 
 ********************************************************************
-TODO
+(global search "TODO" for more)
+TODO:
 case 7 no breadcrumbs
-case 7 nmo debug
+case 7 no debug
 
-(Global search "TODO")
+IMPORTANT:
+All delete functions needs revising
+    -> Search ID of object first
+    -> Pass ID of object to delete function
 
 ********************************************************************
 CASE [1] (Create employee)                              >> COMPLETED
@@ -133,7 +137,8 @@ CASE [8] View/Update/Delete Bonus
 
     [1] View                                            >> COMPLETED
 
-    [2] Update                                          >> COMPLETED
+    [2] Update                                          >> PENDING
+        no prompt when bonus does not exist
 
     [3] Delete                                          >> COMPLETED
 
