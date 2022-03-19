@@ -1557,7 +1557,7 @@ void showMenu(Dictionary *D)
 
                     Model_IssueSalary *salaryInfo2 = searchIssueSalary(*D, empID, period);
 
-                    
+
                     if (salaryInfo2)
                     {
                         if (deleteIssueSalary(D, salaryInfo2->issueID))
