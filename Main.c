@@ -5,7 +5,7 @@
 int main()
 {
     dPtr D;
-    bool loginRequired = false, loginRet;
+    bool loginRequired = true, loginRet;
 
     /* Initialize Dictionary */
     initDictionary(&D);
