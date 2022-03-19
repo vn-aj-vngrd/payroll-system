@@ -7,13 +7,8 @@ Naay gi usab si Ed sa schema Issue Salary
 ********************************************************************
 (global search "TODO" for more)
 TODO:
-case 7 no breadcrumbs
-case 7 no debug
-
-IMPORTANT:
-All delete functions needs revising
-    -> Search ID of object first
-    -> Pass ID of object to delete function
+ - Confirmation function
+ - Job Information model: add pagibig variable
 
 ********************************************************************
 CASE [1] (Create employee)                              >> COMPLETED

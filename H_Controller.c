@@ -29,7 +29,7 @@ bool pushDictionaries(Dictionary D);
 Model_Attendance *searchAttendance(Dictionary D, ID employeeID, char period[]);
 Model_Attendance createAttendance(Dictionary D);
 bool insertAttendance(Dictionary *D, Model_Attendance data);
-bool deleteAttendance(Dictionary *D, int ID, char period[]);
+bool deleteAttendance(Dictionary *D, int empID, char period[]);
 bool setPresent(int employeeID, Dictionary *D, char period[]);
 bool setLeave(int employeeID, Dictionary *D, char period[]);
 bool setAbsent(int employeeID, Dictionary *D, char period[]);
@@ -42,18 +42,18 @@ void displayAllAttendance(Dictionary D, char period[]);
 Model_Bonus *searchBonus(Dictionary D, ID bonusID, char period[]);
 Model_Bonus createBonus(Dictionary D);
 bool insertBonus(Dictionary *D, Model_Bonus data);
-bool deleteBonus(Dictionary *D, ID bonusID);
+bool deleteBonus(Dictionary *D, ID employeeID, char period[]);
 void displayBonus(int bonusID, Dictionary *D, char period[]);
-void displayAllBonus(Dictionary D);
+void displayAllBonus(Dictionary D, char period[]);
 
 /*-------------------------------- Issue Salary Function Headers ----------------------------------*/
 
 Model_IssueSalary *searchIssueSalary(Dictionary D, ID userID, char period[]);
-Model_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[]);
+Model_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, double pagibig, char period[]);
 bool insertIssueSalary(Dictionary *D, Model_IssueSalary data);
-bool deleteIssueSalary(Dictionary *D, ID issueID);
+bool deleteIssueSalary(Dictionary *D, ID issueID, char period[]);
 bool issueSalary(Dictionary *D, int empID, char period[]);
-double calculateTax(double basicIncome, double taxableIncome, double *pagibigDeposit);
+double calculateTax(double basicIncome, double taxableIncome, double *pagibigDeposit, double *pagibig);
 void displayIssueSalary(Dictionary *D, ID empID, char period[]);
 void displayAllSalary(Dictionary D, char period[]);
 
@@ -532,7 +532,8 @@ void insertDefault(Dictionary *D)
     Model_IssueSalary defaultIssueSalary = {
         1,
         1,
-        100,
+        1000,
+        0,
         "03/22"
     };
 
@@ -638,13 +639,15 @@ bool insertAttendance(Dictionary *D, Model_Attendance data)
     }
 }
 
-bool deleteAttendance(Dictionary *D, int ID, char period[])
+bool deleteAttendance(Dictionary *D, int empID, char period[])
 {
     PSA *trav, temp;
-    int hashVal = hash(ID);
+    int hashVal = hash(empID);
 
-    for (trav = &(D->AttendanceD[hashVal]); *trav != NULL && ((*trav)->data.attendanceID != ID || strcmp((*trav)->data.period, period) != 0); trav = &(*trav)->next)
+    for (trav = &(D->AttendanceD[hashVal]); *trav != NULL && ((*trav)->data.employeeID != empID || strcmp((*trav)->data.period, period) != 0); trav = &(*trav)->next)
     {
+        if ((*trav)->data.employeeID == empID && strcmp((*trav)->data.period, period) == 0)
+            break;
     }
 
     if (*trav == NULL)
@@ -896,13 +899,15 @@ bool insertBonus(Dictionary *D, Model_Bonus data)
     }
 }
 
-bool deleteBonus(Dictionary *D, ID bonusID)
+bool deleteBonus(Dictionary *D, ID employeeID, char period[])
 {
     PSB *trav, temp;
-    int hashVal = hash(bonusID);
+    int hashVal = hash(employeeID);
 
-    for (trav = &(D->BonusD[hashVal]); *trav != NULL && (*trav)->data.bonusID != bonusID; trav = &(*trav)->next)
+    for (trav = &(D->BonusD[hashVal]); *trav != NULL && ((*trav)->data.employeeID != employeeID || strcmp((*trav)->data.period, period) != 0); trav = &(*trav)->next)
     {
+        if ((*trav)->data.employeeID == employeeID && strcmp((*trav)->data.period, period) == 0)
+            break;
     }
 
     if (*trav == NULL)
@@ -959,27 +964,27 @@ void debugBonus(Dictionary D)
     }
 }
 
-void displayAllBonus(Dictionary D)
+void displayAllBonus(Dictionary D, char period[])
 {
     PSB trav;
     int i;
 
-    printf(" %-4s___%-9s___%-12s___%-11s___%-7s___%-7s\n",
+    printf(" %-4s___%-9s___%-12s___%-20s___%-7s___%-7s\n",
            "____",
            "_________",
            "____________",
-           "___________",
+           "____________________",
            "_______",
            "_______");
     printf("\t\t\t\tBONUS\n\n");
-    printf(" %-4s | %-9s | %-12s | %-11s | %-7s | %-7s\n",
+    printf(" %-4s | %-9s | %-12s | %-20s | %-7s | %-7s\n",
            "#",
            "BONUS ID",
            "EMPLOYEE ID",
            "BONUS NAME",
            "AMOUNT",
            "PERIOD");
-    printf(" %-4s | %-9s | %-12s | %-11s | %-7s | %-7s\n",
+    printf(" %-4s | %-9s | %-12s | %-20s | %-7s | %-7s\n",
            "",
            "",
            "",
@@ -991,21 +996,25 @@ void displayAllBonus(Dictionary D)
     {
         for (trav = D.BonusD[i]; trav != NULL; trav = trav->next)
         {
-            printf(" %4d | %14d | %12d | %8d | %7d | %8d | %9d | %-7s\n",
-                   i,
-                   trav->data.bonusID,
-                   trav->data.employeeID,
-                   trav->data.bonusName,
-                   trav->data.amount,
-                   trav->data.period);
+            if (strcmp(trav->data.period, period) == 0) {
+                printf(" %-4d | %-9d | %-12d | %-20s | %-7.2lf | %-7s \n",
+                    i,
+                    trav->data.bonusID,
+                    trav->data.employeeID,
+                    trav->data.bonusName,
+                    trav->data.amount,
+                    trav->data.period
+                );
+            }
+
         }
     }
 
-    printf(" %-4s_|_%-9s_|_%-12s_|_%-11s_|_%-7s_|_%-7s\n",
+    printf(" %-4s_|_%-9s_|_%-12s_|_%-20s_|_%-7s_|_%-7s\n",
            "____",
            "_________",
            "____________",
-           "___________",
+           "____________________",
            "_______",
            "_______");
     printf("\n End of Dictionary\n\n");
@@ -1028,7 +1037,7 @@ void displayBonus(int employeeID, Dictionary *D, char period[])
     }
     else
     {
-        printf("\n ERROR: Employee bonus for period %s does not exist.\n", period);
+        printf("\n ERROR: Employee #%d bonus for period %s does not exist.\n", employeeID, period);
         printf(" _____________________________________________________\n\n");
     }
 }
@@ -1037,7 +1046,7 @@ void displayBonus(int employeeID, Dictionary *D, char period[])
 
 /*------------------------------- Start of Issue Salary Controller --------------------------------*/
 
-Model_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[])
+Model_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, double pagibig, char period[])
 {
     Model_IssueSalary is;
 
@@ -1076,13 +1085,15 @@ bool insertIssueSalary(Dictionary *D, Model_IssueSalary data)
     }
 }
 
-bool deleteIssueSalary(Dictionary *D, ID issueID)
+bool deleteIssueSalary(Dictionary *D, ID employeeID, char period[])
 {
     PSIS *trav, temp;
-    int hashVal = hash(issueID);
+    int hashVal = hash(employeeID);
 
-    for (trav = &(D->IssueSalaryD[hashVal]); *trav != NULL && (*trav)->data.issueID != issueID; trav = &(*trav)->next)
+    for (trav = &(D->IssueSalaryD[hashVal]); *trav != NULL && ((*trav)->data.employeeID != employeeID || strcmp((*trav)->data.period, period) != 0); trav = &(*trav)->next)
     {
+        if ((*trav)->data.employeeID == employeeID && strcmp((*trav)->data.period, period) == 0)
+            break;
     }
 
     if (trav == NULL)
@@ -1091,6 +1102,17 @@ bool deleteIssueSalary(Dictionary *D, ID issueID)
     }
     else
     {
+        // Update pagibig deposit
+        Model_JobInformation *ji = searchJobInformation(*D, employeeID);
+        if (ji) {
+            ji->pagibigDeposit -= (*trav)->data.pagibigBalance;
+        }
+        else 
+        {
+            printf("\n Error: Failed to update pagibig deposit balance.\n");
+        }
+    
+
         temp = *trav;
         *trav = (*trav)->next;
         free(temp);
@@ -1144,20 +1166,24 @@ void displayAllSalary(Dictionary D, char period[])
     PSIS trav;
     int i;
 
-    printf(" %-4s___%-9s___%-12s___%-8s___%7s \n",
+    printf(" %-4s___%-9s___%-12s___%-8s___%8s___%-7s \n",
            "____",
            "_________",
            "____________",
            "________",
+           "________",
            "_______");
     printf("\t\t\t SALARY\n\n");
-    printf(" %-4s | %-9s | %-12s | %-8s | %7s \n",
+    printf(" %-4s | %-9s | %-12s | %-8s | %-8s | %-7s \n",
            "#",
            "ISSUE ID",
            "EMPLOYEE ID",
            "BALANCE",
-           "PERIOD");
-    printf(" %-4s | %-9s | %-12s | %-8s | %7s \n",
+           "PAGIBIG",
+           "PERIOD"
+    );
+    printf(" %-4s | %-9s | %-12s | %-8s | %-8s | %-7s\n",
+           "",
            "",
            "",
            "",
@@ -1169,22 +1195,26 @@ void displayAllSalary(Dictionary D, char period[])
         {
             if (strcmp(trav->data.period, period) == 0)
             {
-                printf(" %-4d | %-9d | %-12d | %-8.2lf | %7s \n",
+                printf(" %-4d | %-9d | %-12d | %-8.2lf | %-8.2lf | %-7s \n",
                        i,
                        trav->data.issueID,
                        trav->data.employeeID,
                        trav->data.balance,
-                       trav->data.period);
+                       trav->data.pagibigBalance,
+                       trav->data.period             
+                );
             }
         }
     }
 
-    printf(" %-4s_|_%-9s_|_%-12s_|_%-8s_|_%7s \n",
+    printf(" %-4s_|_%-9s_|_%-12s_|_%-8s_|_%-8.2lf_|_%-7s \n",
            "____",
            "_________",
            "____________",
            "________",
-           "_______");
+           "________",
+           "_______"
+    );
     printf("\n End of Dictionary\n");
 }
 
@@ -1195,15 +1225,16 @@ void displayIssueSalary(Dictionary *D, ID empID, char period[])
     {
         printf(" _____________________________________________________\n\n");
         printf(" EMPLOYEE #%d - %s         \t\t\n\n", empID, period);
-        printf(" Issue ID:       \t%d  \n", emp->issueID);
+        printf(" Issue ID:          \t%d  \n", emp->issueID);
         printf(" Employee ID:       \t%d  \n", emp->employeeID);
         printf(" Balance:           \t%d  \n", emp->balance);
+        printf(" Pagibig:           \t%d  \n", emp->pagibigBalance);
         printf(" Period:            \t%s  \n", emp->period);
         printf(" _____________________________________________________\n\n");
     }
     else
     {
-        printf(" \n ERROR: Salary for period %s does not exist.", period);
+        printf(" \n ERROR: Employee #%d salary for period %s does not exist.\n", emp, period);
     }
 }
 
@@ -1220,6 +1251,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     double dailyRate;
     double hourlyRate;
     double pagibigDeposit;
+    double pagibig = 0;
     double income;
     double tax;
 
@@ -1233,7 +1265,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     }
     else
     {
-        printf("\n Employee Attendance could not be found.");
+        printf("\n ERROR: Employee attendance for period %s does not exist.", period);
         return false;
     }
 
@@ -1245,7 +1277,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     }
     else
     {
-        printf("\n Employee Job Information could not be found.");
+        printf("\n ERROR: Employee #%d Job Information could not be found.", empID);
         return false;
     }
 
@@ -1277,7 +1309,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
         printf(" Additions: P%.2f\n", additions);
         printf(" Deductions: P%.2f\n", deductions);
 
-        tax = calculateTax(basicSalary, income, &pagibigDeposit);
+        tax = calculateTax(basicSalary, income, &pagibigDeposit, &pagibig);
         income += tax;
 
         printf(" Tax: P%.2f\n", tax);
@@ -1293,11 +1325,19 @@ bool issueSalary(Dictionary *D, int empID, char period[])
         if (temp == 1)
         {
             // Create new issue salary
-            Model_IssueSalary is2 = createIssueSalary(*D, empID, income, period);
+            Model_IssueSalary is2 = createIssueSalary(*D, empID, income, pagibig, period);
             insertIssueSalary(D, is2);
+            
             // Update pagibig deposit
             Model_JobInformation *ji2 = searchJobInformation(*D, empID);
-            ji2->pagibigDeposit = pagibigDeposit;
+            if (ji2)
+            {
+                ji2->pagibigDeposit = pagibigDeposit;
+            }
+            else
+            {
+                printf("\n Error: Failed to update pagibig deposit.\n");
+            }
             return true;
         }
         else if (temp == 2)
@@ -1306,18 +1346,18 @@ bool issueSalary(Dictionary *D, int empID, char period[])
         }
         else
         {
-            printf(" Input not recognized!");
+            printf("\n ERROR: Input not recognized!");
             return false;
         }
     }
     else
     {
-        printf("\n Issue Salary for period %s already exists!", period);
+        printf("\n ERROR: Issue Salary for period %s already exists!", period);
         return false;
     }
 }
 
-double calculateTax(double basicIncome, double taxableIncome, double *pagibigDeposit)
+double calculateTax(double basicIncome, double taxableIncome, double *pagibigDeposit, double *pagibig)
 {
     double tax = 0;
 
@@ -1345,11 +1385,13 @@ double calculateTax(double basicIncome, double taxableIncome, double *pagibigDep
         {
             tax += 24300 - *pagibigDeposit;
             *pagibigDeposit += 24300 - *pagibigDeposit;
+            *pagibig = 24300 - *pagibigDeposit;
         }
         else
         {
             tax += pagibigTax;
             *pagibigDeposit += pagibigTax;
+            *pagibig = pagibigTax;
         }
 
         if (debug)
@@ -1648,7 +1690,7 @@ void displayJobInformation(ID employeeID, Dictionary *D)
     }
     else
     {
-        printf("Employee ID %d not found", employeeID);
+        printf("\n ERROR: Employee ID %d not found.\n", employeeID);
     }
 }
 
