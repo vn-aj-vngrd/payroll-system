@@ -1,7 +1,3 @@
-# Login Information
- username: admin
- password: admin
-
 # Payroll System
 A console payroll system created with C.
 
@@ -13,6 +9,13 @@ A console payroll system created with C.
  - Issue employee salaries
 #### For employees
  - View employee salary
+
+## Login Information
+Username: admin<br>
+Password: admin
+
+## Debug
+Refer to line 4 of `H_Model.h`.
 
 ## Contributors
  - Van AJ Vanguardia

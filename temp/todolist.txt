@@ -6,17 +6,14 @@ Naay gi usab si Ed sa schema Issue Salary
 
 ********************************************************************
 (global search "TODO" for more)
-TODO:
- - Confirmation function
- - Job Information model: add pagibig variable
 
 ********************************************************************
 CASE [1] (Create employee)                              >> COMPLETED
 
-    [1] Create employee
+    [1] Create employee                                 >> COMPLETED
         Create initial attendance
 
-CASE [2] (Create monthly attendance)             
+CASE [2] (Create monthly attendance)                    >> COMPLETED 
 
     [1] Existing attendance wont return                 >> COMPLETED
         false bool value
@@ -25,7 +22,7 @@ CASE [2] (Create monthly attendance)
 
 CASE [3] (Create monthly bonus)                         >> COMPLETED
 
-    [1] Create Bonus
+    [1] Create Bonus                                    >> COMPLETED
 
 CASE [4] (Create issue salary)                        
 
@@ -35,7 +32,7 @@ CASE [4] (Create issue salary)
         existing employee input and Non
         existing period
 
-CASE [5] (View update/delete employee attendance)
+CASE [5] (View update/delete employee attendance)       >> COMPLETED
 
     [1] View employee attendance
         (displays garbage values)                       >> COMPLETED
@@ -51,7 +48,7 @@ CASE [5] (View update/delete employee attendance)
 
     [6] Set employee overtime hours                     >> COMPLETED
 
-    [7] Update all                                      >> PENDING
+    [7] Update all                                      >> COMPLETED
 
 CASE [6] (View/Update/Delete Employee Profile)
 
@@ -94,36 +91,28 @@ CASE [6] (View/Update/Delete Employee Profile)
 CASE [7] View/Update/Delete Employee Job Information
 
     [1] View 
-        Fix output format                               >> PENDING
+        Fix output format                               >> COMPLETED
 
-    [2] Update 
-        Fix all cannot input                            >> PENDING
+    [2] Update                                          >> COMPLETED
+        Fix all cannot input
        
-        [1] Job Position
+        [1] Job Position                                >> COMPLETED
 
+        [2] Job Location                                >> COMPLETED
 
-        [2] Job Location
+        [3] Job Phone                                   >> COMPLETED
 
+        [4] Start Date                                  >> COMPLETED
 
-        [3] Job Phone
+        [5] Department                                  >> COMPLETED
 
+        [6] Email                                       >> COMPLETED
 
-        [4] Start Date
+        [7] Basic Salary                                >> COMPLETED
 
+        [8] Pagibig Deposit                             >> COMPLETED
 
-        [5] Department
-
-
-        [6] Email
-
-
-        [7] Basic Salary
-
-
-        [8] Pagibig Deposit
-
-
-        [9] Update All 
+        [9] Update All                                  >> COMPLETED
             Console exits
 
     [3] Delete                                          >> COMPLETED
@@ -132,7 +121,7 @@ CASE [8] View/Update/Delete Bonus
 
     [1] View                                            >> COMPLETED
 
-    [2] Update                                          >> PENDING
+    [2] Update                                          >> COMPLETED
         no prompt when bonus does not exist
 
     [3] Delete                                          >> COMPLETED

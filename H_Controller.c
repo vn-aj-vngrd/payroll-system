@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-
 #include "H_Dictionary.h"
 #include "H_Model.h"
 
@@ -27,7 +26,7 @@ bool pushDictionaries(Dictionary D);
 /*---------------------------------- Attendance Function Headers ----------------------------------*/
 
 Model_Attendance *searchAttendance(Dictionary D, ID employeeID, char period[]);
-Model_Attendance createAttendance(Dictionary D);
+Model_Attendance createAttendance(Dictionary D, int empID, char period[]);
 bool insertAttendance(Dictionary *D, Model_Attendance data);
 bool deleteAttendance(Dictionary *D, int empID, char period[]);
 bool setPresent(int employeeID, Dictionary *D, char period[]);
@@ -40,7 +39,7 @@ void displayAllAttendance(Dictionary D, char period[]);
 /*----------------------------------- Bonus Function Headers --------------------------------------*/
 
 Model_Bonus *searchBonus(Dictionary D, ID bonusID, char period[]);
-Model_Bonus createBonus(Dictionary D);
+Model_Bonus createBonus(Dictionary D, int employeeID, char period[]);
 bool insertBonus(Dictionary *D, Model_Bonus data);
 bool deleteBonus(Dictionary *D, ID employeeID, char period[]);
 void displayBonus(int bonusID, Dictionary *D, char period[]);
@@ -121,7 +120,7 @@ bool login(void)
     char USERNAME[MD_MAX] = "admin", PASSWORD[MD_MAX] = "admin", user[MD_MAX], pass[MD_MAX];
 
     printf(" WELCOME TO EDWIN'S BEST PAYROLL SYSTEM\n\n");
-    printf(" Login\n\n");
+    printf(" Login to System\n\n");
     printf(" Username: ");
     scanf("%s", &user);
     fflush(stdin);
@@ -315,7 +314,7 @@ bool pushUserD(Dictionary D)
     }
     else
     {
-        printf(" \n ERROR: Failed to create");
+        printf(" \n ERROR: Failed to create file.");
         return false;
     }
 
@@ -508,16 +507,14 @@ void insertDefault(Dictionary *D)
         "1234",
         "employee@gmail.com",
         "employeeaddress",
-        EMPLOYER
-    };
+        EMPLOYER};
 
     Model_Bonus defaultBonus = {
         1,
         1,
         "employeebonus",
         100,
-        "03/22"
-    };
+        "03/22"};
 
     Model_Attendance defaultAttendance = {
         1,
@@ -526,7 +523,7 @@ void insertDefault(Dictionary *D)
         0,
         0,
         0,
-        "03/22",
+        "04/22",
     };
 
     Model_IssueSalary defaultIssueSalary = {
@@ -534,8 +531,7 @@ void insertDefault(Dictionary *D)
         1,
         1000,
         0,
-        "03/22"
-    };
+        "03/22"};
 
     Model_JobInformation defaultJobInformation = {
         1,
@@ -547,8 +543,7 @@ void insertDefault(Dictionary *D)
         "employeedepartment",
         "employee@gmail.com",
         1000,
-        0
-    };
+        0};
 
     insertUser(D, defaultUser);
     insertAttendance(D, defaultAttendance);
@@ -582,17 +577,9 @@ Model_Attendance *searchAttendance(Dictionary D, ID employeeID, char period[])
     }
 }
 
-Model_Attendance createAttendance(Dictionary D)
+Model_Attendance createAttendance(Dictionary D, int empID, char period[])
 {
     Model_Attendance sa;
-    int empID;
-    char period[20];
-
-    printf(" Enter Employee ID: ");
-    scanf("%d", &empID);
-
-    printf(" Enter period (mm/yy): ");
-    scanf("%s", &period);
 
     if (searchUser(D, empID))
     {
@@ -618,8 +605,10 @@ bool insertAttendance(Dictionary *D, Model_Attendance data)
     PSA *trav;
     int hashVal = hash(data.employeeID);
 
-    for (trav = &(D->AttendanceD[hashVal]); *trav != NULL && strcmp((*trav)->data.period, data.period) != 0; trav = &(*trav)->next)
+    for (trav = &(D->AttendanceD[hashVal]); *trav != NULL && ((*trav)->data.employeeID != data.employeeID || strcmp((*trav)->data.period, data.period) != 0); trav = &(*trav)->next)
     {
+        if ((*trav)->data.employeeID == data.employeeID && strcmp((*trav)->data.period, data.period) == 0)
+            break;
     }
 
     if (*trav == NULL)
@@ -680,12 +669,12 @@ void displayAttendance(Dictionary *D, ID employeeID, char period[])
         printf(" Overtime:              \t%d  \n", emp->overtime);
         printf(" Period:                \t%s  \n", emp->period);
         printf(" _____________________________________________________\n\n");
-    } else 
+    }
+    else
     {
         printf("\n ERROR: Employee #%d attendance for period %s does not exist.\n", employeeID, period);
         printf(" _____________________________________________________\n\n");
     }
-    
 }
 
 bool setPresent(int employeeID, Dictionary *D, char period[])
@@ -701,7 +690,7 @@ bool setPresent(int employeeID, Dictionary *D, char period[])
     }
     else
     {
-        printf(" ERROR: Employee attendance for period %s does not exist.", period);
+        printf("\n ERROR: Employee #%d attendance for period %s does not exist.\n", employeeID, period);
         return false;
     }
 }
@@ -719,7 +708,7 @@ bool setLeave(int employeeID, Dictionary *D, char period[])
     }
     else
     {
-        printf(" ERROR: Employee attendance for period %s does not exist.", period);
+        printf("\n ERROR: Employee #%d attendance for period %s does not exist.\n", employeeID, period);
         return false;
     }
 }
@@ -738,7 +727,7 @@ bool setAbsent(int employeeID, Dictionary *D, char period[])
     }
     else
     {
-        printf(" ERROR: Employee attendance for period %s does not exist.", period);
+        printf("\n ERROR: Employee #%d attendance for period %s does not exist.\n", employeeID, period);
         return false;
     }
 }
@@ -757,7 +746,7 @@ bool setOvertime(int employeeID, Dictionary *D, char period[])
     }
     else
     {
-        printf(" ERROR: Employee attendance for period %s does not exist.", period);
+        printf("\n ERROR: Employee #%d attendance for period %s does not exist.\n", employeeID, period);
         return false;
     }
 }
@@ -850,28 +839,29 @@ void debugAttendance(Dictionary D)
 
 /*---------------------------------- Start of Bonus Controller ------------------------------------*/
 
-Model_Bonus createBonus(Dictionary D)
+Model_Bonus createBonus(Dictionary D, int employeeID, char period[])
 {
     Model_Bonus bonus;
 
-    char dType[10] = "Bonus";
-    bonus.bonusID = getNewID(dType, D);
+    if (searchUser(D, employeeID))
+    {
+        char dType[10] = "Bonus";
+        bonus.bonusID = getNewID(dType, D);
+        bonus.employeeID = employeeID;
+        strcpy(bonus.period, period);
 
-    printf(" Employee ID: ");
-    scanf("%d", &bonus.employeeID);
-    fflush(stdin);
+        printf(" Bonus Name: ");
+        scanf("%s", &bonus.bonusName);
+        fflush(stdin);
 
-    printf(" Bonus Name: ");
-    scanf("%s", &bonus.bonusName);
-    fflush(stdin);
-
-    printf(" Amount: ");
-    scanf("%lf", &bonus.amount);
-    fflush(stdin);
-
-    printf(" Period (mm/yy): ");
-    scanf("%s", &bonus.period);
-    fflush(stdin);
+        printf(" Amount: ");
+        scanf("%lf", &bonus.amount);
+        fflush(stdin);
+    }
+    else
+    {
+        bonus.bonusID = -1;
+    }
 
     return bonus;
 }
@@ -883,6 +873,8 @@ bool insertBonus(Dictionary *D, Model_Bonus data)
 
     for (trav = &(D->BonusD[hashVal]); *trav != NULL && (data.employeeID != (*trav)->data.employeeID || strcmp((*trav)->data.period, data.period) != 0); trav = &(*trav)->next)
     {
+        if (data.employeeID == (*trav)->data.employeeID && strcmp((*trav)->data.period, data.period) == 0)
+            break;
     }
 
     if (*trav == NULL)
@@ -1000,17 +992,16 @@ void displayAllBonus(Dictionary D, char period[])
     {
         for (trav = D.BonusD[i]; trav != NULL; trav = trav->next)
         {
-            if (strcmp(trav->data.period, period) == 0) {
+            if (strcmp(trav->data.period, period) == 0)
+            {
                 printf(" %-4d | %-9d | %-12d | %-20s | %-7.2lf | %-7s \n",
-                    i,
-                    trav->data.bonusID,
-                    trav->data.employeeID,
-                    trav->data.bonusName,
-                    trav->data.amount,
-                    trav->data.period
-                );
+                       i,
+                       trav->data.bonusID,
+                       trav->data.employeeID,
+                       trav->data.bonusName,
+                       trav->data.amount,
+                       trav->data.period);
             }
-
         }
     }
 
@@ -1058,6 +1049,7 @@ Model_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance
     is.issueID = getNewID(dType, D);
     is.employeeID = employeeID;
     is.balance = balance;
+    is.pagibigBalance = pagibig;
     strcpy(is.period, period);
 
     return is;
@@ -1068,8 +1060,10 @@ bool insertIssueSalary(Dictionary *D, Model_IssueSalary data)
     PSIS *trav;
     int hashVal = hash(data.employeeID);
 
-    for (trav = &(D->IssueSalaryD[hashVal]); *trav != NULL; trav = &(*trav)->next)
+    for (trav = &(D->IssueSalaryD[hashVal]); *trav != NULL && (data.employeeID != (*trav)->data.employeeID || strcmp((*trav)->data.period, data.period) != 0); trav = &(*trav)->next)
     {
+        if (data.employeeID == (*trav)->data.employeeID && strcmp((*trav)->data.period, data.period) == 0)
+            break;
     }
 
     if (*trav == NULL)
@@ -1100,7 +1094,7 @@ bool deleteIssueSalary(Dictionary *D, ID employeeID, char period[])
             break;
     }
 
-    if (trav == NULL)
+    if (*trav == NULL)
     {
         return false;
     }
@@ -1108,14 +1102,14 @@ bool deleteIssueSalary(Dictionary *D, ID employeeID, char period[])
     {
         // Update pagibig deposit
         Model_JobInformation *ji = searchJobInformation(*D, employeeID);
-        if (ji) {
+        if (ji)
+        {
             ji->pagibigDeposit -= (*trav)->data.pagibigBalance;
         }
-        else 
+        else
         {
             printf("\n Error: Failed to update pagibig deposit balance.\n");
         }
-    
 
         temp = *trav;
         *trav = (*trav)->next;
@@ -1184,8 +1178,7 @@ void displayAllSalary(Dictionary D, char period[])
            "EMPLOYEE ID",
            "BALANCE",
            "PAGIBIG",
-           "PERIOD"
-    );
+           "PERIOD");
     printf(" %-4s | %-9s | %-12s | %-8s | %-8s | %-7s\n",
            "",
            "",
@@ -1205,8 +1198,7 @@ void displayAllSalary(Dictionary D, char period[])
                        trav->data.employeeID,
                        trav->data.balance,
                        trav->data.pagibigBalance,
-                       trav->data.period             
-                );
+                       trav->data.period);
             }
         }
     }
@@ -1217,8 +1209,7 @@ void displayAllSalary(Dictionary D, char period[])
            "____________",
            "________",
            "________",
-           "_______"
-    );
+           "_______");
     printf("\n End of Dictionary\n");
 }
 
@@ -1231,14 +1222,15 @@ void displayIssueSalary(Dictionary *D, ID empID, char period[])
         printf(" EMPLOYEE #%d - %s         \t\t\n\n", empID, period);
         printf(" Issue ID:          \t%d  \n", emp->issueID);
         printf(" Employee ID:       \t%d  \n", emp->employeeID);
-        printf(" Balance:           \t%d  \n", emp->balance);
-        printf(" Pagibig:           \t%d  \n", emp->pagibigBalance);
+        printf(" Balance:           \t%.2lf  \n", emp->balance);
+        printf(" Pagibig:           \t%.2lf  \n", emp->pagibigBalance);
         printf(" Period:            \t%s  \n", emp->period);
         printf(" _____________________________________________________\n\n");
     }
     else
     {
         printf(" \n ERROR: Employee #%d salary for period %s does not exist.\n", empID, period);
+        printf(" _____________________________________________________\n\n");
     }
 }
 
@@ -1269,7 +1261,7 @@ bool issueSalary(Dictionary *D, int empID, char period[])
     }
     else
     {
-        printf("\n ERROR: Employee attendance for period %s does not exist.", period);
+        printf("\n ERROR: Employee #%d attendance for period %s does not exist.", empID, period);
         return false;
     }
 
@@ -1326,12 +1318,12 @@ bool issueSalary(Dictionary *D, int empID, char period[])
         printf(" Select Option: ");
         scanf("%d", &temp);
 
-        if (temp == 1)
+        if (temp)
         {
             // Create new issue salary
             Model_IssueSalary is2 = createIssueSalary(*D, empID, income, pagibig, period);
             insertIssueSalary(D, is2);
-            
+
             // Update pagibig deposit
             Model_JobInformation *ji2 = searchJobInformation(*D, empID);
             if (ji2)
@@ -1370,7 +1362,7 @@ double calculateTax(double basicIncome, double taxableIncome, double *pagibigDep
 
     if (debug)
     {
-        printf("\n (Debug) SSS = %.2lf", tax);
+        printf("\n (Debug) Tax + SSS = %.2lf", tax);
     }
 
     // Pag-ibig (1% or 2%, max P24,300 per year)
@@ -1400,7 +1392,7 @@ double calculateTax(double basicIncome, double taxableIncome, double *pagibigDep
 
         if (debug)
         {
-            printf("\n (Debug) +Pagibig = %.2lf", tax);
+            printf("\n (Debug) Tax + Pagibig = %.2lf", tax);
         }
     }
 
@@ -1409,7 +1401,7 @@ double calculateTax(double basicIncome, double taxableIncome, double *pagibigDep
 
     if (debug)
     {
-        printf("\n (Debug) +PHIC = %.2lf", tax);
+        printf("\n (Debug) Tax + PHIC = %.2lf", tax);
     }
 
     // WISP (P225)
@@ -1542,7 +1534,6 @@ bool insertJobInformation(Dictionary *D, Model_JobInformation data)
     }
 }
 
-
 bool deleteJobInformation(Dictionary *D, ID employmentID)
 {
     PSJI *trav, temp;
@@ -1552,7 +1543,7 @@ bool deleteJobInformation(Dictionary *D, ID employmentID)
     {
     }
 
-    if (trav == NULL)
+    if (*trav == NULL)
     {
         return false;
     }
@@ -1609,20 +1600,22 @@ void displayAllJobInformation(Dictionary D)
     PSJI trav;
     int i;
 
-    printf(" %-4s___%-14s___%-13s___%-13s___%-10s___%-11s___%-10s___%-13s___%-16s \n",
+    printf(" %-4s___%-14s___%-14s___%-13s___%-20s___%-20s___%-20s___%-20s___%-13s___%-16s \n",
            "____",
            "______________",
-           "_____________",
-           "_____________",
-           "__________",
-           "___________",
-           "__________",
            "______________",
-           "_________________");
-    printf(" JOB INFORMATION\n\n");
-    printf(" %-4s | %-14s | %-13s | %-13s | %-10s | %-11s | %-10s | %-13s | %-16s \n",
+           "_____________",
+           "____________________",
+           "____________________",
+           "____________________",
+           "____________________",
+           "_____________",
+           "________________");
+    printf("                                                                                    JOB INFORMATION\n\n");
+    printf(" %-4s | %-14s | %-14s | %-13s | %-20s | %-20s | %-20s | %-20s | %-13s | %-13s \n",
            "#",
            "EMPLOYMENT ID",
+           "EMPLOYEE ID",
            "JOB POSITION",
            "JOB LOCATION",
            "JOB PHONE",
@@ -1630,7 +1623,8 @@ void displayAllJobInformation(Dictionary D)
            "JOB EMAIL",
            "BASIC SALARY",
            "PAGIBIG DEPOSIT");
-    printf(" %-4s | %-14s | %-13s | %-13s | %-10s | %-11s | %-10s | %-13s | %-16s \n",
+    printf(" %-4s | %-14s | %-14s | %-13s | %-20s | %-20s | %-20s | %-20s | %-13s | %-13s \n",
+           "",
            "",
            "",
            "",
@@ -1645,7 +1639,7 @@ void displayAllJobInformation(Dictionary D)
     {
         for (trav = D.JobInformationD[i]; trav != NULL; trav = trav->next)
         {
-            printf(" %-4s | %-9s | %-12s | %-9s | %-8s | %7s \n",
+            printf(" %-4d | %-14d | %-14d | %-13s | %-20s | %-20s | %-20s | %-20s | %-13.2lf | %-13.2lf \n",
                    i,
                    trav->data.employmentID,
                    trav->data.employeeID,
@@ -1659,16 +1653,18 @@ void displayAllJobInformation(Dictionary D)
         }
     }
 
-    printf(" %-4s_|_%-14s_|_%-13s_|_%-13s_|_%-10s_|_%-11s_|_%-10s_|_%-13s_|_%-16s \n",
+    printf(" %-4s_|_%-14s_|_%-14s_|_%-13s_|_%-20s_|_%-20s_|_%-20s_|_%-20s_|_%-13s_|_%-16s \n",
            "____",
            "______________",
-           "_____________",
-           "_____________",
-           "__________",
-           "___________",
-           "__________",
            "______________",
-           "_________________");
+           "_____________",
+           "____________________",
+           "____________________",
+           "____________________",
+           "____________________",
+           "_____________",
+           "________________");
+
     printf("\n End of Dictionary\n\n");
 }
 
@@ -1690,11 +1686,12 @@ void displayJobInformation(ID employeeID, Dictionary *D)
         printf(" Department:       \t%s   \n", ji->department);
         printf(" Basic Salary:     \t%.2lf  \n", ji->basicSalary);
         printf(" Pag-ibig Deposit: \t%.2lf  \n", ji->pagibigDeposit);
-        printf(" _____________________________________________________\n\n");
+        printf(" _____________________________________________________\n");
     }
     else
     {
         printf("\n ERROR: Employee ID %d not found.\n", employeeID);
+        printf(" _____________________________________________________\n");
     }
 }
 
@@ -1757,7 +1754,7 @@ bool insertUser(Dictionary *D, Model_User data)
     PSU *trav;
     int hashVal = hash(data.userID);
 
-    for (trav = &D->UserD[hashVal]; *trav != NULL && strcmp(data.emailAddress, (*trav)->data.emailAddress) != 0; trav = &(*trav)->next)
+    for (trav = &D->UserD[hashVal]; *trav != NULL && strcmp((*trav)->data.emailAddress, data.emailAddress) != 0; trav = &(*trav)->next)
     {
     }
 
@@ -1778,7 +1775,6 @@ bool insertUser(Dictionary *D, Model_User data)
         return false;
     }
 }
-
 
 bool deleteUser(Dictionary *D, ID userID)
 {
@@ -2003,7 +1999,8 @@ void displayUserInformation(ID userID, Dictionary *D)
     }
     else
     {
-        printf(" Employee ID %d not found\n", userID);
+        printf("\n ERROR: Employee ID %d not found.", userID);
+        printf("\n _____________________________________________________\n\n");
     }
 }
 
@@ -2039,7 +2036,7 @@ void header(void)
 
 void invalidInput(void)
 {
-    printf("\n ERROR: Please enter a vaid input*\n");
+    printf("\n ERROR: Please enter a vaid input.\n");
     printf(" _____________________________________________________\n\n");
     printf(" *Press any key to continue...* ");
     getch();

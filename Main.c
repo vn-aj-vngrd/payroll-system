@@ -10,24 +10,6 @@ int main()
     /* Initialize Dictionary */
     initDictionary(&D);
 
-    /* Log in */
-    if (loginRequired)
-    {
-        header();
-        do 
-        {
-            system("cls");
-            header();
-            if (!(loginRet = login()))
-            {
-                printf("\n ERROR: The username or password is incorrect*\n");
-                printf(" _____________________________________________________\n\n");
-                printf(" *Press any key to continue...* ");
-                getch();
-            }
-        } while (!loginRet);
-    }
-
     /* Pull Data from Files */
     if (pullDictionaries(D))
     {
@@ -41,8 +23,38 @@ int main()
     /* Insert default schemas */
     // insertDefault(D);
 
-    /* Show User Interface */
-    showMenu(D);
+    /* systemType 0 == Employer */
+    /* systemType 1 == Employee */
+    int systemType = 0;
+
+    if (systemType == 0)
+    {
+        /* Log in */
+        if (loginRequired)
+        {
+            header();
+            do
+            {
+                system("cls");
+                header();
+                if (!(loginRet = login()))
+                {
+                    printf("\n ERROR: The username or password is incorrect\n");
+                    printf(" _____________________________________________________\n\n");
+                    printf(" *Press any key to continue...* ");
+                    getch();
+                }
+            } while (!loginRet);
+        }
+
+        /* Show Employer UI */
+        showEmployerMenu(D);
+    }
+    else
+    {
+        /* Show Employee UI */
+        showEmployeeSalary(D);
+    }
 
     return 0;
 }

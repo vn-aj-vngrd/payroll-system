@@ -1,7 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-// change to true to enable debug mode
+// Change to true to enable debug mode
+#define debugMenu false
 #define debug true
 
 #define MD_MAX 50       // medium MAX
