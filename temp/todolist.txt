@@ -5,9 +5,12 @@ NOTIFICATION
 Naay gi usab si Ed sa schema Issue Salary
 
 ********************************************************************
+TODO
+
 (global search "TODO" for more)
 
 ********************************************************************
+
 CASE [1] (Create employee)                              >> COMPLETED
 
     [1] Create employee                                 >> COMPLETED
