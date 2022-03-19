@@ -1,5 +1,5 @@
 # Payroll System
-A console payroll system created with C.
+A fully functional console payroll system created with C.
 
 ## Features
 #### For employers
@@ -24,5 +24,5 @@ Refer to line 4 of `H_Model.h`.
  - Edwin Bartlett
 
 ## Project Status
-Ongoing
+Completed - 3/20/2022
 
