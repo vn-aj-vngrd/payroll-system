@@ -378,15 +378,7 @@ void showMenu(Dictionary *D)
                         scanf("%d", &temp);
                         fflush(stdin);
 
-                        system("cls");
-                        if (debug == true)
-                        {
-                            displayDictionariesCount(*D);
-                        }
-                        header();
-                        printf(" Employee Attendance > Update Employee Attendance\n\n");
-                        printf(" UPDATE EMPLOYEE ATTENDANCE\n");
-                        displayAttendance(D, empID, period);
+                        
 
                         switch (temp)
                         {
@@ -397,6 +389,16 @@ void showMenu(Dictionary *D)
                         }
                         case 1:
                         {
+                            system("cls");
+                            if (debug == true)
+                            {
+                                displayDictionariesCount(*D);
+                            }
+                            header();
+                            printf(" Employee Attendance > Update Employee Attendance\n\n");
+                            printf(" UPDATE EMPLOYEE ATTENDANCE\n");
+                            displayAttendance(D, empID, period);
+
                             printf(" Enter new number of present days: ");
                             scanf("%d", &empAttInfo->present);
                             fflush(stdin);
@@ -408,6 +410,16 @@ void showMenu(Dictionary *D)
                         }
                         case 2:
                         {
+                            system("cls");
+                            if (debug == true)
+                            {
+                                displayDictionariesCount(*D);
+                            }
+                            header();
+                            printf(" Employee Attendance > Update Employee Attendance\n\n");
+                            printf(" UPDATE EMPLOYEE ATTENDANCE\n");
+                            displayAttendance(D, empID, period);
+
                             printf(" Enter new number of absent days: ");
                             scanf("%d", &empAttInfo->absent);
                             fflush(stdin);
@@ -419,6 +431,16 @@ void showMenu(Dictionary *D)
                         }
                         case 3:
                         {
+                            system("cls");
+                            if (debug == true)
+                            {
+                                displayDictionariesCount(*D);
+                            }
+                            header();
+                            printf(" Employee Attendance > Update Employee Attendance\n\n");
+                            printf(" UPDATE EMPLOYEE ATTENDANCE\n");
+                            displayAttendance(D, empID, period);
+                            
                             printf(" Enter new number of leave days: ");
                             scanf("%d", &empAttInfo->leave);
                             fflush(stdin);
@@ -428,8 +450,28 @@ void showMenu(Dictionary *D)
                             getch();
                             break;
                         }
+                            system("cls");
+                            if (debug == true)
+                            {
+                                displayDictionariesCount(*D);
+                            }
+                            header();
+                            printf(" Employee Attendance > Update Employee Attendance\n\n");
+                            printf(" UPDATE EMPLOYEE ATTENDANCE\n");
+                            displayAttendance(D, empID, period);
+                            
                         case 4:
                         {
+                            system("cls");
+                            if (debug == true)
+                            {
+                                displayDictionariesCount(*D);
+                            }
+                            header();
+                            printf(" Employee Attendance > Update Employee Attendance\n\n");
+                            printf(" UPDATE EMPLOYEE ATTENDANCE\n");
+                            displayAttendance(D, empID, period);
+                            
                             printf(" Enter new number of overtime hours: ");
                             scanf("%d", &empAttInfo->overtime);
                             fflush(stdin);
@@ -439,8 +481,28 @@ void showMenu(Dictionary *D)
                             getch();
                             break;
                         }
+                            system("cls");
+                            if (debug == true)
+                            {
+                                displayDictionariesCount(*D);
+                            }
+                            header();
+                            printf(" Employee Attendance > Update Employee Attendance\n\n");
+                            printf(" UPDATE EMPLOYEE ATTENDANCE\n");
+                            displayAttendance(D, empID, period);
+                            
                         case 5:
                         {
+                            system("cls");
+                            if (debug == true)
+                            {
+                                displayDictionariesCount(*D);
+                            }
+                            header();
+                            printf(" Employee Attendance > Update Employee Attendance\n\n");
+                            printf(" UPDATE EMPLOYEE ATTENDANCE\n");
+                            displayAttendance(D, empID, period);
+                            
                             printf(" Enter new period (mm/yy): ");
                             scanf("%s", &empAttInfo->period);
                             fflush(stdin);
@@ -450,8 +512,28 @@ void showMenu(Dictionary *D)
                             getch();
                             break;
                         }
+                            system("cls");
+                            if (debug == true)
+                            {
+                                displayDictionariesCount(*D);
+                            }
+                            header();
+                            printf(" Employee Attendance > Update Employee Attendance\n\n");
+                            printf(" UPDATE EMPLOYEE ATTENDANCE\n");
+                            displayAttendance(D, empID, period);
+                            
                         case 6:
                         {
+                            system("cls");
+                            if (debug == true)
+                            {
+                                displayDictionariesCount(*D);
+                            }
+                            header();
+                            printf(" Employee Attendance > Update Employee Attendance\n\n");
+                            printf(" UPDATE EMPLOYEE ATTENDANCE\n");
+                            displayAttendance(D, empID, period);
+                            
                             printf(" Enter new number of present days: ");
                             scanf("%d", &empAttInfo->present);
                             fflush(stdin);
@@ -481,12 +563,14 @@ void showMenu(Dictionary *D)
                         default:
                         {
                             printf(" ERROR: Please enter a vaid input*\n");
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
                             break;
                         }
                         }
                     }
                     In9 = true;
-                    printf(" _____________________________________________________\n\n");
                     printf(" *Press any key to continue...* ");
                     getch();
                     break;
@@ -616,8 +700,7 @@ void showMenu(Dictionary *D)
                 }
                 default:
                 {
-                    printf(" ERROR: Please enter a vaid input*\n");
-
+                    printf("\n ERROR: Please enter a vaid input* \n");
                     printf(" _____________________________________________________\n\n");
                     printf(" *Press any key to continue...* ");
                     getch();
@@ -675,6 +758,13 @@ void showMenu(Dictionary *D)
                     scanf("%d", &empID);
                     fflush(stdin);
                     printf(" _____________________________________________________\n\n");
+
+                    system("cls");
+                    if (debug == true)
+                    {
+                        displayDictionariesCount(*D);
+                    }
+                    header();
                     displayUserInformation(empID, D);
 
                     printf(" _____________________________________________________\n\n");
@@ -928,7 +1018,10 @@ void showMenu(Dictionary *D)
                         }
                         default:
                         {
-                            printf(" ERROR: Please enter a vaid input*\n");
+                            printf("\n ERROR: Please enter a vaid input* \n");
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
                             break;
                         }
                         }
@@ -969,7 +1062,10 @@ void showMenu(Dictionary *D)
                 }
                 default:
                 {
-                    printf(" ERROR: Please enter a vaid input*\n");
+                    printf("\n ERROR: Please enter a vaid input* \n");
+                    printf(" _____________________________________________________\n\n");
+                    printf(" *Press any key to continue...* ");
+                    getch();
                     break;
                 }
                 }
@@ -1022,9 +1118,18 @@ void showMenu(Dictionary *D)
                     printf(" Enter Employee ID: ");
                     scanf("%d", &empID);
                     fflush(stdin);
+
+                    system("cls");
+                    if (debug == true)
+                    {
+                        displayDictionariesCount(*D);
+                    }
+                    header();
+                    printf(" Job Information > View\n\n");
+
+                    printf(" VIEW JOB INFORMATION\n");
                     displayJobInformation(empID, D);
 
-                    printf(" _____________________________________________________\n\n");
                     printf(" *Press any key to continue...* ");
                     getch();
                     break;
@@ -1090,7 +1195,7 @@ void showMenu(Dictionary *D)
                         {
                         case 1:
                         {
-                            printf(" \nEnter new job position: ");
+                            printf(" Enter new job position: ");
                             scanf("%s", &jobInfo->jobPosition);
                             fflush(stdin);
 
@@ -1101,7 +1206,7 @@ void showMenu(Dictionary *D)
                         }
                         case 2:
                         {
-                            printf(" \nEnter new job location: ");
+                            printf(" Enter new job location: ");
                             scanf("%s", &jobInfo->jobLocation);
                             fflush(stdin);
 
@@ -1112,7 +1217,7 @@ void showMenu(Dictionary *D)
                         }
                         case 3:
                         {
-                            printf(" \nEnter new job phone: ");
+                            printf(" Enter new job phone: ");
                             scanf("%s", &jobInfo->jobPhone);
                             fflush(stdin);
 
@@ -1123,7 +1228,7 @@ void showMenu(Dictionary *D)
                         }
                         case 4:
                         {
-                            printf(" \nEnter new start date: ");
+                            printf(" Enter new start date: ");
                             scanf("%s", &jobInfo->startDate);
                             fflush(stdin);
 
@@ -1134,7 +1239,7 @@ void showMenu(Dictionary *D)
                         }
                         case 5:
                         {
-                            printf(" \nEnter new department: ");
+                            printf(" Enter new department: ");
                             scanf("%s", &jobInfo->department);
                             fflush(stdin);
 
@@ -1145,7 +1250,7 @@ void showMenu(Dictionary *D)
                         }
                         case 6:
                         {
-                            printf(" \nEnter new email: ");
+                            printf(" Enter new email: ");
                             scanf("%s", &jobInfo->jobEmail);
                             fflush(stdin);
 
@@ -1156,7 +1261,7 @@ void showMenu(Dictionary *D)
                         }
                         case 7:
                         {
-                            printf(" \nEnter new basic salary: ");
+                            printf(" Enter new basic salary: ");
                             scanf("%lf", &jobInfo->basicSalary);
                             fflush(stdin);
 
@@ -1167,7 +1272,7 @@ void showMenu(Dictionary *D)
                         }
                         case 8:
                         {
-                            printf(" \nEnter new pagibig deposit: ");
+                            printf(" Enter new pagibig deposit: ");
                             scanf("%lf", &jobInfo->pagibigDeposit);
                             fflush(stdin);
 
@@ -1178,37 +1283,41 @@ void showMenu(Dictionary *D)
                         }
                         case 9:
                         {
-                            printf(" \nEnter new job position: ");
+                            printf(" Enter new job position: ");
                             scanf("%s", &jobInfo->jobPosition);
                             fflush(stdin);
 
-                            printf(" \nEnter new job location: ");
+                            printf(" Enter new job location: ");
                             scanf("%s", &jobInfo->jobLocation);
                             fflush(stdin);
 
-                            printf(" \nEnter new job phone: ");
+                            printf(" Enter new job phone: ");
                             scanf("%s", &jobInfo->jobPhone);
                             fflush(stdin);
 
-                            printf(" \nEnter new start date: ");
+                            printf(" Enter new start date: ");
                             scanf("%s", &jobInfo->startDate);
                             fflush(stdin);
 
-                            printf(" \nEnter new department: ");
+                            printf(" Enter new department: ");
                             scanf("%s", &jobInfo->department);
                             fflush(stdin);
 
-                            printf(" \nEnter new email: ");
+                            printf(" Enter new email: ");
                             scanf("%s", &jobInfo->jobEmail);
                             fflush(stdin);
 
-                            printf(" \nEnter new basic salary: ");
+                            printf(" Enter new basic salary: ");
                             scanf("%lf", &jobInfo->basicSalary);
                             fflush(stdin);
 
-                            printf(" \nEnter new pagibig deposit: ");
+                            printf(" Enter new pagibig deposit: ");
                             scanf("%lf", &jobInfo->pagibigDeposit);
                             fflush(stdin);
+
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
                             break;
                         }
                         case 0:
@@ -1218,7 +1327,10 @@ void showMenu(Dictionary *D)
                         }
                         default:
                         {
-                            printf(" ERROR: Please enter a vaid input*\n");
+                            printf("\n ERROR: Please enter a vaid input* \n");
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
                             break;
                         }
                         }
@@ -1248,7 +1360,10 @@ void showMenu(Dictionary *D)
                 }
                 default:
                 {
-                    printf(" ERROR: Please enter a vaid input*\n");
+                    printf("\n ERROR: Please enter a vaid input* \n");
+                    printf(" _____________________________________________________\n\n");
+                    printf(" *Press any key to continue...* ");
+                    getch();
                     break;
                 }
                 }
@@ -1422,7 +1537,10 @@ void showMenu(Dictionary *D)
                         }
                         default:
                         {
-                            printf(" ERROR: Please enter a vaid input*\n");
+                            printf("\n ERROR: Please enter a vaid input* \n");
+                            printf(" _____________________________________________________\n\n");
+                            printf(" *Press any key to continue...* ");
+                            getch();
                             break;
                         }
                         }
@@ -1462,7 +1580,9 @@ void showMenu(Dictionary *D)
                 }
                 default:
                 {
-                    printf("\n ERROR: Please enter a vaid input* ");
+                    printf("\n ERROR: Please enter a vaid input* \n");
+                    printf(" _____________________________________________________\n\n");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -1581,7 +1701,9 @@ void showMenu(Dictionary *D)
                 }
                 default:
                 {
-                    printf("\n ERROR: Please enter a vaid input* ");
+                    printf("\n ERROR: Please enter a vaid input* \n");
+                    printf(" _____________________________________________________\n\n");
+                    printf(" *Press any key to continue...* ");
                     getch();
                     break;
                 }
@@ -1594,7 +1716,9 @@ void showMenu(Dictionary *D)
         // Default
         default:
         {
-            printf("\n ERROR: Please enter a vaid input* ");
+            printf("\n ERROR: Please enter a vaid input* \n");
+            printf(" _____________________________________________________\n\n");
+            printf(" *Press any key to continue...* ");
             getch();
             break;
         }

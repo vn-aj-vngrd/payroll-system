@@ -47,6 +47,7 @@ typedef struct issueSalary
     int issueID;
     int employeeID;
     double balance;
+    // double pagibigBalance;
     char period[MONTH];
 } Model_IssueSalary;
 

@@ -1627,8 +1627,9 @@ void displayJobInformation(ID employeeID, Dictionary *D)
         printf(" Job Email:        \t%s   \n", ji->jobEmail);
         printf(" Start Date:       \t%s   \n", ji->startDate);
         printf(" Department:       \t%s   \n", ji->department);
-        printf(" Basic Salary:     \t%lf  \n", ji->basicSalary);
-        printf(" Pag-ibig Deposit: \t%lf  \n", ji->jobPosition);
+        printf(" Basic Salary:     \t%.2lf  \n", ji->basicSalary);
+        printf(" Pag-ibig Deposit: \t%.2lf  \n", ji->pagibigDeposit);
+        printf(" _____________________________________________________\n\n");
     }
     else
     {
