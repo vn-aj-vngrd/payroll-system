@@ -27,7 +27,6 @@ bool pushDictionaries(Dictionary D);
 Model_Attendance *searchAttendance(Dictionary D, ID employeeID, char period[]);
 Model_Attendance createAttendance(Dictionary D);
 bool insertAttendance(Dictionary *D, Model_Attendance data);
-bool updateAttendance(Dictionary *D, Model_Attendance data, Model_Attendance *pointer, char period[]);
 bool deleteAttendance(Dictionary *D, int ID, char period[]);
 bool setPresent(int employeeID, Dictionary *D, char period[]);
 bool setLeave(int employeeID, Dictionary *D, char period[]);
@@ -41,7 +40,6 @@ void displayAllAttendance(Dictionary D, char period[]);
 Model_Bonus *searchBonus(Dictionary D, ID bonusID, char period[]);
 Model_Bonus createBonus(Dictionary D);
 bool insertBonus(Dictionary *D, Model_Bonus data);
-bool updateBonus(Dictionary *D, Model_Bonus data, Model_Bonus *pointer);
 bool deleteBonus(Dictionary *D, ID bonusID);
 void displayBonus(int bonusID, Dictionary *D, char period[]);
 void displayAllBonus(Dictionary D);
@@ -51,7 +49,6 @@ void displayAllBonus(Dictionary D);
 Model_IssueSalary *searchIssueSalary(Dictionary D, ID userID, char period[]);
 Model_IssueSalary createIssueSalary(Dictionary D, int employeeID, double balance, char period[]);
 bool insertIssueSalary(Dictionary *D, Model_IssueSalary data);
-bool updateIssueSalary(Dictionary *D, Model_IssueSalary data, Model_IssueSalary *pointer);
 bool deleteIssueSalary(Dictionary *D, ID issueID);
 bool issueSalary(Dictionary *D, int empID, char period[]);
 double calculateTax(double basicIncome, double taxableIncome, double *pagibigDeposit);
@@ -63,7 +60,6 @@ void displayAllSalary(Dictionary D, char period[]);
 Model_JobInformation *searchJobInformation(Dictionary D, ID employmentID);
 Model_JobInformation createJobInformation(Dictionary D, ID employeeID);
 bool insertJobInformation(Dictionary *D, Model_JobInformation data);
-bool updateJobInformation(Dictionary *D, Model_JobInformation data, Model_JobInformation *pointer);
 bool deleteJobInformation(Dictionary *D, ID employmentID);
 void displayJobInformation(ID employeeID, Dictionary *D);
 void displayAllJobInformation(Dictionary D);
@@ -73,7 +69,6 @@ void displayAllJobInformation(Dictionary D);
 Model_User *searchUser(Dictionary D, ID userID);
 Model_User createUserInformation(Dictionary D);
 bool insertUser(Dictionary *D, Model_User data);
-bool updateUser(Dictionary *D, Model_User data, Model_User *pointer);
 bool deleteUser(Dictionary *D, ID userID);
 void displayUserInformation(ID userID, Dictionary *D);
 void displayAllUser(Dictionary D);
@@ -126,13 +121,13 @@ bool login(void)
     printf(" WELCOME TO EDWIN'S BEST PAYROLL SYSTEM\n\n");
     printf(" Login\n\n");
     printf(" Username: ");
-    scanf("%d", &user);
+    scanf("%s", &user);
     fflush(stdin);
     printf(" Password: ");
-    scanf("%d", &pass);
+    scanf("%s", &pass);
     fflush(stdin);
 
-    if (strcmp(USERNAME, pass) == 0 && strcmp(PASSWORD, pass) == 0)
+    if (strcmp(USERNAME, user) == 0 && strcmp(PASSWORD, pass) == 0)
     {
         return true;
     }
@@ -511,14 +506,16 @@ void insertDefault(Dictionary *D)
         "1234",
         "employee@gmail.com",
         "employeeaddress",
-        EMPLOYER};
+        EMPLOYER
+    };
 
     Model_Bonus defaultBonus = {
         1,
         1,
         "employeebonus",
         100,
-        "03/02"};
+        "03/02"
+    };
 
     Model_Attendance defaultAttendance = {
         1,
@@ -534,7 +531,8 @@ void insertDefault(Dictionary *D)
         1,
         1,
         100,
-        "03/22"};
+        "03/22"
+    };
 
     Model_JobInformation defaultJobInformation = {
         1,
@@ -546,7 +544,8 @@ void insertDefault(Dictionary *D)
         "employeedepartment",
         "employee@gmail.com",
         1000,
-        0};
+        0
+    };
 
     insertUser(D, defaultUser);
     insertAttendance(D, defaultAttendance);
@@ -637,19 +636,6 @@ bool insertAttendance(Dictionary *D, Model_Attendance data)
     }
 }
 
-bool updateAttendance(Dictionary *D, Model_Attendance data, Model_Attendance *pointer, char period[])
-{
-    if (data.attendanceID != pointer->attendanceID)
-    {
-        return false;
-    }
-    else
-    {
-        *pointer = data;
-        return true;
-    }
-}
-
 bool deleteAttendance(Dictionary *D, int ID, char period[])
 {
     PSA *trav, temp;
@@ -673,12 +659,14 @@ bool deleteAttendance(Dictionary *D, int ID, char period[])
     }
 }
 
-void displayAttendance(Dictionary *D, int employeeID, char period[])
+void displayAttendance(Dictionary *D, ID employeeID, char period[])
 {
     Model_Attendance *emp = searchAttendance(*D, employeeID, period);
     if (emp)
     {
         printf(" _____________________________________________________\n\n");
+
+        printf(" EMPLOYEE #%d - %s         \t\t\n\n", employeeID, period);
         printf(" Attendance ID:       \t\t%d  \n", emp->attendanceID);
         printf(" Employee ID:           \t%d  \n", emp->employeeID);
         printf(" Present:               \t%d  \n", emp->present);
@@ -686,11 +674,9 @@ void displayAttendance(Dictionary *D, int employeeID, char period[])
         printf(" Leave:                 \t%d  \n", emp->leave);
         printf(" Overtime:              \t%d  \n", emp->overtime);
         printf(" Period:                \t%s  \n", emp->period);
+        printf(" _____________________________________________________\n\n");
     }
-    else
-    {
-        printf("\n Employee attendance for period %s does not exist.\n", period);
-    }
+    
 }
 
 bool setPresent(int employeeID, Dictionary *D, char period[])
@@ -907,19 +893,6 @@ bool insertBonus(Dictionary *D, Model_Bonus data)
     }
 }
 
-bool updateBonus(Dictionary *D, Model_Bonus data, Model_Bonus *pointer)
-{
-    if (data.bonusID != pointer->bonusID)
-    {
-        return false;
-    }
-    else
-    {
-        *pointer = data;
-        return true;
-    }
-}
-
 bool deleteBonus(Dictionary *D, ID bonusID)
 {
     PSB *trav, temp;
@@ -1095,19 +1068,6 @@ bool insertIssueSalary(Dictionary *D, Model_IssueSalary data)
     }
 }
 
-bool updateIssueSalary(Dictionary *D, Model_IssueSalary data, Model_IssueSalary *pointer)
-{
-    if (data.issueID != pointer->issueID)
-    {
-        return false;
-    }
-    else
-    {
-        *pointer = data;
-        return true;
-    }
-}
-
 bool deleteIssueSalary(Dictionary *D, ID issueID)
 {
     PSIS *trav, temp;
@@ -1123,7 +1083,6 @@ bool deleteIssueSalary(Dictionary *D, ID issueID)
     }
     else
     {
-        // TODO: Update Pagasa deposit
         temp = *trav;
         *trav = (*trav)->next;
         free(temp);
@@ -1525,18 +1484,6 @@ bool insertJobInformation(Dictionary *D, Model_JobInformation data)
     }
 }
 
-bool updateJobInformation(Dictionary *D, Model_JobInformation data, Model_JobInformation *pointer)
-{
-    if (data.employmentID != pointer->employmentID)
-    {
-        return false;
-    }
-    else
-    {
-        *pointer = data;
-        return true;
-    }
-}
 
 bool deleteJobInformation(Dictionary *D, ID employmentID)
 {
@@ -1561,12 +1508,12 @@ bool deleteJobInformation(Dictionary *D, ID employmentID)
     }
 }
 
-Model_JobInformation *searchJobInformation(Dictionary D, ID employmentID)
+Model_JobInformation *searchJobInformation(Dictionary D, ID employeeID)
 {
     PSJI trav, temp;
-    int hashVal = hash(employmentID);
+    int hashVal = hash(employeeID);
 
-    for (trav = D.JobInformationD[hashVal]; trav != NULL && trav->data.employmentID != employmentID; trav = trav->next)
+    for (trav = D.JobInformationD[hashVal]; trav != NULL && trav->data.employeeID != employeeID; trav = trav->next)
     {
     }
 
@@ -1671,16 +1618,17 @@ void displayJobInformation(ID employeeID, Dictionary *D)
     Model_JobInformation *ji = searchJobInformation(*D, employeeID);
     if (ji)
     {
-        printf(" |  Employee ID:      \t%d   |", ji->employeeID);
-        printf(" |  Employment ID:    \t%d   |", ji->employmentID);
-        printf(" |  Job Position:     \t%s   |", ji->jobPosition);
-        printf(" |  Job Location:     \t%s   |", ji->jobLocation);
-        printf(" |  Job Phone:        \t%s   |", ji->jobPhone);
-        printf(" |  Job Email:        \t%s   |", ji->jobEmail);
-        printf(" |  Start Date:       \t%s   |", ji->startDate);
-        printf(" |  Department:       \t%s   |", ji->department);
-        printf(" |  Basic Salary:     \t%lf  |", ji->basicSalary);
-        printf(" |  Pag-ibig Deposit: \t%lf  |", ji->jobPosition);
+        printf(" _____________________________________________________\n\n");
+        printf(" Employee ID:      \t%d   \n", ji->employeeID);
+        printf(" Employment ID:    \t%d   \n", ji->employmentID);
+        printf(" Job Position:     \t%s   \n", ji->jobPosition);
+        printf(" Job Location:     \t%s   \n", ji->jobLocation);
+        printf(" Job Phone:        \t%s   \n", ji->jobPhone);
+        printf(" Job Email:        \t%s   \n", ji->jobEmail);
+        printf(" Start Date:       \t%s   \n", ji->startDate);
+        printf(" Department:       \t%s   \n", ji->department);
+        printf(" Basic Salary:     \t%lf  \n", ji->basicSalary);
+        printf(" Pag-ibig Deposit: \t%lf  \n", ji->jobPosition);
     }
     else
     {
@@ -1769,18 +1717,6 @@ bool insertUser(Dictionary *D, Model_User data)
     }
 }
 
-bool updateUser(Dictionary *D, Model_User data, Model_User *pointer)
-{
-    if (data.userID != pointer->userID)
-    {
-        return false;
-    }
-    else
-    {
-        *pointer = data;
-        return true;
-    }
-}
 
 bool deleteUser(Dictionary *D, ID userID)
 {
