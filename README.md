@@ -24,6 +24,12 @@ Refer to `documentation` folder.
  - `System Diagrams.pdf` - Use case diagram and flowcharts for the system.
  - `System Source Code.pdf` - Source code for all the C files.
 
+<details open>
+<summary>Screenshots</summary>
+<br>
+<img src="https://github.com/vn-aj-vngrd/payroll-system/blob/master/documentation/screenshots/homepage.png?raw=true">
+</details>
+
 ## Contributors
  - Van AJ Vanguardia
  - Horeb Barriga
