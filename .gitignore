@@ -1,2 +1,9 @@
-# ignore MAIN EXE
+# Ignore MAIN.EXE
 Main.exe
+
+# Ignore BINARY FILES
+Emp_Attendance.bin
+Emp_Bonus.bin
+Emp_Information.bin
+Emp_IssueSalary.bin
+Emp_JobInformation.bin
